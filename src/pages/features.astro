@@ -1,0 +1,329 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import CertificateSample from '../components/CertificateSample.astro';
+import { claims, taxonomy, standards } from '../data/claims.ts';
+
+/*
+  FEATURES deep-dive. Standards/compliance copy comes from the gated claims
+  file; capability copy mirrors approved claims. Competitors never named.
+*/
+
+const description =
+  'Clear vs Purge sanitization, read-back verification, tamper-evident certificates, fail-closed safety, HPA/DCO detection, multi-drive batch, and BitLocker awareness — every ProofWipe capability explained.';
+
+const clearPoints = [
+  'Single-pass and multi-pass overwrite methods, including crypto-random patterns (AES-256-CTR keystream)',
+  'Bad-sector handling: unwritable regions are isolated, skipped, and disclosed on the certificate',
+  'Works on any writable drive Windows can address — SATA, NVMe, USB media',
+];
+const purgePoints = [
+  'ATA SANITIZE and Secure Erase for SATA drives; NVMe Sanitize and Format for NVMe drives',
+  'Hard support detection: drives behind USB bridges, BIOS-frozen, or lacking the capability are greyed out with the reason stated',
+  'Post-sanitize read-back evidence is captured, and the certificate distinguishes Purge from Clear',
+];
+
+const certPoints = [
+  { icon: 'file-check', text: 'HTML report + PDF certificate from a shared content model — same facts, two formats' },
+  { icon: 'fingerprint', text: 'SHA-256 log hash binds the certificate to the wipe log for tamper evidence' },
+  { icon: 'check', text: claims.certEveryOutcome.text },
+  { icon: 'search', text: 'Discloses method, verification level, operator, arming method, BitLocker status, hidden-area findings, and any skipped sectors' },
+];
+
+const safetyPoints = [
+  {
+    title: 'System & app disks are untouchable',
+    body: 'The engine positively identifies the Windows system disk and the disk ProofWipe itself runs from (by device number, not drive letter) and refuses to select them. Protection is enforced in the engine — not just greyed out in the UI.',
+  },
+  {
+    title: 'Uncertainty means protected',
+    body: 'If a drive’s role can’t be positively determined — unreadable disk, virtual/VHD disk, failed volume mapping — it is treated as protected. Never the other way around.',
+  },
+  {
+    title: 'Two-step arming + confirmation',
+    body: 'Each drive must be armed by typing its serial number (or a generated code when the serial is unavailable), then confirmed in a modal before anything destructive happens. Identity is re-validated immediately before the wipe starts, with a hard abort on mismatch.',
+  },
+];
+
+const extras = [
+  {
+    icon: 'search',
+    title: 'HPA/DCO hidden-area detection',
+    body: 'Some ATA drives hide capacity behind a Host Protected Area or Device Configuration Overlay. ProofWipe detects both at enumeration, warns in the UI, and discloses them on the certificate — noting that an overwrite Clear cannot reach hidden areas, while an ATA SANITIZE Purge does.',
+  },
+  {
+    icon: 'layers',
+    title: 'Multi-drive parallel batch',
+    body: 'Wipe many drives at once with fully isolated per-drive sessions — own locks, progress, cancellation, and certificate. One drive failing or being cancelled never touches another. Per-drive arming is preserved: there is deliberately no “arm all”. System sleep is blocked for the duration of the batch.',
+  },
+  {
+    icon: 'lock',
+    title: 'BitLocker awareness',
+    body: 'BitLocker-encrypted volumes are detected before the wipe and recorded on the certificate — useful chain-of-custody context for drives that were encrypted in service.',
+  },
+  {
+    icon: 'wifi-off',
+    title: 'Offline by design',
+    body: claims.offline.text + ' The app never needs a network connection — a fit for air-gapped and controlled environments.',
+  },
+  {
+    icon: 'usb',
+    title: 'Portable, zero-install',
+    body: 'One self-contained .exe that runs from a USB stick on Windows 10/11 (Administrator required). No installer, no dependencies, no traces to clean up on the host.',
+  },
+  {
+    icon: 'zap',
+    title: 'Bootable WinPE edition',
+    body: 'Wipe the Windows system disk itself — and sealed devices like Surface — by booting from ProofWipe media. Built from the same engine.',
+    href: '/bootable-usb',
+  },
+];
+---
+
+<BaseLayout title="Features" description={description}>
+  <!-- Header -->
+  <section class="border-b border-border bg-panel/40">
+    <div class="container-page py-16 lg:py-20">
+      <p class="text-sm font-semibold text-accent">Features</p>
+      <h1 class="mt-2 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl">
+        Everything it takes to prove a drive is clean
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg text-muted">
+        Two sanitization categories, read-back verification, tamper-evident
+        certificates, and safety engineering that assumes the worst — all in one
+        portable console.
+      </p>
+    </div>
+  </section>
+
+  <!-- Clear vs Purge -->
+  <section class="container-page py-16 lg:py-20" aria-labelledby="clear-purge">
+    <p class="text-sm font-semibold text-accent">Sanitization</p>
+    <h2 id="clear-purge" class="mt-2 text-3xl font-bold tracking-tight">
+      Clear and Purge — two standards-defined categories
+    </h2>
+    <p class="mt-4 max-w-2xl text-muted">
+      {/* claim: implementsTaxonomy — approved */}
+      {claims.implementsTaxonomy.text} You choose the category per drive; the
+      certificate records exactly which was used.
+    </p>
+
+    <div class="mt-10 grid gap-5 lg:grid-cols-2">
+      <div class="card p-7">
+        <div class="flex items-center gap-3">
+          <div class="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-panel text-accent">
+            <Icon name="hard-drive" size={22} />
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold">{taxonomy.clear.term} — overwrite</h3>
+            <p class="text-xs uppercase tracking-wide text-muted">{standards.nist.name} Clear</p>
+          </div>
+        </div>
+        <p class="mt-4 text-sm leading-relaxed text-muted">{taxonomy.clear.short}</p>
+        <ul class="mt-5 space-y-3">
+          {clearPoints.map((p) => (
+            <li class="flex gap-2.5 text-sm text-muted">
+              <Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" />
+              {p}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="card p-7">
+        <div class="flex items-center gap-3">
+          <div class="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-panel text-accent">
+            <Icon name="zap" size={22} />
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold">{taxonomy.purge.term} — firmware sanitize</h3>
+            <p class="text-xs uppercase tracking-wide text-muted">{standards.nist.name} Purge</p>
+          </div>
+        </div>
+        <p class="mt-4 text-sm leading-relaxed text-muted">{taxonomy.purge.short}</p>
+        <ul class="mt-5 space-y-3">
+          {purgePoints.map((p) => (
+            <li class="flex gap-2.5 text-sm text-muted">
+              <Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" />
+              {p}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <p class="mt-6 flex items-start gap-2 rounded-lg border border-border bg-card p-4 text-sm text-muted">
+      <Icon name="alert-triangle" size={17} class="mt-0.5 shrink-0 text-warning" />
+      <span>
+        Not sure which you need? <a href="/standards" class="text-accent underline-offset-2 hover:underline">The standards page</a>
+        explains when Clear is sufficient and when Purge is warranted.
+      </span>
+    </p>
+  </section>
+
+  <!-- Verification -->
+  <section class="border-y border-border bg-panel/40" aria-labelledby="verification">
+    <div class="container-page grid gap-10 py-16 lg:grid-cols-2 lg:items-center lg:py-20">
+      <div>
+        <p class="text-sm font-semibold text-accent">Verification</p>
+        <h2 id="verification" class="mt-2 text-3xl font-bold tracking-tight">
+          Verified, not assumed
+        </h2>
+        <p class="mt-4 text-muted">
+          {/* claim: verification — approved */}
+          {claims.verification.text}
+        </p>
+        <ul class="mt-6 space-y-3 text-sm text-muted">
+          <li class="flex gap-2.5">
+            <Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" />
+            Sampling always includes the first and last regions of the drive —
+            the classic spots where residual data hides
+          </li>
+          <li class="flex gap-2.5">
+            <Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" />
+            Caches are flushed before verification reads, so what’s checked is
+            what’s on the platters or flash — not what’s in RAM
+          </li>
+          <li class="flex gap-2.5">
+            <Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" />
+            Sectors skipped as unreadable during the wipe are excluded from
+            verification and disclosed on the certificate
+          </li>
+        </ul>
+      </div>
+
+      <div class="card p-6">
+        <p class="text-sm font-semibold">Verification levels</p>
+        <div class="mt-4 space-y-4">
+          {
+            [
+              { pct: '1%', w: 'w-[8%]', note: 'Fast spot-check for low-sensitivity media' },
+              { pct: '10%', w: 'w-[22%]', note: 'Balanced default for routine decommissioning' },
+              { pct: '100%', w: 'w-full', note: 'Full read-back for high-assurance disposition' },
+            ].map((l) => (
+              <div>
+                <div class="flex items-baseline justify-between text-sm">
+                  <span class="font-mono font-semibold text-text">{l.pct}</span>
+                  <span class="text-xs text-muted">{l.note}</span>
+                </div>
+                <div class="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-panel">
+                  <div class={`h-full ${l.w} rounded-full bg-accent`} />
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <p class="mt-5 text-xs text-muted">
+          Every level always samples the first and last regions of the drive in
+          addition to the random sample.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Certificates -->
+  <section class="container-page grid gap-10 py-16 lg:grid-cols-2 lg:items-center lg:py-20" aria-labelledby="certificates">
+    <CertificateSample class="order-last lg:order-first" />
+    <div>
+      <p class="text-sm font-semibold text-accent">Certificates</p>
+      <h2 id="certificates" class="mt-2 text-3xl font-bold tracking-tight">
+        Documentation auditors can trust
+      </h2>
+      <p class="mt-4 text-muted">
+        The certificate is the product of the wipe — not an afterthought. Every
+        field an auditor or downstream buyer needs is captured automatically.
+      </p>
+      <ul class="mt-6 space-y-3">
+        {
+          certPoints.map((c) => (
+            <li class="flex gap-2.5 text-sm text-muted">
+              <Icon name={c.icon} size={16} class="mt-0.5 shrink-0 text-success" />
+              {c.text}
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-6 text-sm text-muted">
+        An online portal to validate certificate IDs and log hashes is
+        <a href="/verify" class="text-accent underline-offset-2 hover:underline">coming soon</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Fail-closed safety -->
+  <section class="border-y border-border bg-panel/40" aria-labelledby="safety">
+    <div class="container-page py-16 lg:py-20">
+      <p class="text-sm font-semibold text-accent">Safety</p>
+      <h2 id="safety" class="mt-2 text-3xl font-bold tracking-tight">
+        Fail-closed, by engineering — not by checkbox
+      </h2>
+      <p class="mt-4 max-w-2xl text-muted">
+        {/* claim: failClosed — approved */}
+        {claims.failClosed.text}
+      </p>
+
+      <div class="mt-10 grid gap-5 lg:grid-cols-3">
+        {
+          safetyPoints.map((s) => (
+            <div class="card p-6">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-panel text-accent">
+                <Icon name="lock" size={20} />
+              </div>
+              <h3 class="mt-4 font-semibold">{s.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-muted">{s.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Everything else -->
+  <section class="container-page py-16 lg:py-20" aria-labelledby="more">
+    <p class="text-sm font-semibold text-accent">And more</p>
+    <h2 id="more" class="mt-2 text-3xl font-bold tracking-tight">
+      Built for real decommissioning benches
+    </h2>
+
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        extras.map((f) => {
+          const Inner = (
+            <>
+              <div class="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-panel text-accent">
+                <Icon name={f.icon} size={22} />
+              </div>
+              <h3 class="mt-4 flex items-center gap-1.5 text-lg font-semibold">
+                {f.title}
+                {f.href && <Icon name="arrow-right" size={16} class="text-muted" />}
+              </h3>
+              <p class="mt-2 text-sm leading-relaxed text-muted">{f.body}</p>
+            </>
+          );
+          return f.href ? (
+            <a href={f.href} class="card block p-6 transition-colors hover:border-accent/40">
+              {Inner}
+            </a>
+          ) : (
+            <div class="card p-6">{Inner}</div>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-border">
+    <div class="container-page py-16 text-center lg:py-20">
+      <h2 class="text-3xl font-bold tracking-tight">See it on your own bench</h2>
+      <p class="mx-auto mt-4 max-w-xl text-muted">
+        The Free tier wipes a single drive with NIST Clear and 10% verification —
+        enough to evaluate the whole workflow end to end.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/download" class="btn btn-primary">Download free</a>
+        <a href="/pricing" class="btn btn-secondary">Compare Free vs Pro</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

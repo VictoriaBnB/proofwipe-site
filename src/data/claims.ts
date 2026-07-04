@@ -84,8 +84,8 @@ export const claims: Record<string, Claim> = {
   implementsTaxonomy: {
     id: 'implementsTaxonomy',
     text: 'ProofWipe implements the Clear and Purge sanitization categories defined by NIST SP 800-88.',
-    status: 'needs-signoff',
-    note: 'Core standards claim. Verify wording is acceptable and non-overclaiming.',
+    status: 'approved',
+    note: 'APPROVED by owner 2026-07-03 as written.',
   },
   notCertified: {
     id: 'notCertified',
@@ -102,32 +102,32 @@ export const claims: Record<string, Claim> = {
   verification: {
     id: 'verification',
     text: 'Every wipe is verified by read-back sampling (1%, 10%, or 100%) and documented with a tamper-evident certificate secured by a SHA-256 log hash.',
-    status: 'needs-signoff',
-    note: 'Factual product capability. Confirm phrasing.',
+    status: 'approved',
+    note: 'APPROVED by owner 2026-07-03 (capability copy matches product).',
   },
   certEveryOutcome: {
     id: 'certEveryOutcome',
     text: 'A certificate is generated for every outcome — including cancelled or partial wipes.',
-    status: 'needs-signoff',
-    note: 'Factual product capability. Confirm phrasing.',
+    status: 'approved',
+    note: 'APPROVED by owner 2026-07-03 (capability copy matches product).',
   },
   failClosed: {
     id: 'failClosed',
     text: 'Fail-closed by design: ProofWipe refuses to touch the system or application disk. A drive is wipeable only when it is positively determined to be safe.',
-    status: 'needs-signoff',
-    note: 'Factual safety claim. Confirm phrasing.',
+    status: 'approved',
+    note: 'APPROVED by owner 2026-07-03 (capability copy matches product).',
   },
   offline: {
     id: 'offline',
     text: 'Offline by design — no phone-home, no telemetry. Licensing uses offline keys.',
-    status: 'needs-signoff',
-    note: 'Factual. Confirm phrasing.',
+    status: 'approved',
+    note: 'APPROVED by owner 2026-07-03 (capability copy matches product).',
   },
   resale: {
     id: 'resale',
     text: 'Sanitize and resell workstations instead of shredding them — recovering asset value and diverting e-waste.',
-    status: 'needs-signoff',
-    note: 'Positioning + light ESG angle. Confirm the sustainability framing is acceptable.',
+    status: 'approved',
+    note: 'APPROVED by owner 2026-07-03 (ESG framing approved).',
   },
 };
 
@@ -139,7 +139,7 @@ export const comparisons: Record<string, Claim> = {
     id: 'vsShredding',
     text: 'Shredding destroys resale value and creates e-waste. Verified sanitization preserves the hardware for resale while still documenting that data is gone.',
     status: 'needs-signoff',
-    note: 'Comparative claim vs physical destruction. Confirm tone/accuracy.',
+    note: 'PENDING: owner wants it factual and non-disparaging; exact sentence to be confirmed in CLAIMS-FOR-SIGNOFF.md.',
   },
   functionalClass: {
     id: 'functionalClass',

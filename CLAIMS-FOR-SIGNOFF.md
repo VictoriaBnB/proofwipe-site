@@ -28,20 +28,20 @@ Guardrails already baked in:
 | ID | Claim | Status |
 | -- | ----- | ------ |
 | `notCertified` | "ProofWipe implements published sanitization standards. It is not a third-party-certified product." | ✅ approved (disclaimer) |
-| `implementsTaxonomy` | "ProofWipe implements the Clear and Purge sanitization categories defined by NIST SP 800-88." | ⏳ needs sign-off |
-| `cseAligned` | "Its methods align with the media-sanitization guidance in CSE ITSP.40.006…" | ⏳ needs sign-off + verify |
-| `verification` | "Every wipe is verified by read-back sampling (1%, 10%, or 100%)… SHA-256 log hash." | ⏳ needs sign-off |
-| `certEveryOutcome` | "A certificate is generated for every outcome — including cancelled or partial wipes." | ⏳ needs sign-off |
-| `failClosed` | "Fail-closed by design: ProofWipe refuses to touch the system or application disk…" | ⏳ needs sign-off |
-| `offline` | "Offline by design — no phone-home, no telemetry. Licensing uses offline keys." | ⏳ needs sign-off |
-| `resale` | "Sanitize and resell workstations instead of shredding them… diverting e-waste." | ⏳ needs sign-off (ESG framing) |
+| `implementsTaxonomy` | "ProofWipe implements the Clear and Purge sanitization categories defined by NIST SP 800-88." | ✅ **approved 2026-07-03** as written |
+| `verification` | "Every wipe is verified by read-back sampling (1%, 10%, or 100%)… SHA-256 log hash." | ✅ **approved 2026-07-03** (capability copy) |
+| `certEveryOutcome` | "A certificate is generated for every outcome — including cancelled or partial wipes." | ✅ **approved 2026-07-03** (capability copy) |
+| `failClosed` | "Fail-closed by design: ProofWipe refuses to touch the system or application disk…" | ✅ **approved 2026-07-03** (capability copy) |
+| `offline` | "Offline by design — no phone-home, no telemetry. Licensing uses offline keys." | ✅ **approved 2026-07-03** (capability copy) |
+| `resale` | "Sanitize and resell workstations instead of shredding them… diverting e-waste." | ✅ **approved 2026-07-03** (ESG framing approved) |
+| `cseAligned` | "Its methods align with the media-sanitization guidance in CSE ITSP.40.006…" | ⏳ needs sign-off + version/URL verification |
 
 ## C. Comparative claims (highest scrutiny)
 
 | ID | Claim | Status |
 | -- | ----- | ------ |
-| `vsShredding` | "Shredding destroys resale value and creates e-waste. Verified sanitization preserves the hardware…" | ⏳ needs sign-off |
-| `functionalClass` | "ProofWipe is the same functional class of tool as leading drive-erasure software…" (competitors NOT named on-site) | ⏳ needs sign-off — decide whether to name any competitor |
+| `vsShredding` | "Shredding destroys resale value and creates e-waste. Verified sanitization preserves the hardware for resale while still documenting that data is gone." | ⏳ **pending exact-sentence confirmation.** Owner direction (2026-07-03): keep factual and non-disparaging. Current sentence remains on Home; confirm or amend it here. |
+| `functionalClass` | "ProofWipe is the same functional class of tool as leading drive-erasure software…" | ⏳ needs sign-off. Owner decision (2026-07-03): competitors stay **generic** — never name specific products; comparisons are vs physical shredding and typical unverified wiping only. |
 
 ---
 
@@ -51,6 +51,7 @@ Guardrails already baked in:
    fully generic with no revision line).
 2. **CSE ITSP.40.006** — confirm the current version you want referenced and the
    canonical URL to link (we'll verify independently too).
-3. **Competitor naming** — name specific competitors in comparisons, or keep the
-   generic "leading drive-erasure software" framing?
-4. **ESG/sustainability angle** — approve the resale/e-waste framing tone.
+3. **`vsShredding` exact sentence** — confirm or amend the sentence quoted above
+   (direction received: factual, non-disparaging).
+4. ~~Competitor naming~~ — **decided 2026-07-03: generic only, never named.**
+5. ~~ESG/sustainability angle~~ — **approved 2026-07-03.**

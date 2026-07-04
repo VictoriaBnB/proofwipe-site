@@ -1,0 +1,223 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { claims } from '../data/claims.ts';
+
+/*
+  BOOTABLE USB (WinPE) EDITION page. Capability copy mirrors approved claims.
+*/
+
+const description =
+  'Wipe the Windows system disk itself — and sealed devices like Surface — by booting from ProofWipe media. The same engine, verification, and certificates as the desktop app.';
+
+const problems = [
+  {
+    icon: 'lock',
+    title: 'The system disk problem',
+    body: 'A running copy of Windows occupies its own disk, so a desktop wiping tool can never sanitize the drive it boots from — ProofWipe’s fail-closed protection forbids it outright. Booting from ProofWipe media removes the host OS from the equation: the internal drive becomes just another target.',
+  },
+  {
+    icon: 'hard-drive',
+    title: 'The sealed-device problem',
+    body: 'Surface and other sealed or soldered-storage devices don’t let you pull the drive and wipe it on a bench. The boot edition sanitizes the storage in place, without opening the chassis or voiding anything.',
+  },
+  {
+    icon: 'zap',
+    title: 'The USB-bridge problem',
+    body: 'Firmware Purge commands (ATA SANITIZE, NVMe Sanitize) are frequently blocked by USB bridge chips in docks and enclosures. Booted from ProofWipe media, the machine’s native SATA/NVMe controllers talk to the drive directly — unlocking firmware Purge on internal drives.',
+  },
+];
+
+const steps = [
+  {
+    n: '01',
+    title: 'Create the stick',
+    body: 'Use the “Create bootable USB” button in the desktop app. It walks you through everything — including fetching the Windows ADK components if they aren’t installed — with a progress UI. No command line.',
+  },
+  {
+    n: '02',
+    title: 'Boot the target machine',
+    body: 'Plug in the stick and boot from USB. ProofWipe starts in a self-contained WinPE environment — nothing is read from or written to the internal drive by the OS.',
+  },
+  {
+    n: '03',
+    title: 'Wipe with the same engine',
+    body: 'The boot edition runs the identical sanitization engine as the desktop app: same methods, same two-step arming, same read-back verification.',
+  },
+  {
+    n: '04',
+    title: 'Take the certificate with you',
+    body: 'Certificates are written to the USB stick itself, so the proof leaves the machine with you — the internal drive holds nothing.',
+  },
+];
+
+const sameEngine = [
+  'Clear (overwrite) and Purge (firmware sanitize) methods',
+  'Two-step arming and confirmation before anything destructive',
+  'Read-back verification: 1%, 10%, or 100% sampling',
+  claims.certEveryOutcome.text,
+  'Fail-closed protection of the boot media itself — the stick you booted from is never a target',
+];
+---
+
+<BaseLayout title="Bootable USB edition" description={description}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-border">
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute -top-40 right-0 h-[30rem] w-[30rem] rounded-full opacity-20 blur-3xl"
+      style="background: radial-gradient(closest-side, #3E7BFA, transparent 70%);"
+    >
+    </div>
+    <div class="container-page relative py-20 lg:py-24">
+      <p class="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted">
+        <Icon name="usb" size={14} class="text-accent" /> Bootable WinPE edition
+      </p>
+      <h1 class="mt-5 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl">
+        Wipe the disk Windows is standing on
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg text-muted">
+        Boot the machine from ProofWipe media to sanitize the system disk itself
+        — and sealed devices like Surface — with the same engine, verification,
+        and certificates as the desktop app.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/download" class="btn btn-primary">
+          Get ProofWipe <Icon name="arrow-right" size={18} />
+        </a>
+        <a href="/features" class="btn btn-secondary">All features</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why boot media -->
+  <section class="container-page py-16 lg:py-20" aria-labelledby="why-boot">
+    <p class="text-sm font-semibold text-accent">Why boot media</p>
+    <h2 id="why-boot" class="mt-2 text-3xl font-bold tracking-tight">
+      Three problems only booting can solve
+    </h2>
+
+    <div class="mt-10 grid gap-5 lg:grid-cols-3">
+      {
+        problems.map((p) => (
+          <div class="card p-7">
+            <div class="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-panel text-accent">
+              <Icon name={p.icon} size={22} />
+            </div>
+            <h3 class="mt-4 text-lg font-semibold">{p.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{p.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="border-y border-border bg-panel/40" aria-labelledby="boot-how">
+    <div class="container-page py-16 lg:py-20">
+      <p class="text-sm font-semibold text-accent">How it works</p>
+      <h2 id="boot-how" class="mt-2 text-3xl font-bold tracking-tight">
+        From desktop app to bootable stick
+      </h2>
+      <p class="mt-4 max-w-2xl text-muted">
+        The desktop app builds the boot media for you — operators never touch a
+        command line.
+      </p>
+
+      <ol class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        {
+          steps.map((s) => (
+            <li class="card p-6">
+              <span class="font-mono text-sm text-accent">{s.n}</span>
+              <h3 class="mt-3 text-lg font-semibold">{s.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-muted">{s.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- Same engine -->
+  <section class="container-page grid gap-10 py-16 lg:grid-cols-2 lg:items-center lg:py-20" aria-labelledby="same-engine">
+    <div>
+      <p class="text-sm font-semibold text-accent">No compromises</p>
+      <h2 id="same-engine" class="mt-2 text-3xl font-bold tracking-tight">
+        The same engine — not a lite version
+      </h2>
+      <p class="mt-4 text-muted">
+        The boot edition is a different shell around the identical sanitization
+        engine. Everything that makes the desktop app trustworthy comes along:
+      </p>
+      <ul class="mt-6 space-y-3">
+        {
+          sameEngine.map((p) => (
+            <li class="flex gap-2.5 text-sm text-muted">
+              <Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" />
+              {p}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- boot console mock -->
+    <div class="card p-4 sm:p-5">
+      <div class="flex items-center gap-2 border-b border-border pb-3">
+        <Icon name="usb" size={16} class="text-accent" />
+        <span class="text-xs text-muted">ProofWipe boot console — WinPE</span>
+      </div>
+      <div class="mt-4 space-y-3 font-mono text-[13px] leading-relaxed">
+        <p class="text-muted">ProofWipe boot environment ready.</p>
+        <p><span class="text-muted">Target:</span> <span class="text-text">NVMe SSD 512 GB — internal system disk</span></p>
+        <p>
+          <span class="text-muted">Method:</span>
+          <span class="text-accent">Purge — NVMe Sanitize</span>
+          <span class="text-muted">(native controller, no USB bridge)</span>
+        </p>
+        <p><span class="text-muted">Arming:</span> <span class="text-text">serial confirmed · armed</span></p>
+        <div class="h-2 w-full overflow-hidden rounded-full bg-panel">
+          <div class="h-full w-[62%] rounded-full bg-accent"></div>
+        </div>
+        <p class="flex items-center justify-between text-muted">
+          <span>sanitizing… 62%</span><span>ETA 04:12</span>
+        </p>
+        <p class="text-success">Certificate will be written to boot media.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Requirements note -->
+  <section class="border-t border-border bg-panel/40">
+    <div class="container-page py-12">
+      <div class="card flex flex-col gap-4 p-6 sm:flex-row sm:items-start">
+        <Icon name="alert-triangle" size={20} class="shrink-0 text-warning" />
+        <div class="text-sm leading-relaxed text-muted">
+          <p class="font-semibold text-text">Good to know</p>
+          <ul class="mt-2 list-disc space-y-1.5 pl-5">
+            <li>Building boot media uses Microsoft’s Windows ADK + WinPE add-on; the in-app builder detects them and guides installation if missing.</li>
+            <li>The target machine must allow booting from USB (firmware/boot-menu setting; on some managed devices this is administratively controlled).</li>
+            <li>Certificates and logs are stored on the ProofWipe stick — bring it back to the bench to archive or print them.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-border">
+    <div class="container-page py-16 text-center lg:py-20">
+      <h2 class="text-3xl font-bold tracking-tight">
+        One stick. Any machine in the rack.
+      </h2>
+      <p class="mx-auto mt-4 max-w-xl text-muted">
+        Build boot media from the desktop app and take verified sanitization to
+        the hardware — instead of bringing the hardware apart.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/download" class="btn btn-primary">Download free</a>
+        <a href="/about#contact" class="btn btn-secondary">Talk to sales</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
