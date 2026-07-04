@@ -1,0 +1,204 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { claims } from '../data/claims.ts';
+import { contact, formEndpoint, isFormConfigured } from '../data/contact.ts';
+
+/*
+  ABOUT / CONTACT.
+  - Contact form posts to Formspree (endpoint whitelisted in the CSP).
+    While contact.formspreeId is empty, the form renders DISABLED with a clear
+    "not yet wired" notice — never a dead POST. Plain-email fallback always
+    shown.
+  - Honeypot: Formspree's native `_gotcha` field, visually hidden.
+*/
+
+const description =
+  'ProofWipe exists so government and business workstations can be sanitized, proven clean, and resold instead of shredded. Get in touch about Pro, volume, or government licensing.';
+
+const values = [
+  {
+    icon: 'file-check',
+    title: 'Proof over promises',
+    body: 'A wipe that can’t be demonstrated might as well not have happened. Verification and tamper-evident documentation aren’t features — they’re the product.',
+  },
+  {
+    icon: 'lock',
+    title: 'Fail closed, always',
+    body: 'When software holds destructive power, uncertainty must mean “no”. If a drive’s role can’t be positively determined, it cannot be wiped. That rule is engineered in, not policy.',
+  },
+  {
+    icon: 'recycle',
+    title: 'Reuse before recycling',
+    body: claims.resale.text + ' Provable sanitization is what makes that responsible.',
+  },
+  {
+    icon: 'wifi-off',
+    title: 'Privacy as architecture',
+    body: 'No phone-home, no telemetry, offline license keys. The same posture extends to this website: no third-party trackers, cookieless analytics.',
+  },
+];
+---
+
+<BaseLayout title="About & Contact" description={description}>
+  <!-- About -->
+  <section class="border-b border-border bg-panel/40">
+    <div class="container-page py-16 lg:py-20">
+      <p class="text-sm font-semibold text-accent">About</p>
+      <h1 class="mt-2 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl">
+        Destroy the data. Keep the hardware. Prove both.
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg text-muted">
+        ProofWipe was built for one gap: organizations shred perfectly good
+        workstations because they can’t <em>prove</em> the data is gone.
+        Verified sanitization with audit-ready certificates closes that gap —
+        so IT assets can be resold, redeployed, or donated instead of destroyed.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-page py-16 lg:py-20">
+    <div class="grid gap-5 sm:grid-cols-2">
+      {
+        values.map((v) => (
+          <div class="card p-7">
+            <div class="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-panel text-accent">
+              <Icon name={v.icon} size={22} />
+            </div>
+            <h2 class="mt-4 text-lg font-semibold">{v.title}</h2>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{v.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="border-t border-border bg-panel/40" aria-labelledby="contact-heading">
+    <div class="container-page grid gap-10 py-16 lg:grid-cols-[0.9fr_1.1fr] lg:py-20">
+      <div>
+        <p class="text-sm font-semibold text-accent">Contact</p>
+        <h2 id="contact-heading" class="mt-2 text-3xl font-bold tracking-tight">
+          Talk to us
+        </h2>
+        <p class="mt-4 text-muted">
+          Pro licensing, volume and government procurement, ITAD partnerships,
+          or questions about the product — we read everything.
+        </p>
+        <p class="mt-6 text-sm text-muted">
+          Prefer plain email? Write to
+          <a href={`mailto:${contact.email}`} class="text-accent underline-offset-2 hover:underline">{contact.email}</a>
+          — same inbox the form delivers to.
+        </p>
+        <div class="card mt-8 p-5 text-sm text-muted">
+          <p class="flex items-start gap-2">
+            <Icon name="wifi-off" size={16} class="mt-0.5 shrink-0 text-accent" />
+            <span>
+              Form submissions are delivered by Formspree; this site sets no
+              cookies and runs no third-party trackers. Details in the
+              <a href="/privacy" class="text-accent underline-offset-2 hover:underline">privacy policy</a>.
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div class="card p-8">
+        {
+          !isFormConfigured && (
+            <div class="mb-6 flex items-start gap-3 rounded-lg border border-warning/40 bg-warning/10 p-4 text-sm">
+              <Icon name="alert-triangle" size={18} class="mt-0.5 shrink-0 text-warning" />
+              <p class="text-muted">
+                <strong class="text-warning">Form not wired up yet.</strong> The
+                fields below are disabled until the Formspree form ID is
+                configured. Meanwhile, email us directly at
+                <a href={`mailto:${contact.email}`} class="text-accent underline-offset-2 hover:underline">
+                  {contact.email}
+                </a>.
+              </p>
+            </div>
+          )
+        }
+
+        <form
+          method="POST"
+          action={isFormConfigured ? formEndpoint : undefined}
+          aria-label="Contact form"
+        >
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="name" class="text-sm font-medium">Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                disabled={!isFormConfigured}
+                autocomplete="name"
+                class="mt-1.5 w-full rounded-lg border border-border bg-panel px-3.5 py-2.5 text-sm placeholder:text-muted/50 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+            </div>
+            <div>
+              <label for="email" class="text-sm font-medium">Work email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                disabled={!isFormConfigured}
+                autocomplete="email"
+                class="mt-1.5 w-full rounded-lg border border-border bg-panel px-3.5 py-2.5 text-sm placeholder:text-muted/50 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+            </div>
+          </div>
+
+          <div class="mt-5">
+            <label for="organization" class="text-sm font-medium">
+              Organization <span class="font-normal text-muted">(optional)</span>
+            </label>
+            <input
+              id="organization"
+              name="organization"
+              type="text"
+              disabled={!isFormConfigured}
+              autocomplete="organization"
+              class="mt-1.5 w-full rounded-lg border border-border bg-panel px-3.5 py-2.5 text-sm placeholder:text-muted/50 disabled:cursor-not-allowed disabled:opacity-60"
+            />
+          </div>
+
+          <div class="mt-5">
+            <label for="message" class="text-sm font-medium">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="5"
+              required
+              disabled={!isFormConfigured}
+              class="mt-1.5 w-full resize-y rounded-lg border border-border bg-panel px-3.5 py-2.5 text-sm placeholder:text-muted/50 disabled:cursor-not-allowed disabled:opacity-60"
+              placeholder="Drive volumes, media types, licensing questions — whatever helps us help you."
+            ></textarea>
+          </div>
+
+          {/* Honeypot — hidden from humans, discarded by Formspree if filled. */}
+          <div class="hidden" aria-hidden="true">
+            <label for={contact.honeypotField}>Leave this field empty</label>
+            <input
+              id={contact.honeypotField}
+              name={contact.honeypotField}
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={!isFormConfigured}
+            class="btn btn-primary mt-6 w-full disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {isFormConfigured ? 'Send message' : 'Form not yet available — email us instead'}
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -13,7 +13,7 @@ export const site = {
   /** Secondary domain that 301-redirects to the canonical one. */
   altDomain: 'proofwipe.ca',
   /** Contact + sales inbox. Update before launch. */
-  contactEmail: 'hello@proofwipe.com', // TODO(signoff): confirm real address
+  contactEmail: 'proofwipe@gmail.com', // confirmed by owner 2026-07-03
   /** GitHub organisation / repo for the project. */
   github: 'https://github.com/proofwipe', // TODO(signoff): confirm URL
   description:
