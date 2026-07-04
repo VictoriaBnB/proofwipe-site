@@ -5,16 +5,15 @@
  * public/_headers CSP under form-action / connect-src). Submissions deliver to
  * the inbox configured in the Formspree dashboard (proofwipe@gmail.com).
  *
- * TODO(owner): create the form at https://formspree.io, paste its ID below
- * (the short code from the endpoint URL, e.g. "mqkrjzyv" from
- * https://formspree.io/f/mqkrjzyv). While `formspreeId` is empty the page
- * renders a safe "form not yet wired" state with disabled fields — it will
+ * LIVE (2026-07-03): form mvzjdwlp created by owner; endpoint
+ * https://formspree.io/f/mvzjdwlp. If the ID is ever cleared, the page falls
+ * back to a safe "form not yet wired" state with disabled fields — it will
  * NEVER render a dead POST.
  */
 
 export const contact = {
-  /** PLACEHOLDER — Formspree form ID. Empty = form renders disabled. */
-  formspreeId: '', // TODO(owner): paste real Formspree form ID
+  /** Formspree form ID (empty = form renders disabled). */
+  formspreeId: 'mvzjdwlp', // live 2026-07-03 — endpoint https://formspree.io/f/mvzjdwlp
 
   /** Plain-email fallback, always shown next to the form. */
   email: 'proofwipe@gmail.com',

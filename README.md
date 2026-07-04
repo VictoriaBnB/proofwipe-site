@@ -90,30 +90,36 @@ Rules enforced there:
 
 ---
 
-## Deploy — Cloudflare Pages
+## Deploy — Cloudflare Worker (static assets)
+
+The site is deployed as a **Cloudflare Worker with static assets** (the
+Workers-based successor to Pages), connected to this GitHub repo. The build is
+fully prerendered (`output: 'static'`, no SSR adapter) — the Worker serves
+files from `dist/` only. Any SESSION/IMAGES bindings shown on the Worker are
+Cloudflare runtime defaults and are unused by this build.
 
 DNS for both domains is already at Cloudflare, so hosting + DNS + redirects +
 analytics all live in one place.
 
-### 1. Create the Pages project
+### 1. The Worker (already connected)
 
-- Connect the GitHub repo.
+- **Connected repo:** this repository, builds on push to `main`.
 - **Build command:** `npm run build`
 - **Build output directory:** `dist`
-- **Root directory:** `website`
-- Framework preset: Astro (or "None").
 
-### 2. Custom domains
+### 2. Custom domain
 
-Add **both** custom domains to the same Pages project:
+Attach the canonical host under the Worker's **Settings → Domains & Routes**:
 
-- `proofwipe.com` (and `www.proofwipe.com`)
-- `proofwipe.ca` (and `www.proofwipe.ca`)
+- Add `proofwipe.com` as a **Custom Domain** (Cloudflare creates/validates the
+  DNS record automatically since the zone is on the same account).
+- Add `www.proofwipe.com` too if you want it served directly, or redirect it
+  (step 3) for a single canonical host.
 
 ### 3. Wiring the two domains (canonical .com + .ca 301)
 
-`proofwipe.com` is canonical. `proofwipe.ca` must **301-redirect** to it. A
-Pages `_redirects` file can't do a cross-domain redirect, so use a Cloudflare
+`proofwipe.com` is canonical. `proofwipe.ca` must **301-redirect** to it. The
+`_redirects` file can't do a cross-domain redirect, so use a Cloudflare
 **Redirect Rule** (Rules → Redirect Rules) on the `proofwipe.ca` zone:
 
 - **When:** `http.host in {"proofwipe.ca" "www.proofwipe.ca"}`
@@ -121,13 +127,14 @@ Pages `_redirects` file can't do a cross-domain redirect, so use a Cloudflare
   `concat("https://proofwipe.com", http.request.uri.path)`
 - **Status:** 301 (Permanent), **Preserve query string:** on.
 
-Also add `www.proofwipe.com` → `proofwipe.com` if you want a single canonical
-host.
+Optionally add the same pattern on the `.com` zone for
+`www.proofwipe.com` → `proofwipe.com`.
 
 ### 4. Security headers
 
-`public/_headers` is applied automatically by Pages (HSTS, CSP, etc.). If you
-add a provider (analytics, forms), update the CSP allowlist there.
+`public/_headers` (HSTS, CSP, etc.) is honoured by Cloudflare's static-asset
+serving exactly as it was on Pages. If you add a provider (analytics, forms),
+update the CSP allowlist there.
 
 ### 5. Analytics
 
@@ -173,9 +180,10 @@ panel background), `favicon.ico` (16/32/48) + `favicon.svg`, and
 - **Pricing:** Pro is "Contact us" for v1 — no numbers.
 - **Standards revision wording** (kept generic until sign-off).
 - **CSE ITSP.40.006** current version + canonical URL (verify before linking).
-- **Formspree form ID** in `src/data/contact.ts` (form renders disabled until
-  set; delivery inbox: proofwipe@gmail.com).
-- **Analytics choice** (option A or B above) in `src/data/analytics.ts`.
+- ~~Formspree form ID~~ — **live** (`mvzjdwlp`, delivers to
+  proofwipe@gmail.com).
+- ~~Analytics choice~~ — **option A chosen**: token stays empty; owner enables
+  Cloudflare Web Analytics from the dashboard once the domain is live.
 - GitHub org URL in `src/data/site.ts`.
 - Legal stubs: retention/rights wording in `/privacy`, bracketed sections in
   `/terms`; both are `noindex` until finalized.
