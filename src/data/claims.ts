@@ -42,18 +42,18 @@ export const standards = {
      * techniques of NIST SP 800-88 Revision N.") and reference
      * `standards.nist.revisionLine` wherever a revision statement belongs.
      */
-    revisionLine: '', // TODO(signoff): revision wording pending owner decision
+    revisionLine: '', // DECISION (owner 2026-07-03): stays fully generic — no revision line.
     // VERIFIED 2026-07-03: no revision-agnostic NIST landing page exists (the
     // generic /pubs/sp/800/88/ URL 404s). Every working deep link is
     // revision-specific and would implicitly signal a revision, so we do NOT
     // hyperlink NIST until the owner decides the revision wording.
-    url: '', // TODO(signoff): revision-specific URL pending owner decision
+    url: '', // DECISION (owner 2026-07-03): left blank — no NIST link (all deep links are revision-specific).
   },
   cse: {
     name: 'CSE ITSP.40.006',
     longName:
       'Communications Security Establishment (CSE) — IT Media Sanitization',
-    revisionLine: '', // TODO(signoff): version wording pending owner decision
+    revisionLine: '', // DECISION (owner 2026-07-03): name-only, no version printed.
     // VERIFIED 2026-07-03: current publication on cyber.gc.ca is
     // "ITSP.40.006 v2 IT Media Sanitization" (effective 2017-07-01). Canonical
     // URL below confirmed live. Per owner rule the site prints the NAME ONLY
@@ -102,8 +102,8 @@ export const claims: Record<string, Claim> = {
   cseAligned: {
     id: 'cseAligned',
     text: 'Its methods align with the media-sanitization guidance in CSE ITSP.40.006, relevant to Canadian public-sector buyers.',
-    status: 'needs-signoff',
-    note: 'Verify current CSE ITSP.40.006 version and that "align with" is accurate & non-overclaiming.',
+    status: 'approved',
+    note: 'APPROVED by owner 2026-07-03. Name-only, no version printed; cyber.gc.ca link OK.',
   },
   verification: {
     id: 'verification',
@@ -144,14 +144,14 @@ export const comparisons: Record<string, Claim> = {
   vsShredding: {
     id: 'vsShredding',
     text: 'Shredding destroys resale value and creates e-waste. Verified sanitization preserves the hardware for resale while still documenting that data is gone.',
-    status: 'needs-signoff',
-    note: 'PENDING: owner wants it factual and non-disparaging; exact sentence to be confirmed in CLAIMS-FOR-SIGNOFF.md.',
+    status: 'approved',
+    note: 'APPROVED by owner 2026-07-03 as written.',
   },
   functionalClass: {
     id: 'functionalClass',
     text: 'ProofWipe is the same functional class of tool as leading drive-erasure software, with a modern, trustworthy workflow.',
-    status: 'needs-signoff',
-    note: 'Deliberately does NOT name competitors on-site. Confirm whether to name any.',
+    status: 'approved',
+    note: 'APPROVED by owner 2026-07-03; competitors stay generic, never named.',
   },
 };
 

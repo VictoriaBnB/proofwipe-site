@@ -61,13 +61,11 @@ const claimsSrc = readFileSync(CLAIMS, 'utf8');
 
 /**
  * Owner-sanctioned pending exceptions: claims still 'needs-signoff' that the
- * owner explicitly directed to keep rendered while the exact wording is
- * confirmed in CLAIMS-FOR-SIGNOFF.md. Remove an entry once its claim is
- * approved (or pulled).
- *  - vsShredding: owner 2026-07-03 — "keep it factual and non-disparaging;
- *    I'll confirm the exact sentence"; current sentence stays on Home.
+ * owner explicitly directed to keep rendered while wording is confirmed in
+ * CLAIMS-FOR-SIGNOFF.md. Empty since 2026-07-03 (all claims approved); add
+ * entries here only with an explicit owner direction.
  */
-const sanctionedPending = ['Shredding destroys resale value and creates e-waste.'];
+const sanctionedPending = [];
 
 const unsigned = [];
 const blockRe = /text:\s*'((?:[^'\\]|\\.)*)',\s*\n\s*status:\s*'needs-signoff'/g;
