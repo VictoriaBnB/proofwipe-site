@@ -45,19 +45,22 @@ const safetyPoints = [
   },
 ];
 
-const extras = [
+const extras: { icon: string; title: string; body: string; href?: string; anchor?: string }[] = [
   {
     icon: 'search',
+    anchor: 'hpa-dco',
     title: 'HPA/DCO hidden-area detection',
     body: 'Some ATA drives hide capacity behind a Host Protected Area or Device Configuration Overlay. ProofWipe detects both at enumeration, warns in the UI, and discloses them on the certificate — noting that an overwrite Clear cannot reach hidden areas, while an ATA SANITIZE Purge does.',
   },
   {
     icon: 'layers',
+    anchor: 'batch',
     title: 'Multi-drive parallel batch',
     body: 'Wipe many drives at once with fully isolated per-drive sessions — own locks, progress, cancellation, and certificate. One drive failing or being cancelled never touches another. Per-drive arming is preserved: there is deliberately no “arm all”. System sleep is blocked for the duration of the batch.',
   },
   {
     icon: 'lock',
+    anchor: 'bitlocker',
     title: 'BitLocker awareness',
     body: 'BitLocker-encrypted volumes are detected before the wipe and recorded on the certificate — useful chain-of-custody context for drives that were encrypted in service.',
   },
@@ -97,9 +100,9 @@ const extras = [
   </section>
 
   <!-- Clear vs Purge -->
-  <section class="container-page py-16 lg:py-20" aria-labelledby="clear-purge">
+  <section class="container-page py-16 lg:py-20" aria-labelledby="clear-vs-purge">
     <p class="text-sm font-semibold text-accent">Sanitization</p>
-    <h2 id="clear-purge" class="mt-2 text-3xl font-bold tracking-tight">
+    <h2 id="clear-vs-purge" class="mt-2 text-3xl font-bold tracking-tight">
       Clear and Purge — two standards-defined categories
     </h2>
     <p class="mt-4 max-w-2xl text-muted">
@@ -301,11 +304,11 @@ const extras = [
             </>
           );
           return f.href ? (
-            <a href={f.href} class="card block p-6 transition-colors hover:border-accent/40">
+            <a href={f.href} id={f.anchor} class="card block p-6 transition-colors hover:border-accent/40">
               {Inner}
             </a>
           ) : (
-            <div class="card p-6">{Inner}</div>
+            <div id={f.anchor} class="card p-6">{Inner}</div>
           );
         })
       }

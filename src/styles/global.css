@@ -37,6 +37,8 @@
   html {
     scroll-behavior: smooth;
     color-scheme: light;
+    /* Clear the sticky header when jumping to #anchors. */
+    scroll-padding-top: 5rem;
     -webkit-text-size-adjust: 100%;
   }
 
