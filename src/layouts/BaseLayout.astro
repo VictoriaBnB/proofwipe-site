@@ -16,8 +16,6 @@ interface Props {
   noindex?: boolean;
   /** Optional JSON-LD object injected into <head>. */
   jsonLd?: Record<string, unknown>;
-  /** Use the light/professional chrome (adds `theme-light` to <html>). */
-  light?: boolean;
 }
 
 const {
@@ -27,13 +25,12 @@ const {
   ogImage = '/og/proofwipe-og.png',
   noindex = false,
   jsonLd,
-  light = false,
 } = Astro.props;
 
 /**
  * Normalise to a clean, extensionless canonical path (build uses
  * format:'file', so pathnames come through as "/features.html" / "/index.html").
- * Cloudflare Pages serves these without the extension.
+ * Cloudflare serves these without the extension.
  */
 function cleanPath(p: string): string {
   let out = p.replace(/index\.html$/, '').replace(/\.html$/, '');
@@ -51,7 +48,7 @@ const fullTitle =
 ---
 
 <!doctype html>
-<html lang="en" class={light ? 'theme-light' : undefined}>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -60,14 +57,17 @@ const fullTitle =
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-    <meta name="theme-color" content={light ? '#FFFFFF' : '#14161A'} />
-    <meta name="color-scheme" content={light ? 'light' : 'dark'} />
+    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="color-scheme" content="light" />
 
-    <!-- Favicons (assets added in the SEO/polish step) -->
+    <!-- Favicons -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Pagefind search UI styles (self-hosted; created at build by pagefind) -->
+    <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -119,9 +119,18 @@ const fullTitle =
       Skip to content
     </a>
     <Nav />
-    <main id="main" class="flex-1">
+    <main id="main" class="flex-1" data-pagefind-body>
       <slot />
     </main>
     <Footer />
+
+    <!--
+      Pagefind search: static, self-hosted, no backend, no external calls.
+      The UI script (self) exposes window.PagefindUI; the init is a static
+      self-hosted file (public/js/search-init.js) so no inline script is needed
+      under the strict CSP. Files under /pagefind/ are generated at build.
+    -->
+    <script src="/pagefind/pagefind-ui.js" is:inline></script>
+    <script src="/js/search-init.js" is:inline></script>
   </body>
 </html>

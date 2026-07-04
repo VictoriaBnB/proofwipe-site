@@ -153,6 +153,21 @@ allowed in the CSP (`public/_headers`, script-src + connect-src).
 
 ---
 
+## Search (Pagefind)
+
+Site search is [Pagefind](https://pagefind.app) — a static index built from the
+rendered HTML at build time. No backend, no external calls (fits the
+offline/privacy posture). It's the only JavaScript on the site.
+
+- `postbuild` runs `pagefind --site dist`, which indexes every `data-pagefind-body`
+  region (the page `<main>`; the 404 page is excluded via `data-pagefind-ignore`)
+  and writes `dist/pagefind/`.
+- The nav search box is a `[data-pagefind-search]` container; the widget is
+  initialised by `public/js/search-init.js` (a static self-hosted file, so no
+  inline script is needed under the strict CSP).
+- CSP note: Pagefind uses WebAssembly, so `script-src` includes
+  `'wasm-unsafe-eval'`. Everything is served from `'self'` — no external origin.
+
 ## Build guards
 
 `npm run build` automatically runs `scripts/check-guards.mjs` (also available

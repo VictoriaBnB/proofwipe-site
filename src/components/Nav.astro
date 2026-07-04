@@ -3,88 +3,217 @@ import Icon from './Icon.astro';
 import { site } from '../data/site.ts';
 
 /*
-  Discoverability-first navigation: primary sections shown as labelled icon
-  tiles across the top (KillDisk-style), so nothing has to be hunted for.
-  Theme-adaptive via design tokens — renders correctly in light or dark chrome.
+  Blancco-style top navigation: text nav items; top-level groups reveal a
+  dropdown sub-menu on hover AND on keyboard focus (CSS :hover + group focus,
+  no JS) so it holds WCAG AA. A native <details> provides the JS-less mobile
+  menu. Search is a Pagefind widget (the only JS on the page).
 */
 
 const path = Astro.url.pathname;
-const isActive = (href: string) =>
+const active = (href: string) =>
   href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
 
-const tiles = [
-  { label: 'Features', href: '/features', icon: 'shield-check' },
-  { label: 'Bootable USB', href: '/bootable-usb', icon: 'usb' },
-  { label: 'Standards', href: '/standards', icon: 'landmark' },
-  { label: 'Pricing', href: '/pricing', icon: 'tag' },
-  { label: 'Verify', href: '/verify', icon: 'badge-check' },
-  { label: 'Download', href: '/download', icon: 'download' },
-] as const;
+type Item = { label: string; href: string };
+type Group = { label: string; items: Item[] };
+
+const groups: Group[] = [
+  {
+    label: 'Product',
+    items: [
+      { label: 'Features', href: '/features' },
+      { label: 'Bootable USB edition', href: '/bootable-usb' },
+    ],
+  },
+  {
+    label: 'Compliance',
+    items: [
+      { label: 'Standards & compliance', href: '/standards' },
+      { label: 'Verify a certificate', href: '/verify' },
+    ],
+  },
+];
+const direct: Item[] = [
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Download', href: '/download' },
+];
+const company: Group = {
+  label: 'Company',
+  items: [
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/about#contact' },
+  ],
+};
+
+const groupActive = (g: Group) => g.items.some((i) => active(i.href.split('#')[0]));
+const linkCls =
+  'rounded-md px-3 py-2 text-sm font-medium transition-colors';
+const menuLinkCls =
+  'block rounded-md px-3 py-2 text-sm text-muted transition-colors hover:bg-accent/8 hover:text-text';
 ---
 
 <header
-  class="sticky top-0 z-40 border-b border-border/80 bg-bg/85 backdrop-blur supports-[backdrop-filter]:bg-bg/70"
+  class="sticky top-0 z-40 border-b border-border bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/75"
 >
-  <div class="container-page">
-    <!-- Top row: logo + sales CTA -->
-    <div class="flex items-center justify-between gap-4 py-3">
-      <a href="/" class="flex items-center gap-3 shrink-0" aria-label={`${site.name} home`}>
-        <img
-          src="/logo.png"
-          alt=""
-          width="48"
-          height="48"
-          class="h-11 w-11 rounded-lg sm:h-12 sm:w-12"
-          loading="eager"
-          decoding="async"
-        />
-        <span class="text-xl font-semibold tracking-tight sm:text-2xl">{site.name}</span>
-      </a>
-      <a href="/about#contact" class="btn btn-secondary text-sm">Talk to sales</a>
-    </div>
+  <div class="container-page flex h-16 items-center justify-between gap-4">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-3 shrink-0" aria-label={`${site.name} home`}>
+      <img
+        src="/logo.png"
+        alt=""
+        width="48"
+        height="48"
+        class="h-11 w-11 rounded-lg sm:h-12 sm:w-12"
+        loading="eager"
+        decoding="async"
+      />
+      <span class="text-xl font-semibold tracking-tight sm:text-2xl">{site.name}</span>
+    </a>
 
-    <!-- Section tiles -->
-    <nav aria-label="Primary" class="pb-3">
-      <ul class="grid grid-cols-3 gap-2 sm:grid-cols-6">
+    <!-- Desktop nav -->
+    <nav class="hidden lg:block" aria-label="Primary">
+      <ul class="flex items-center gap-0.5">
         {
-          tiles.map((t) => {
-            const active = isActive(t.href);
-            return (
+          [groups[0], groups[1]].map((g) => (
+            <li class="group relative">
+              <button
+                type="button"
+                aria-haspopup="true"
+                class:list={[
+                  linkCls,
+                  'inline-flex items-center gap-1',
+                  groupActive(g) ? 'text-text' : 'text-muted group-hover:text-text',
+                ]}
+              >
+                {g.label}
+                <Icon
+                  name="chevron-down"
+                  size={15}
+                  class="transition-transform group-hover:rotate-180 group-focus-within:rotate-180"
+                />
+              </button>
+              <ul
+                class="invisible absolute left-0 top-full min-w-56 translate-y-1 rounded-xl border border-border bg-card p-1.5 opacity-0 shadow-xl transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100"
+              >
+                {g.items.map((i) => (
+                  <li>
+                    <a
+                      href={i.href}
+                      aria-current={active(i.href.split('#')[0]) ? 'page' : undefined}
+                      class={menuLinkCls}
+                    >
+                      {i.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+
+        {
+          direct.map((i) => (
+            <li>
+              <a
+                href={i.href}
+                aria-current={active(i.href) ? 'page' : undefined}
+                class:list={[linkCls, active(i.href) ? 'text-text' : 'text-muted hover:text-text']}
+              >
+                {i.label}
+              </a>
+            </li>
+          ))
+        }
+
+        <li class="group relative">
+          <button
+            type="button"
+            aria-haspopup="true"
+            class:list={[
+              linkCls,
+              'inline-flex items-center gap-1',
+              groupActive(company) ? 'text-text' : 'text-muted group-hover:text-text',
+            ]}
+          >
+            {company.label}
+            <Icon
+              name="chevron-down"
+              size={15}
+              class="transition-transform group-hover:rotate-180 group-focus-within:rotate-180"
+            />
+          </button>
+          <ul
+            class="invisible absolute right-0 top-full min-w-48 translate-y-1 rounded-xl border border-border bg-card p-1.5 opacity-0 shadow-xl transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100"
+          >
+            {company.items.map((i) => (
               <li>
-                <a
-                  href={t.href}
-                  aria-current={active ? 'page' : undefined}
-                  class:list={[
-                    'group flex flex-col items-center justify-center gap-2 rounded-xl border px-2 py-3.5 text-center transition-colors',
-                    active
-                      ? 'border-accent/60 bg-accent/5'
-                      : 'border-border bg-card hover:border-accent/40 hover:bg-accent/5',
-                  ]}
-                >
-                  <span
-                    class:list={[
-                      'flex h-10 w-10 items-center justify-center rounded-lg border transition-colors',
-                      active
-                        ? 'border-accent/50 bg-accent/10 text-accent'
-                        : 'border-border bg-panel text-accent group-hover:border-accent/40',
-                    ]}
-                  >
-                    <Icon name={t.icon} size={20} />
-                  </span>
-                  <span
-                    class:list={[
-                      'text-[13px] font-medium leading-tight',
-                      active ? 'text-text' : 'text-muted group-hover:text-text',
-                    ]}
-                  >
-                    {t.label}
-                  </span>
+                <a href={i.href} class={menuLinkCls}>
+                  {i.label}
                 </a>
               </li>
-            );
-          })
-        }
+            ))}
+          </ul>
+        </li>
       </ul>
     </nav>
+
+    <!-- Right cluster -->
+    <div class="flex items-center gap-2">
+      <!-- Search (Pagefind) -->
+      <div class="hidden w-52 xl:block">
+        <div class="pf-search" data-pagefind-search data-pagefind-ignore></div>
+      </div>
+
+      <a href="/about#contact" class="btn btn-secondary hidden text-sm sm:inline-flex">
+        Talk to sales
+      </a>
+      <a href="/download" class="btn btn-primary hidden text-sm sm:inline-flex">Download free</a>
+
+      <!-- Mobile menu (native <details>, no JS) -->
+      <details class="relative lg:hidden">
+        <summary
+          class="btn btn-secondary list-none px-3 py-2 [&::-webkit-details-marker]:hidden"
+          aria-label="Open menu"
+        >
+          <Icon name="menu" size={20} />
+        </summary>
+        <div
+          class="card absolute right-0 mt-2 w-72 origin-top-right p-3 shadow-2xl"
+        >
+          <div class="pf-search mb-3" data-pagefind-search data-pagefind-ignore></div>
+
+          {
+            [groups[0], groups[1], company].map((g) => (
+              <div class="mb-2">
+                <p class="px-2 pb-1 text-xs font-semibold uppercase tracking-wider text-muted">
+                  {g.label}
+                </p>
+                <ul>
+                  {g.items.map((i) => (
+                    <li>
+                      <a href={i.href} class="block rounded-md px-2 py-2 text-sm text-muted hover:bg-accent/8 hover:text-text">
+                        {i.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+          <div class="mb-2 border-t border-border pt-2">
+            {
+              direct.map((i) => (
+                <a href={i.href} class="block rounded-md px-2 py-2 text-sm text-muted hover:bg-accent/8 hover:text-text">
+                  {i.label}
+                </a>
+              ))
+            }
+          </div>
+          <div class="flex flex-col gap-2 border-t border-border pt-3">
+            <a href="/about#contact" class="btn btn-secondary text-sm">Talk to sales</a>
+            <a href="/download" class="btn btn-primary text-sm">Download free</a>
+          </div>
+        </div>
+      </details>
+    </div>
   </div>
 </header>

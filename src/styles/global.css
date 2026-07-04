@@ -1,32 +1,33 @@
 @import 'tailwindcss';
 
 /*
-  ProofWipe design tokens — mirrors the desktop app's "enterprise security
-  console" palette. These generate Tailwind utilities:
-    bg-bg, bg-panel, bg-card, border-border, text-text, text-muted,
-    text-accent, bg-accent, text-success, text-warning, text-danger, etc.
+  ProofWipe design tokens.
+
+  LIGHT is the default professional surface (white chrome, dark text). The
+  "security console" mock and the sample certificate stay dark via `.surface-dark`,
+  which re-declares the tokens to the original dark palette — so nested token
+  utilities (bg-card, bg-panel, text-muted, border-border, …) render dark with
+  no per-element changes ("light chrome, dark product visuals").
 */
 @theme {
-  --color-bg: #14161a;
-  --color-panel: #1b1e24;
-  --color-card: #22262e;
-  --color-border: #2f3541;
-  --color-text: #e8eaed;
-  --color-muted: #98a1b0;
+  --color-bg: #ffffff;
+  --color-panel: #f4f6f9;
+  --color-card: #ffffff;
+  --color-border: #e4e8ee;
+  --color-text: #141922;
+  --color-muted: #5a6472;
 
   --color-accent: #3e7bfa;
-  --color-accent-hover: #5a91ff;
-  --color-success: #30a46c;
-  --color-warning: #f0a030;
-  --color-danger: #e5484d;
+  --color-accent-hover: #2e68e6;
+  --color-success: #158048;
+  --color-warning: #a85b00;
+  --color-danger: #cd3a3f;
 
-  /* System stack: zero font download, no FOUT — fits the fast/offline brand. */
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
     Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo,
     Consolas, 'Liberation Mono', monospace;
 
-  /* Slightly tighter default radii for the "console" feel. */
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
 }
@@ -35,7 +36,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
+    color-scheme: light;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -53,7 +54,6 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* Accessible focus ring for keyboard users. */
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
@@ -61,7 +61,7 @@
   }
 
   ::selection {
-    background-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
+    background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
     color: var(--color-text);
   }
 }
@@ -109,46 +109,22 @@
     border: 1px solid var(--color-border);
   }
   .btn-secondary:hover {
-    border-color: color-mix(in srgb, var(--color-accent) 60%, var(--color-border));
-    background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
+    border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+    background-color: color-mix(in srgb, var(--color-accent) 7%, transparent);
   }
 
   .card {
     background-color: var(--color-card);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
-  }
-}
-
-/* ==========================================================================
-   LIGHT THEME (chrome) — the new default professional surface.
-   Applied by adding `theme-light` to <html> (BaseLayout `light` prop). Light
-   is scoped for the Home-first review pass; on rollout it becomes global.
-
-   Mechanism: Tailwind v4 token utilities read var(--color-*), so overriding
-   those variables under a scope cascades to every descendant with no per-
-   element class changes. `.surface-dark` re-declares them to the original dark
-   palette so the "security console" mock and the sample certificate stay dark
-   inside the light chrome ("light chrome, dark product visuals").
-   ========================================================================== */
-@layer components {
-  html.theme-light {
-    --color-bg: #ffffff;
-    --color-panel: #f4f6f9;
-    --color-card: #ffffff;
-    --color-border: #e4e8ee;
-    --color-text: #141922;
-    --color-muted: #5a6472;
-    --color-accent: #3e7bfa;
-    --color-accent-hover: #2e68e6;
-    --color-success: #158048;
-    --color-warning: #a85b00;
-    --color-danger: #cd3a3f;
-    color-scheme: light;
+    box-shadow:
+      0 1px 2px rgba(16, 24, 40, 0.04),
+      0 2px 6px rgba(16, 24, 40, 0.06);
   }
 
-  /* Dark product surfaces inside light chrome. Re-declare tokens to the
-     original dark palette; set a base text colour for any un-utilitied text. */
+  /* Dark product surfaces inside the light chrome (console mocks, certificate).
+     Re-declare tokens to the original dark palette; set a base text colour for
+     any un-utilitied text; give the surface a deeper lift. */
   .surface-dark {
     --color-bg: #14161a;
     --color-panel: #1b1e24;
@@ -163,28 +139,52 @@
     --color-danger: #e5484d;
     color: var(--color-text);
     color-scheme: dark;
-  }
-
-  /* Card lift on light; dark product surfaces get a deeper shadow instead. */
-  html.theme-light .card {
-    box-shadow:
-      0 1px 2px rgba(16, 24, 40, 0.04),
-      0 2px 6px rgba(16, 24, 40, 0.06);
-  }
-  html.theme-light .surface-dark,
-  html.theme-light .surface-dark.card {
     box-shadow: 0 10px 34px rgba(2, 6, 23, 0.28);
   }
-  html.theme-light .surface-dark .card {
+  .surface-dark .card {
     box-shadow: none;
   }
 }
 
 /* Accent TEXT legibility on white (same blue family, AA contrast). Unlayered
    so it wins over the .text-accent utility; dark surfaces keep vivid accent. */
-html.theme-light .text-accent {
+.text-accent {
   color: #2e68e6;
 }
-html.theme-light .surface-dark .text-accent {
+.surface-dark .text-accent {
   color: var(--color-accent);
+}
+
+/* ==========================================================================
+   Pagefind search widget (loaded only for search). Themed to match the site.
+   ========================================================================== */
+:root {
+  --pagefind-ui-scale: 0.8;
+  --pagefind-ui-primary: #2e68e6;
+  --pagefind-ui-text: #141922;
+  --pagefind-ui-background: #ffffff;
+  --pagefind-ui-border: #e4e8ee;
+  --pagefind-ui-tag: #f4f6f9;
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 0.6rem;
+  --pagefind-ui-font: var(--font-sans);
+}
+.pf-search .pagefind-ui__search-input {
+  font-size: 0.9rem;
+}
+.pf-search .pagefind-ui__drawer {
+  position: absolute;
+  z-index: 50;
+  margin-top: 0.5rem;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  box-shadow: 0 12px 40px rgba(16, 24, 40, 0.14);
+  padding: 0.75rem;
+}
+.pf-search .pagefind-ui__drawer:empty,
+.pf-search .pagefind-ui__drawer--empty {
+  display: none;
 }
