@@ -131,12 +131,41 @@ add a provider (analytics, forms), update the CSP allowlist there.
 
 ### 5. Analytics
 
-Cloudflare **Web Analytics** (cookieless, no consent banner needed). Enable it
-in the Cloudflare dashboard for `proofwipe.com`; the beacon domain
-(`static.cloudflareinsights.com`) is already allowed in the CSP. Cloudflare can
-auto-inject the beacon, or add the snippet in the polish step.
+Cloudflare **Web Analytics** (cookieless, no consent banner needed). Two ways
+to enable — **pick exactly one** (both at once double-counts page views):
+
+- **Option A — dashboard auto-injection:** enable Web Analytics for
+  `proofwipe.com` in the Cloudflare dashboard and let it inject the beacon at
+  the edge. Leave `token` empty in `src/data/analytics.ts`.
+- **Option B — manual snippet:** create a Web Analytics site in the dashboard
+  and paste its token into `src/data/analytics.ts`. The beacon renders only
+  when the token is non-empty — analytics is safely off until then.
+
+Either way the beacon host (`static.cloudflareinsights.com`) is already
+allowed in the CSP (`public/_headers`, script-src + connect-src).
 
 ---
+
+## Build guards
+
+`npm run build` automatically runs `scripts/check-guards.mjs` (also available
+as `npm run guards`), which **fails the build** if the generated HTML contains:
+
+1. Forbidden strings — "VerifWipe" or competitor names (never named, by owner
+   decision).
+2. NIST revision leakage — any "Rev. 1/2" / "Revision 1/2" / "800-88r1/r2", or
+   "latest / most current" near standards wording.
+3. "certified" outside the approved not-certified disclaimer.
+4. Any `needs-signoff` claim from `src/data/claims.ts` (except explicitly
+   owner-sanctioned pending entries, documented in the script).
+
+## Assets
+
+Generated from the source logo (checkerboard background removed, real alpha
+restored) by the Step 7 pipeline: `public/logo.png` (256px, ~17 KB),
+`icon-192/512.png` (web manifest), `apple-touch-icon.png` (180px, opaque
+panel background), `favicon.ico` (16/32/48) + `favicon.svg`, and
+`public/og/proofwipe-og.png` (1200x630 social share card).
 
 ## Placeholders awaiting owner input
 
@@ -144,6 +173,11 @@ auto-inject the beacon, or add the snippet in the polish step.
 - **Pricing:** Pro is "Contact us" for v1 — no numbers.
 - **Standards revision wording** (kept generic until sign-off).
 - **CSE ITSP.40.006** current version + canonical URL (verify before linking).
-- Contact address / GitHub org URL in `src/data/site.ts`.
+- **Formspree form ID** in `src/data/contact.ts` (form renders disabled until
+  set; delivery inbox: proofwipe@gmail.com).
+- **Analytics choice** (option A or B above) in `src/data/analytics.ts`.
+- GitHub org URL in `src/data/site.ts`.
+- Legal stubs: retention/rights wording in `/privacy`, bracketed sections in
+  `/terms`; both are `noindex` until finalized.
 - Redacted sample **certificate** (a clearly-labelled "illustrative" mock is
   used until provided).

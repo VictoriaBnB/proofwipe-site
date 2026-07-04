@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site.ts';
+import { analytics, isAnalyticsEnabled } from '../data/analytics.ts';
 
 interface Props {
   title: string;
@@ -86,6 +87,23 @@ const fullTitle =
         <script
           type="application/ld+json"
           set:html={JSON.stringify(jsonLd)}
+        />
+      )
+    }
+
+    {/*
+      Cloudflare Web Analytics (cookieless). Rendered ONLY when a site token is
+      configured in src/data/analytics.ts (option B). If the owner enables
+      dashboard auto-injection instead (option A), the token stays empty and
+      nothing renders here. Beacon host is allowed in the CSP.
+    */}
+    {
+      isAnalyticsEnabled && (
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: analytics.token })}
+          is:inline
         />
       )
     }
