@@ -170,7 +170,12 @@
   --pagefind-ui-font: var(--font-sans);
 }
 .pf-search .pagefind-ui__search-input {
-  font-size: 0.9rem;
+  /* Pagefind sets an explicit height (scale*64px = ~51px). Override it to match
+     the header buttons (~36px). !important beats Pagefind's own UI CSS. */
+  height: 2.25rem !important;
+  min-height: 0 !important;
+  font-size: 0.85rem !important;
+  padding-block: 0 !important;
 }
 .pf-search .pagefind-ui__drawer {
   position: absolute;
