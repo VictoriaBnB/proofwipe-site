@@ -16,6 +16,8 @@ interface Props {
   noindex?: boolean;
   /** Optional JSON-LD object injected into <head>. */
   jsonLd?: Record<string, unknown>;
+  /** Use the light/professional chrome (adds `theme-light` to <html>). */
+  light?: boolean;
 }
 
 const {
@@ -25,6 +27,7 @@ const {
   ogImage = '/og/proofwipe-og.png',
   noindex = false,
   jsonLd,
+  light = false,
 } = Astro.props;
 
 /**
@@ -48,7 +51,7 @@ const fullTitle =
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class={light ? 'theme-light' : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -57,8 +60,8 @@ const fullTitle =
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-    <meta name="theme-color" content="#14161A" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content={light ? '#FFFFFF' : '#14161A'} />
+    <meta name="color-scheme" content={light ? 'light' : 'dark'} />
 
     <!-- Favicons (assets added in the SEO/polish step) -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

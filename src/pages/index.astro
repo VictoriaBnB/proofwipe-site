@@ -133,13 +133,13 @@ const jsonLd = {
 };
 ---
 
-<BaseLayout title={site.name} canonicalPath="/" jsonLd={jsonLd}>
+<BaseLayout title={site.name} canonicalPath="/" jsonLd={jsonLd} light>
   <!-- ===================== HERO ===================== -->
   <section class="relative overflow-hidden border-b border-border">
     <!-- subtle accent glow -->
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute -top-40 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full opacity-25 blur-3xl"
+      class="pointer-events-none absolute -top-40 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full opacity-[0.12] blur-3xl"
       style="background: radial-gradient(closest-side, #3E7BFA, transparent 70%);"
     >
     </div>
@@ -167,14 +167,14 @@ const jsonLd = {
           <a href="/about#contact" class="btn btn-secondary">Talk to sales</a>
         </div>
         <p class="mt-6 text-sm text-muted">
-          Windows 10 / 11 · Runs from USB · Requires Administrator ·
+          Windows 10 / 11 · Runs from USB · Requires Administrator ·{' '}
           <span class="text-text">Offline by design</span>
         </p>
       </div>
 
       <!-- Product console mock -->
       <div class="relative">
-        <div class="card p-4 shadow-2xl sm:p-5">
+        <div class="card surface-dark p-4 sm:p-5">
           <div class="flex items-center gap-2 border-b border-border pb-3">
             <span class="h-3 w-3 rounded-full bg-danger/70"></span>
             <span class="h-3 w-3 rounded-full bg-warning/70"></span>
@@ -459,7 +459,7 @@ const jsonLd = {
       <div class="card relative overflow-hidden p-10 text-center sm:p-14">
         <div
           aria-hidden="true"
-          class="pointer-events-none absolute -bottom-32 left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full opacity-20 blur-3xl"
+          class="pointer-events-none absolute -bottom-32 left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full opacity-[0.1] blur-3xl"
           style="background: radial-gradient(closest-side, #3E7BFA, transparent 70%);"
         >
         </div>

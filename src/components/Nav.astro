@@ -1,94 +1,90 @@
 ---
-import { primaryNav, site } from '../data/site.ts';
+import Icon from './Icon.astro';
+import { site } from '../data/site.ts';
+
+/*
+  Discoverability-first navigation: primary sections shown as labelled icon
+  tiles across the top (KillDisk-style), so nothing has to be hunted for.
+  Theme-adaptive via design tokens — renders correctly in light or dark chrome.
+*/
 
 const path = Astro.url.pathname;
 const isActive = (href: string) =>
   href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
+
+const tiles = [
+  { label: 'Features', href: '/features', icon: 'shield-check' },
+  { label: 'Bootable USB', href: '/bootable-usb', icon: 'usb' },
+  { label: 'Standards', href: '/standards', icon: 'landmark' },
+  { label: 'Pricing', href: '/pricing', icon: 'tag' },
+  { label: 'Verify', href: '/verify', icon: 'badge-check' },
+  { label: 'Download', href: '/download', icon: 'download' },
+] as const;
 ---
 
 <header
   class="sticky top-0 z-40 border-b border-border/80 bg-bg/85 backdrop-blur supports-[backdrop-filter]:bg-bg/70"
 >
-  <nav
-    class="container-page flex h-16 items-center justify-between gap-4"
-    aria-label="Primary"
-  >
-    <a href="/" class="flex items-center gap-2.5 shrink-0" aria-label={`${site.name} home`}>
-      <img
-        src="/logo.png"
-        alt=""
-        width="32"
-        height="32"
-        class="h-8 w-8 rounded-md"
-        loading="eager"
-        decoding="async"
-      />
-      <span class="text-lg font-semibold tracking-tight">{site.name}</span>
-    </a>
-
-    <!-- Desktop nav -->
-    <ul class="hidden items-center gap-1 md:flex">
-      {
-        primaryNav.map((item) => (
-          <li>
-            <a
-              href={item.href}
-              aria-current={isActive(item.href) ? 'page' : undefined}
-              class:list={[
-                'rounded-md px-3 py-2 text-sm font-medium transition-colors',
-                isActive(item.href)
-                  ? 'text-text'
-                  : 'text-muted hover:text-text',
-              ]}
-            >
-              {item.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-
-    <div class="hidden items-center gap-2 md:flex">
+  <div class="container-page">
+    <!-- Top row: logo + sales CTA -->
+    <div class="flex items-center justify-between gap-4 py-3">
+      <a href="/" class="flex items-center gap-3 shrink-0" aria-label={`${site.name} home`}>
+        <img
+          src="/logo.png"
+          alt=""
+          width="48"
+          height="48"
+          class="h-11 w-11 rounded-lg sm:h-12 sm:w-12"
+          loading="eager"
+          decoding="async"
+        />
+        <span class="text-xl font-semibold tracking-tight sm:text-2xl">{site.name}</span>
+      </a>
       <a href="/about#contact" class="btn btn-secondary text-sm">Talk to sales</a>
-      <a href="/download" class="btn btn-primary text-sm">Download free</a>
     </div>
 
-    <!-- Mobile toggle (CSS-only via <details>) -->
-    <details class="relative md:hidden">
-      <summary
-        class="btn btn-secondary list-none px-3 py-2 [&::-webkit-details-marker]:hidden"
-        aria-label="Open menu"
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-        </svg>
-      </summary>
-      <div
-        class="card absolute right-0 mt-2 w-56 origin-top-right p-2 shadow-xl bg-panel"
-      >
-        <ul class="flex flex-col">
-          {
-            primaryNav.map((item) => (
+    <!-- Section tiles -->
+    <nav aria-label="Primary" class="pb-3">
+      <ul class="grid grid-cols-3 gap-2 sm:grid-cols-6">
+        {
+          tiles.map((t) => {
+            const active = isActive(t.href);
+            return (
               <li>
                 <a
-                  href={item.href}
-                  aria-current={isActive(item.href) ? 'page' : undefined}
+                  href={t.href}
+                  aria-current={active ? 'page' : undefined}
                   class:list={[
-                    'block rounded-md px-3 py-2 text-sm',
-                    isActive(item.href) ? 'text-text bg-card' : 'text-muted hover:text-text',
+                    'group flex flex-col items-center justify-center gap-2 rounded-xl border px-2 py-3.5 text-center transition-colors',
+                    active
+                      ? 'border-accent/60 bg-accent/5'
+                      : 'border-border bg-card hover:border-accent/40 hover:bg-accent/5',
                   ]}
                 >
-                  {item.label}
+                  <span
+                    class:list={[
+                      'flex h-10 w-10 items-center justify-center rounded-lg border transition-colors',
+                      active
+                        ? 'border-accent/50 bg-accent/10 text-accent'
+                        : 'border-border bg-panel text-accent group-hover:border-accent/40',
+                    ]}
+                  >
+                    <Icon name={t.icon} size={20} />
+                  </span>
+                  <span
+                    class:list={[
+                      'text-[13px] font-medium leading-tight',
+                      active ? 'text-text' : 'text-muted group-hover:text-text',
+                    ]}
+                  >
+                    {t.label}
+                  </span>
                 </a>
               </li>
-            ))
-          }
-        </ul>
-        <div class="mt-2 flex flex-col gap-2 border-t border-border pt-2">
-          <a href="/about#contact" class="btn btn-secondary text-sm">Talk to sales</a>
-          <a href="/download" class="btn btn-primary text-sm">Download free</a>
-        </div>
-      </div>
-    </details>
-  </nav>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
 </header>
