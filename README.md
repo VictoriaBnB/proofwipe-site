@@ -103,9 +103,32 @@ analytics all live in one place.
 
 ### 1. The Worker (already connected)
 
-- **Connected repo:** this repository, builds on push to `main`.
-- **Build command:** `npm run build`
-- **Build output directory:** `dist`
+Deployment is a **static-assets Worker** named `proofwipe-site`, connected to
+this repo via Workers Builds. The deploy is pinned by a committed
+[`wrangler.jsonc`](./wrangler.jsonc) (assets = `./dist`, `not_found_handling`
+= `404-page`, `workers_dev`/`preview_urls` off). Custom-domain routing is NOT
+declared there — it stays in the dashboard so a deploy can't disturb the live
+`proofwipe.com` binding.
+
+**Workers Builds settings (must match, in the Worker → Settings → Builds):**
+
+- **Root directory:** `/` (this repo's root *is* the site — `wrangler.jsonc`,
+  `package.json`, and `dist/` are all here).
+- **Build command:** `npm run build`  (runs Astro build → Pagefind index →
+  guard sweep).
+- **Deploy command:** `npx wrangler deploy`  (reads `wrangler.jsonc`; serves
+  `./dist`).
+
+If earlier pushes weren't going live, it's almost always because the **build
+command wasn't set** (so it deployed without rebuilding) or the branch/root was
+wrong. With the settings above + the committed `wrangler.jsonc`, every push to
+`main` rebuilds and redeploys deterministically.
+
+Validate the config locally any time with:
+
+```bash
+npx wrangler deploy --dry-run   # reads dist, checks config; no upload, no auth
+```
 
 ### 2. Custom domain
 

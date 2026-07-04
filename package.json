@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "Marketing website for ProofWipe \u2014 verified disk sanitization.",
+  "description": "Marketing website for ProofWipe — verified disk sanitization.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -20,6 +20,7 @@
     "tailwindcss": "^4.0.0"
   },
   "devDependencies": {
-    "pagefind": "^1.5.2"
+    "pagefind": "^1.5.2",
+    "wrangler": "^4.107.0"
   }
 }

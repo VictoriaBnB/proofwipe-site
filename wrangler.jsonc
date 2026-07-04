@@ -1,0 +1,28 @@
+{
+  // ---------------------------------------------------------------------------
+  // Cloudflare Workers — static-assets deployment for the ProofWipe site.
+  //
+  // Assets-only Worker (no `main` script): it just serves the built ./dist
+  // directory. Workers Builds runs `npm run build` (see dashboard settings in
+  // README) and then `npx wrangler deploy`, which reads this file.
+  //
+  // IMPORTANT: custom-domain routing (proofwipe.com) and the proofwipe.ca -> .com
+  // 301 are managed in the Cloudflare dashboard. They are intentionally NOT
+  // declared here (no `routes`/`route`) so this config can never disturb the
+  // live proofwipe.com binding. `name` must match the existing Worker so builds
+  // update it in place rather than creating a new one.
+  // ---------------------------------------------------------------------------
+  "name": "proofwipe-site",
+  "compatibility_date": "2025-05-05",
+
+  "assets": {
+    "directory": "./dist",
+    // Serve the custom 404 page for unknown paths (multi-page static site).
+    "not_found_handling": "404-page"
+  },
+
+  // Explicit to clear the earlier dashboard warnings: no *.workers.dev URL and
+  // no preview URLs for this production site (served only on the custom domain).
+  "workers_dev": false,
+  "preview_urls": false
+}
