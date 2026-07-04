@@ -1,0 +1,299 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { claims, taxonomy, standards } from '../data/claims.ts';
+
+/*
+  STANDARDS & COMPLIANCE — educational + SEO page.
+
+  RULES (owner-mandated, enforced via src/data/claims.ts):
+  - "NIST SP 800-88" is referenced GENERICALLY. No revision number is printed
+    anywhere, and nothing implies "latest"/"current". `standards.nist.revisionLine`
+    stays empty until the owner signs off on exact wording.
+  - "CSE ITSP.40.006" appears by NAME ONLY (no version label). Its canonical
+    cyber.gc.ca URL was verified 2026-07-03 and may be linked.
+  - The cseAligned claim is still needs-signoff → NOT rendered. The CSE section
+    below is purely educational (describes the standard, claims nothing about
+    ProofWipe's relationship to it beyond the approved disclaimer).
+  - Never "certified".
+*/
+
+const description =
+  'What NIST SP 800-88 and CSE ITSP.40.006 say about media sanitization, what Clear and Purge actually mean, and how ProofWipe maps its methods, verification, and certificates to the taxonomy.';
+
+const taxonomyCards = [
+  {
+    key: 'clear',
+    icon: 'hard-drive',
+    term: taxonomy.clear.term,
+    short: taxonomy.clear.short,
+    detail:
+      'Clear uses logical techniques — typically overwriting every user-addressable location — to protect against simple, non-invasive recovery: file-recovery utilities, undelete tools, casual keyboard attacks. It is generally appropriate when the media stays within an organization’s control or the data is of moderate sensitivity.',
+    proofwipe:
+      'ProofWipe Clear overwrites the full addressable space with fixed or cryptographically random patterns, handles unwritable sectors by isolating and disclosing them, and then verifies the result by read-back.',
+  },
+  {
+    key: 'purge',
+    icon: 'zap',
+    term: taxonomy.purge.term,
+    short: taxonomy.purge.short,
+    detail:
+      'Purge applies physical or logical techniques that make recovery infeasible even with state-of-the-art laboratory methods. For modern drives that usually means the device’s own firmware sanitize operations, which can reach cells and reserved areas that host software cannot address — including flash over-provisioning and remapped sectors.',
+    proofwipe:
+      'ProofWipe Purge issues ATA SANITIZE / Secure Erase to SATA drives and Sanitize / Format operations to NVMe drives, detects when a drive genuinely supports them (and says why when it doesn’t), and captures post-sanitize read-back evidence.',
+  },
+  {
+    key: 'destroy',
+    icon: 'x',
+    term: taxonomy.destroy.term,
+    short: taxonomy.destroy.short,
+    detail:
+      'Destroy renders the media itself unusable — shredding, disintegration, incineration. It is the right choice for damaged media or the very highest sensitivity levels, but it also destroys the asset’s remaining value and creates e-waste.',
+    proofwipe:
+      'ProofWipe deliberately does not do this. Its purpose is to make Clear and Purge provable enough that serviceable hardware can be resold instead of destroyed.',
+  },
+];
+
+const mappings = [
+  {
+    requirement: 'Sanitization method appropriate to the media and sensitivity',
+    how: 'Operator chooses Clear (overwrite) or Purge (firmware sanitize) per drive; unsupported methods are greyed out with the reason stated, never silently substituted.',
+  },
+  {
+    requirement: 'Verify the sanitization result',
+    how: 'Read-back verification at 1%, 10%, or 100% sampling, always including the first and last regions; caches are flushed before reads; skipped sectors are excluded and disclosed.',
+  },
+  {
+    requirement: 'Document the sanitization (who, what, when, how, result)',
+    how: 'Tamper-evident certificate (HTML + PDF) records device identity and serial, method, verification level and outcome, operator, timestamps, arming method, BitLocker status, and hidden-area findings — secured with a SHA-256 log hash.',
+  },
+  {
+    requirement: 'Account for hidden and reserved areas',
+    how: 'HPA/DCO detection on ATA drives at enumeration; disclosed in the UI and on the certificate, with the note that an overwrite Clear cannot reach hidden areas while an ATA SANITIZE Purge does.',
+  },
+  {
+    requirement: 'Record every outcome, not just successes',
+    how: claims.certEveryOutcome.text,
+  },
+];
+
+const faqs = [
+  {
+    q: 'What is the difference between Clear and Purge?',
+    a: 'Clear overwrites the storage a computer can normally address, protecting against recovery with standard software tools. Purge goes further: it uses the drive’s own firmware sanitize commands to also reach reserved and remapped areas, making recovery infeasible even with laboratory techniques. Purge is generally recommended for solid-state drives and for media leaving the organization’s control.',
+  },
+  {
+    q: 'Is software sanitization as good as shredding?',
+    a: 'For most scenarios, a properly executed and verified Purge — or a verified Clear where appropriate — renders the data unrecoverable while keeping the hardware usable. Physical destruction remains appropriate for damaged media or when policy explicitly requires it. The key differences are verification and documentation: ProofWipe proves what was done, which a shredding bin receipt cannot say about the data itself.',
+  },
+  {
+    q: 'Why do SSDs need firmware sanitize instead of multi-pass overwrites?',
+    a: 'SSDs remap writes across flash cells and keep over-provisioned spare areas that host software cannot address, so overwrite passes may never touch every cell. Firmware sanitize commands (ATA SANITIZE, NVMe Sanitize) are executed by the drive itself and cover those areas. Multi-pass overwrite schemes were designed for older magnetic media and add wear, not assurance, on SSDs.',
+  },
+  {
+    q: 'Is ProofWipe certified against these standards?',
+    a: claims.notCertified.text +
+      ' The methods, verification, and certificate contents are designed so your process documentation can stand on its own in an audit.',
+  },
+  {
+    q: 'What should a sanitization certificate contain?',
+    a: 'At minimum: the device’s identity and serial number, the sanitization method and category, the verification performed and its result, who performed it and when, and any caveats such as skipped sectors or hidden areas. ProofWipe records all of these and binds the certificate to the wipe log with a SHA-256 hash so alterations are detectable.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title="Standards & Compliance" description={description} jsonLd={jsonLd}>
+  <!-- Header -->
+  <section class="border-b border-border bg-panel/40">
+    <div class="container-page py-16 lg:py-20">
+      <p class="text-sm font-semibold text-accent">Standards &amp; compliance</p>
+      <h1 class="mt-2 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl">
+        The standards behind provable sanitization
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg text-muted">
+        {/* claim: implementsTaxonomy — approved */}
+        {claims.implementsTaxonomy.text} Here’s what those categories mean, where
+        they come from, and how ProofWipe maps to them.
+      </p>
+      <p class="mt-6 inline-flex max-w-2xl items-start gap-2 rounded-lg border border-border bg-card p-3 text-sm text-muted">
+        <Icon name="alert-triangle" size={16} class="mt-0.5 shrink-0 text-warning" />
+        {/* claim: notCertified — approved */}
+        {claims.notCertified.text}
+      </p>
+    </div>
+  </section>
+
+  <!-- The two standards -->
+  <section class="container-page py-16 lg:py-20" aria-labelledby="the-standards">
+    <p class="text-sm font-semibold text-accent">The source documents</p>
+    <h2 id="the-standards" class="mt-2 text-3xl font-bold tracking-tight">
+      Two public standards, one shared model
+    </h2>
+
+    <div class="mt-10 grid gap-5 lg:grid-cols-2">
+      <div class="card p-7">
+        <h3 class="text-xl font-semibold">{standards.nist.name}</h3>
+        <p class="text-xs uppercase tracking-wide text-muted">
+          Guidelines for Media Sanitization · NIST, United States
+        </p>
+        <p class="mt-4 text-sm leading-relaxed text-muted">
+          The reference framework for media sanitization. It defines the
+          <strong class="text-text">Clear / Purge / Destroy</strong> taxonomy,
+          guides selecting a category based on data sensitivity and where the
+          media goes next, and calls for verification and documentation of the
+          result. It is the vocabulary auditors, ITAD downstreams, and security
+          teams share.
+        </p>
+      </div>
+
+      <div class="card p-7">
+        <h3 class="text-xl font-semibold">{standards.cse.name}</h3>
+        <p class="text-xs uppercase tracking-wide text-muted">
+          IT Media Sanitization · Canadian Centre for Cyber Security
+        </p>
+        <p class="mt-4 text-sm leading-relaxed text-muted">
+          Canada’s guidance on sanitizing IT media, published by the
+          Communications Security Establishment’s Canadian Centre for Cyber
+          Security. It covers sanitization methods by media type and the
+          record-keeping expected in Government of Canada contexts — the
+          reference point for Canadian public-sector disposition programs.
+        </p>
+        <a
+          href={standards.cse.url}
+          rel="external noopener"
+          class="mt-4 inline-flex items-center gap-1.5 text-sm text-accent underline-offset-2 hover:underline"
+        >
+          Read {standards.cse.name} at cyber.gc.ca
+          <Icon name="arrow-right" size={15} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Taxonomy deep dive -->
+  <section class="border-y border-border bg-panel/40" aria-labelledby="taxonomy">
+    <div class="container-page py-16 lg:py-20">
+      <p class="text-sm font-semibold text-accent">The taxonomy</p>
+      <h2 id="taxonomy" class="mt-2 text-3xl font-bold tracking-tight">
+        Clear, Purge, Destroy — what each one means
+      </h2>
+
+      <div class="mt-10 space-y-5">
+        {
+          taxonomyCards.map((t) => (
+            <div class="card grid gap-6 p-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+              <div>
+                <div class="flex items-center gap-3">
+                  <div
+                    class:list={[
+                      'flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-panel',
+                      t.key === 'destroy' ? 'text-danger' : 'text-accent',
+                    ]}
+                  >
+                    <Icon name={t.icon} size={22} />
+                  </div>
+                  <h3 class="text-xl font-semibold">{t.term}</h3>
+                </div>
+                <p class="mt-3 text-sm font-medium text-text">{t.short}</p>
+                <p class="mt-3 text-sm leading-relaxed text-muted">{t.detail}</p>
+              </div>
+              <div class="rounded-lg border border-border bg-panel p-5">
+                <p class="text-xs font-semibold uppercase tracking-wider text-accent">
+                  {t.key === 'destroy' ? 'Where ProofWipe stands' : 'In ProofWipe'}
+                </p>
+                <p class="mt-2 text-sm leading-relaxed text-muted">{t.proofwipe}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Mapping table -->
+  <section class="container-page py-16 lg:py-20" aria-labelledby="mapping">
+    <p class="text-sm font-semibold text-accent">The mapping</p>
+    <h2 id="mapping" class="mt-2 text-3xl font-bold tracking-tight">
+      What the guidance asks for — and what ProofWipe does
+    </h2>
+    <p class="mt-4 max-w-2xl text-muted">
+      Media-sanitization guidance converges on the same operational asks:
+      pick an appropriate method, verify it worked, write it down, and account
+      for the edge cases. Here is how ProofWipe answers each one.
+    </p>
+
+    <div class="mt-10 space-y-4">
+      {
+        mappings.map((m) => (
+          <div class="card grid gap-4 p-6 md:grid-cols-2">
+            <div class="flex gap-3">
+              <Icon name="file-check" size={18} class="mt-0.5 shrink-0 text-muted" />
+              <p class="text-sm font-medium text-text">{m.requirement}</p>
+            </div>
+            <div class="flex gap-3">
+              <Icon name="check" size={18} class="mt-0.5 shrink-0 text-success" />
+              <p class="text-sm leading-relaxed text-muted">{m.how}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="border-y border-border bg-panel/40" aria-labelledby="faq">
+    <div class="container-page py-16 lg:py-20">
+      <p class="text-sm font-semibold text-accent">FAQ</p>
+      <h2 id="faq" class="mt-2 text-3xl font-bold tracking-tight">
+        Common questions about sanitization standards
+      </h2>
+
+      <div class="mt-10 max-w-3xl space-y-4">
+        {
+          faqs.map((f) => (
+            <details class="card group p-0">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 font-medium [&::-webkit-details-marker]:hidden">
+                {f.q}
+                <Icon
+                  name="arrow-right"
+                  size={16}
+                  class="shrink-0 text-muted transition-transform group-open:rotate-90"
+                />
+              </summary>
+              <p class="border-t border-border/70 p-5 text-sm leading-relaxed text-muted">
+                {f.a}
+              </p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-border">
+    <div class="container-page py-16 text-center lg:py-20">
+      <h2 class="text-3xl font-bold tracking-tight">
+        Put the taxonomy to work
+      </h2>
+      <p class="mx-auto mt-4 max-w-xl text-muted">
+        See how Clear, Purge, verification, and certificates come together on a
+        real bench.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="/features" class="btn btn-primary">Explore the features</a>
+        <a href="/download" class="btn btn-secondary">Download free</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

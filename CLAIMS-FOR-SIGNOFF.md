@@ -20,8 +20,18 @@ Guardrails already baked in:
 | -- | ------ | ------ |
 | `standards.nist.name` | "NIST SP 800-88" (generic, no revision) | ✅ approved by rule |
 | `standards.nist.revisionLine` | _(empty placeholder — add revision sentence on sign-off)_ | ⏳ pending your wording |
-| `standards.cse.name` | "CSE ITSP.40.006" (name only) | ⏳ verify version, no label yet |
-| `standards.cse.url` | _(blank — verify canonical URL before linking)_ | ⏳ to verify |
+| `standards.nist.url` | _(blank)_ — **verified 2026-07-03:** no revision-agnostic NIST landing page exists; every working deep link is revision-specific (`/r1/final` withdrawn/superseded, `/r2/final` published Sept 2025). Linking waits on your revision decision. | ⏳ pending your wording |
+| `standards.cse.name` | "CSE ITSP.40.006" (name only) — **verified 2026-07-03:** current publication on cyber.gc.ca is *"ITSP.40.006 v2 IT Media Sanitization"* (effective 2017-07-01). Version label still not printed pending your sign-off. | ⏳ label pending |
+| `standards.cse.url` | `https://www.cyber.gc.ca/en/guidance/it-media-sanitization-itsp40006` — **verified live 2026-07-03**; linked on the Standards page (name-only anchor text). | ✅ verified |
+
+### Verification record (2026-07-03, for your revision decision — NOT printed on the site)
+
+- **NIST SP 800-88 Rev. 2** is final (published September 2025) and CSRC marks
+  **Rev. 1 (12/17/2014) as withdrawn/superseded**. The app implements Rev. 1
+  techniques today; the taxonomy is unchanged between revisions. Site copy
+  remains revision-agnostic until you supply the exact sentence.
+- **CSE ITSP.40.006**: current published version is **v2** (effective
+  2017-07-01) at the URL above.
 
 ## B. Capability / compliance claims
 

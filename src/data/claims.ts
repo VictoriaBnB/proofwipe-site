@@ -43,16 +43,22 @@ export const standards = {
      * `standards.nist.revisionLine` wherever a revision statement belongs.
      */
     revisionLine: '', // TODO(signoff): revision wording pending owner decision
-    url: 'https://csrc.nist.gov/pubs/sp/800/88/', // landing page, revision-agnostic
+    // VERIFIED 2026-07-03: no revision-agnostic NIST landing page exists (the
+    // generic /pubs/sp/800/88/ URL 404s). Every working deep link is
+    // revision-specific and would implicitly signal a revision, so we do NOT
+    // hyperlink NIST until the owner decides the revision wording.
+    url: '', // TODO(signoff): revision-specific URL pending owner decision
   },
   cse: {
     name: 'CSE ITSP.40.006',
     longName:
       'Communications Security Establishment (CSE) — IT Media Sanitization',
     revisionLine: '', // TODO(signoff): version wording pending owner decision
-    // TODO(verify): confirm current published version + canonical URL before
-    // linking on the Standards page.
-    url: '', // left blank until verified
+    // VERIFIED 2026-07-03: current publication on cyber.gc.ca is
+    // "ITSP.40.006 v2 IT Media Sanitization" (effective 2017-07-01). Canonical
+    // URL below confirmed live. Per owner rule the site prints the NAME ONLY
+    // (no version label) until sign-off; linking the official page is fine.
+    url: 'https://www.cyber.gc.ca/en/guidance/it-media-sanitization-itsp40006',
   },
 } as const;
 
