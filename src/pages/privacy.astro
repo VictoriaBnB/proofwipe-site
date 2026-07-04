@@ -4,8 +4,9 @@ import Icon from '../components/Icon.astro';
 import { contact } from '../data/contact.ts';
 
 /*
-  PRIVACY POLICY — first-pass draft, PIPEDA-aware (Canadian), clearly marked
-  DRAFT for counsel review. noindex stays until the owner approves.
+  PRIVACY POLICY — first-pass draft, PIPEDA/BC-PIPA-aware (Canadian), clearly
+  marked DRAFT for counsel review. noindex stays until a lawyer signs off.
+  Operator: Ryan Werk (sole proprietor), British Columbia, Canada.
   Third parties that touch data (complete list): Formspree (contact
   submissions) and Cloudflare (hosting + cookieless Web Analytics).
 */
@@ -15,14 +16,14 @@ import { contact } from '../data/contact.ts';
   <section class="container-page max-w-3xl py-16 lg:py-20">
     <p class="text-sm font-semibold text-accent">Legal</p>
     <h1 class="mt-2 text-4xl font-bold tracking-tight">Privacy policy</h1>
-    <p class="mt-2 text-sm text-muted">Effective date: [to be set at publication]</p>
+    <p class="mt-2 text-sm text-muted">Effective date: July 4, 2026</p>
 
     <div class="mt-6 flex items-start gap-3 rounded-lg border border-warning/40 bg-warning/10 p-4 text-sm">
       <Icon name="alert-triangle" size={18} class="mt-0.5 shrink-0 text-warning" />
       <p class="text-muted">
-        <strong class="text-warning">DRAFT — for counsel review.</strong> This is
-        first-pass wording pending legal review and owner approval. Excluded
-        from search indexing until finalized.
+        <strong class="text-warning">DRAFT — pending legal review.</strong> This
+        wording is awaiting review by counsel before it goes live. Excluded from
+        search indexing until finalized.
       </p>
     </div>
 
@@ -40,11 +41,14 @@ import { contact } from '../data/contact.ts';
       <section>
         <h2 class="text-xl font-semibold text-text">Who we are and scope</h2>
         <p class="mt-3">
-          This policy describes how personal information is handled in
-          connection with the ProofWipe website (proofwipe.com and
+          This policy describes how <strong class="text-text">Ryan Werk</strong>,
+          a sole proprietor operating the ProofWipe product (“ProofWipe”, “we”,
+          “us”, “our”), based in British Columbia, Canada, handles personal
+          information in connection with the ProofWipe website (proofwipe.com and
           proofwipe.ca). We handle personal information in accordance with the
           <em>Personal Information Protection and Electronic Documents Act</em>
-          (PIPEDA) and applicable provincial privacy legislation.
+          (PIPEDA) and applicable provincial privacy legislation, including
+          British Columbia’s <em>Personal Information Protection Act</em> (PIPA).
         </p>
       </section>
 
@@ -108,7 +112,9 @@ import { contact } from '../data/contact.ts';
         <p class="mt-4">
           No other party receives visitor data. We do not sell, rent, or trade
           personal information. There is no advertising, no social-media
-          embeds, and no cross-site tracking of any kind.
+          embeds, and no cross-site tracking of any kind. Because these providers
+          may process data outside Canada, that information may be subject to the
+          laws of the jurisdictions where it is stored.
         </p>
       </section>
 
@@ -126,14 +132,16 @@ import { contact } from '../data/contact.ts';
       <section>
         <h2 class="text-xl font-semibold text-text">Your rights</h2>
         <p class="mt-3">
-          Under PIPEDA you may request access to the personal information we
-          hold about you, ask that it be corrected, withdraw consent to its
-          continued use (subject to legal or contractual restrictions), or ask
-          that it be deleted. To exercise any of these rights, email
+          Under PIPEDA and BC PIPA you may request access to the personal
+          information we hold about you, ask that it be corrected, withdraw
+          consent to its continued use (subject to legal or contractual
+          restrictions), or ask that it be deleted. To exercise any of these
+          rights, email
           <a href={`mailto:${contact.email}`} class="text-accent underline-offset-2 hover:underline">{contact.email}</a>.
-          We will respond within the timelines PIPEDA prescribes. If you are
-          unsatisfied with our response, you may complain to the Office of the
-          Privacy Commissioner of Canada.
+          We will respond within the timelines the applicable legislation
+          prescribes. If you are unsatisfied with our response, you may complain
+          to the Office of the Privacy Commissioner of Canada, or to the Office
+          of the Information and Privacy Commissioner for British Columbia.
         </p>
       </section>
 
@@ -158,10 +166,9 @@ import { contact } from '../data/contact.ts';
       <section>
         <h2 class="text-xl font-semibold text-text">Contact</h2>
         <p class="mt-3">
-          Questions about this policy or our privacy practices:
+          Ryan Werk is the individual accountable for personal information
+          handled under this policy. Questions or privacy requests:
           <a href={`mailto:${contact.email}`} class="text-accent underline-offset-2 hover:underline">{contact.email}</a>.
-          [Counsel: confirm whether a named privacy officer / accountable
-          individual should be designated here per PIPEDA Principle 1.]
         </p>
       </section>
     </div>
