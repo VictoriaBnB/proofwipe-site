@@ -1,38 +1,480 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import CertificateSample from '../components/CertificateSample.astro';
 import { site } from '../data/site.ts';
+import { claims, comparisons, taxonomy, standards } from '../data/claims.ts';
 
-// NOTE: This is a SCAFFOLD placeholder. The full Home page (hero, trust strip,
-// benefits, how-it-works, standards band, certificate visual, comparison, CTA)
-// is built in Step 2.
+/*
+  HOME PAGE.
+  All standards/compliance/comparative copy is pulled from src/data/claims.ts
+  and is flagged for owner sign-off (see CLAIMS-FOR-SIGNOFF.md). Competitors are
+  intentionally NOT named — comparisons are against physical shredding and
+  typical unverified wiping only.
+*/
+
+const trustBadges = [
+  `${standards.nist.name} · Clear & Purge`,
+  standards.cse.name,
+  'Read-back verified',
+  'Tamper-evident certificates',
+  'Offline · no phone-home',
+];
+
+const benefits = [
+  {
+    icon: 'file-check',
+    title: 'Audit-ready proof',
+    body: 'A tamper-evident certificate (HTML + PDF) for every drive, secured by a SHA-256 log hash — the documentation auditors and chain-of-custody need.',
+  },
+  {
+    icon: 'shield-check',
+    title: 'Standards-based methods',
+    body: `Implements the Clear and Purge sanitization categories, mapped to ${standards.nist.name} and ${standards.cse.name}.`,
+  },
+  {
+    icon: 'eye',
+    title: 'Verified, not assumed',
+    body: 'Read-back sampling (1%, 10%, or 100%) confirms the data is actually gone — verification is the point, not an afterthought.',
+  },
+  {
+    icon: 'lock',
+    title: 'Fail-closed safety',
+    body: 'ProofWipe refuses to touch the system or application disk. A drive is wipeable only when it is positively determined to be safe.',
+  },
+  {
+    icon: 'recycle',
+    title: 'Resell, don’t shred',
+    body: 'Recover asset value and divert e-waste: sanitize workstations for resale instead of destroying serviceable hardware.',
+  },
+  {
+    icon: 'wifi-off',
+    title: 'Offline by design',
+    body: 'No phone-home, no telemetry. Runs from a USB stick with offline license keys — nothing leaves the machine.',
+  },
+];
+
+const steps = [
+  {
+    n: '01',
+    title: 'Launch from USB',
+    body: 'Run the portable app on Windows 10/11, or boot the WinPE edition to wipe the system disk itself.',
+  },
+  {
+    n: '02',
+    title: 'Select drives — safely',
+    body: 'Fail-closed protection auto-guards the system and app disks. BitLocker and hidden HPA/DCO areas are detected up front.',
+  },
+  {
+    n: '03',
+    title: 'Arm & sanitize',
+    body: 'Two-step arm, then Clear (overwrite) or Purge (firmware sanitize). Wipe multiple drives in parallel.',
+  },
+  {
+    n: '04',
+    title: 'Verify & certify',
+    body: 'Read-back verification runs, then a tamper-evident certificate is generated — for every outcome, including partial wipes.',
+  },
+];
+
+const featureHighlights = [
+  {
+    icon: 'hard-drive',
+    title: 'Clear vs Purge',
+    body: 'Overwrite user-addressable storage, or invoke the drive’s own firmware sanitize (ATA SANITIZE / Secure Erase, NVMe Sanitize / Format).',
+    href: '/features',
+  },
+  {
+    icon: 'usb',
+    title: 'Bootable WinPE edition',
+    body: 'Wipe the Windows system disk and sealed devices like Surface by booting from ProofWipe media.',
+    href: '/bootable-usb',
+  },
+  {
+    icon: 'layers',
+    title: 'Multi-drive batch',
+    body: 'Sanitize many drives at once with isolated, per-drive sessions, progress, and certificates.',
+    href: '/features',
+  },
+  {
+    icon: 'search',
+    title: 'HPA/DCO detection',
+    body: 'Detects hidden host-protected and device-configuration areas and discloses them on the certificate.',
+    href: '/features',
+  },
+];
+
+// Comparison — factual, competitors NOT named. Flagged for sign-off.
+const compCols = ['Physical shredding', 'Typical unverified wiping', 'ProofWipe'];
+type Cell = 'yes' | 'no' | 'partial';
+const compRows: { label: string; cells: Cell[] }[] = [
+  { label: 'Data rendered unrecoverable', cells: ['yes', 'partial', 'yes'] },
+  { label: 'Read-back verification', cells: ['no', 'no', 'yes'] },
+  { label: 'Tamper-evident certificate', cells: ['partial', 'no', 'yes'] },
+  { label: 'Hardware kept for resale', cells: ['no', 'yes', 'yes'] },
+  { label: 'Diverts e-waste', cells: ['no', 'yes', 'yes'] },
+  { label: 'Standards-based method', cells: ['partial', 'no', 'yes'] },
+];
+const cellMeta: Record<Cell, { icon: string; cls: string; sr: string }> = {
+  yes: { icon: 'check', cls: 'text-success', sr: 'Yes' },
+  no: { icon: 'x', cls: 'text-danger', sr: 'No' },
+  partial: { icon: 'minus', cls: 'text-warning', sr: 'Partial' },
+};
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': 'SoftwareApplication',
   name: site.name,
-  url: site.url,
+  applicationCategory: 'SecurityApplication',
+  operatingSystem: 'Windows 10, Windows 11',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   description: site.description,
+  url: site.url,
 };
 ---
 
-<BaseLayout title={site.name} jsonLd={jsonLd}>
-  <section class="container-page py-24">
-    <p class="text-sm font-medium text-accent">Scaffold ready</p>
-    <h1 class="mt-3 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl">
-      {site.tagline}
-    </h1>
-    <p class="mt-5 max-w-2xl text-lg text-muted">
-      {site.description}
-    </p>
-    <div class="mt-8 flex flex-wrap gap-3">
-      <a href="/download" class="btn btn-primary">Download free</a>
-      <a href="/about#contact" class="btn btn-secondary">Talk to sales</a>
+<BaseLayout title={site.name} canonicalPath="/" jsonLd={jsonLd}>
+  <!-- ===================== HERO ===================== -->
+  <section class="relative overflow-hidden border-b border-border">
+    <!-- subtle accent glow -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute -top-40 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full opacity-25 blur-3xl"
+      style="background: radial-gradient(closest-side, #3E7BFA, transparent 70%);"
+    >
     </div>
 
-    <div class="card mt-12 max-w-2xl p-5 text-sm text-muted">
-      <strong class="text-text">Step 1 scaffold.</strong> Layout, navigation,
-      footer, design tokens, security headers, and the claims data file are in
-      place. The full marketing Home page is built next in Step&nbsp;2.
+    <div class="container-page relative grid gap-14 py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-28">
+      <div>
+        <p class="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted">
+          <Icon name="shield-check" size={14} class="text-accent" />
+          IT asset disposition · {standards.nist.name} Clear &amp; Purge
+        </p>
+        <h1 class="mt-5 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+          Verified disk sanitization<br class="hidden sm:block" /> you can
+          <span class="text-accent"> prove.</span>
+        </h1>
+        <p class="mt-6 max-w-xl text-lg text-muted">
+          ProofWipe securely erases drives so government and business
+          workstations can be <strong class="text-text">resold instead of
+          shredded</strong> — with read-back verification and a tamper-evident
+          certificate for every wipe.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="/download" class="btn btn-primary">
+            Download free <Icon name="arrow-right" size={18} />
+          </a>
+          <a href="/about#contact" class="btn btn-secondary">Talk to sales</a>
+        </div>
+        <p class="mt-6 text-sm text-muted">
+          Windows 10 / 11 · Runs from USB · Requires Administrator ·
+          <span class="text-text">Offline by design</span>
+        </p>
+      </div>
+
+      <!-- Product console mock -->
+      <div class="relative">
+        <div class="card p-4 shadow-2xl sm:p-5">
+          <div class="flex items-center gap-2 border-b border-border pb-3">
+            <span class="h-3 w-3 rounded-full bg-danger/70"></span>
+            <span class="h-3 w-3 rounded-full bg-warning/70"></span>
+            <span class="h-3 w-3 rounded-full bg-success/70"></span>
+            <span class="ml-2 text-xs text-muted">ProofWipe — sanitization console</span>
+          </div>
+
+          <div class="mt-4 space-y-3">
+            <!-- drive row: purging -->
+            <div class="rounded-lg border border-border bg-panel p-3.5">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5">
+                  <Icon name="hard-drive" size={18} class="text-accent" />
+                  <div>
+                    <p class="text-sm font-medium">Samsung SSD 870 EVO</p>
+                    <p class="text-xs text-muted">1 TB · SATA · Data disk</p>
+                  </div>
+                </div>
+                <span class="rounded-full border border-accent/40 bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">
+                  Purge
+                </span>
+              </div>
+              <div class="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-card">
+                <div class="h-full w-[100%] rounded-full bg-success"></div>
+              </div>
+              <div class="mt-2 flex items-center justify-between text-xs text-muted">
+                <span class="flex items-center gap-1 text-success">
+                  <Icon name="check" size={13} /> Read-back verified · 100%
+                </span>
+                <span>Complete</span>
+              </div>
+            </div>
+
+            <!-- drive row: protected -->
+            <div class="flex items-center justify-between gap-3 rounded-lg border border-border bg-panel p-3.5">
+              <div class="flex items-center gap-2.5">
+                <Icon name="hard-drive" size={18} class="text-muted" />
+                <div>
+                  <p class="text-sm font-medium">System disk (C:)</p>
+                  <p class="text-xs text-muted">Protected · cannot be selected</p>
+                </div>
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-xs text-muted">
+                <Icon name="lock" size={12} /> Fail-closed
+              </span>
+            </div>
+
+            <!-- certificate row -->
+            <div class="flex items-center justify-between gap-3 rounded-lg border border-success/30 bg-success/5 p-3.5">
+              <div class="flex items-center gap-2.5">
+                <Icon name="file-check" size={18} class="text-success" />
+                <div>
+                  <p class="text-sm font-medium">Certificate generated</p>
+                  <p class="text-xs text-muted">HTML + PDF · SHA-256 log hash</p>
+                </div>
+              </div>
+              <Icon name="arrow-right" size={16} class="text-muted" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- trust strip -->
+    <div class="border-t border-border bg-panel/60">
+      <div class="container-page flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-5 text-sm text-muted">
+        {
+          trustBadges.map((b) => (
+            <span class="inline-flex items-center gap-2">
+              <Icon name="check" size={15} class="text-success" /> {b}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BENEFITS ===================== -->
+  <section class="container-page py-20 lg:py-24">
+    <div class="max-w-2xl">
+      <p class="text-sm font-semibold text-accent">Why ProofWipe</p>
+      <h2 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+        Built for audit-ready IT asset disposition
+      </h2>
+      <p class="mt-4 text-muted">
+        For ITAD vendors, MSPs, and gov / enterprise teams who need to prove data
+        was destroyed — and keep the hardware’s resale value.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        benefits.map((b) => (
+          <div class="card p-6 transition-colors hover:border-accent/40">
+            <div class="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-panel text-accent">
+              <Icon name={b.icon} size={22} />
+            </div>
+            <h3 class="mt-4 text-lg font-semibold">{b.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{b.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT WORKS ===================== -->
+  <section class="border-y border-border bg-panel/40">
+    <div class="container-page py-20 lg:py-24">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-accent">How it works</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+          From USB stick to signed certificate
+        </h2>
+      </div>
+
+      <ol class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        {
+          steps.map((s) => (
+            <li class="card relative p-6">
+              <span class="font-mono text-sm text-accent">{s.n}</span>
+              <h3 class="mt-3 text-lg font-semibold">{s.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-muted">{s.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURE HIGHLIGHTS ===================== -->
+  <section class="container-page py-20 lg:py-24">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-accent">Capabilities</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+          Two ways to sanitize — one way to prove it
+        </h2>
+      </div>
+      <a href="/features" class="btn btn-secondary text-sm">
+        Explore all features <Icon name="arrow-right" size={16} />
+      </a>
+    </div>
+
+    <div class="mt-12 grid gap-5 sm:grid-cols-2">
+      {
+        featureHighlights.map((f) => (
+          <a
+            href={f.href}
+            class="card group flex items-start gap-4 p-6 transition-colors hover:border-accent/40"
+          >
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-border bg-panel text-accent">
+              <Icon name={f.icon} size={22} />
+            </div>
+            <div>
+              <h3 class="flex items-center gap-1.5 text-lg font-semibold">
+                {f.title}
+                <Icon
+                  name="arrow-right"
+                  size={16}
+                  class="text-muted transition-transform group-hover:translate-x-0.5"
+                />
+              </h3>
+              <p class="mt-2 text-sm leading-relaxed text-muted">{f.body}</p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ===================== STANDARDS BAND ===================== -->
+  <section class="border-y border-border bg-panel/40">
+    <div class="container-page grid gap-10 py-20 lg:grid-cols-2 lg:items-center lg:py-24">
+      <div>
+        <p class="text-sm font-semibold text-accent">Standards &amp; compliance</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+          Grounded in published sanitization standards
+        </h2>
+        <p class="mt-4 text-muted">
+          {/* claim: implementsTaxonomy — needs sign-off */}
+          {claims.implementsTaxonomy.text}
+        </p>
+
+        <dl class="mt-8 space-y-4">
+          <div class="flex gap-3">
+            <dt class="mt-0.5 shrink-0 font-semibold text-text">{taxonomy.clear.term}</dt>
+            <dd class="text-sm text-muted">{taxonomy.clear.short}</dd>
+          </div>
+          <div class="flex gap-3">
+            <dt class="mt-0.5 shrink-0 font-semibold text-text">{taxonomy.purge.term}</dt>
+            <dd class="text-sm text-muted">{taxonomy.purge.short}</dd>
+          </div>
+        </dl>
+
+        <p class="mt-6 flex items-start gap-2 rounded-lg border border-border bg-card p-3 text-xs text-muted">
+          <Icon name="alert-triangle" size={15} class="mt-0.5 shrink-0 text-warning" />
+          {/* claim: notCertified — approved */}
+          {claims.notCertified.text}
+        </p>
+
+        <a href="/standards" class="btn btn-secondary mt-6 text-sm">
+          Read the standards mapping <Icon name="arrow-right" size={16} />
+        </a>
+      </div>
+
+      <CertificateSample />
+    </div>
+  </section>
+
+  <!-- ===================== COMPARISON ===================== -->
+  <section class="container-page py-20 lg:py-24">
+    <div class="max-w-2xl">
+      <p class="text-sm font-semibold text-accent">Why not just shred?</p>
+      <h2 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+        Destroy the data, not the asset
+      </h2>
+      <p class="mt-4 text-muted">
+        {/* claim: vsShredding — needs sign-off */}
+        {comparisons.vsShredding.text}
+      </p>
+    </div>
+
+    <div class="mt-10 overflow-x-auto">
+      <table class="w-full min-w-[40rem] border-collapse text-left">
+        <caption class="sr-only">
+          Comparison of physical shredding, typical unverified wiping, and ProofWipe
+        </caption>
+        <thead>
+          <tr class="border-b border-border">
+            <th scope="col" class="py-3 pr-4 text-sm font-medium text-muted">Capability</th>
+            {
+              compCols.map((c, i) => (
+                <th
+                  scope="col"
+                  class:list={[
+                    'px-4 py-3 text-center text-sm font-semibold',
+                    i === compCols.length - 1 ? 'text-accent' : 'text-text',
+                  ]}
+                >
+                  {c}
+                </th>
+              ))
+            }
+          </tr>
+        </thead>
+        <tbody>
+          {
+            compRows.map((row) => (
+              <tr class="border-b border-border/60">
+                <th scope="row" class="py-3.5 pr-4 text-sm font-normal text-text">
+                  {row.label}
+                </th>
+                {row.cells.map((cell, i) => (
+                  <td
+                    class:list={[
+                      'px-4 py-3.5 text-center',
+                      i === row.cells.length - 1 ? 'bg-accent/5' : '',
+                    ]}
+                  >
+                    <span class:list={['inline-flex', cellMeta[cell].cls]}>
+                      <Icon name={cellMeta[cell].icon} size={18} />
+                      <span class="sr-only">{cellMeta[cell].sr}</span>
+                    </span>
+                  </td>
+                ))}
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-4 text-xs text-muted">
+      <span class="text-success">Yes</span> · <span class="text-warning">Partial / varies</span> ·
+      <span class="text-danger">No</span>. Comparison is against physical
+      destruction and unverified wiping in general — not any specific product.
+    </p>
+  </section>
+
+  <!-- ===================== FINAL CTA ===================== -->
+  <section class="border-t border-border">
+    <div class="container-page py-20 lg:py-24">
+      <div class="card relative overflow-hidden p-10 text-center sm:p-14">
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute -bottom-32 left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full opacity-20 blur-3xl"
+          style="background: radial-gradient(closest-side, #3E7BFA, transparent 70%);"
+        >
+        </div>
+        <h2 class="relative text-3xl font-bold tracking-tight sm:text-4xl">
+          Prove your drives are clean
+        </h2>
+        <p class="relative mx-auto mt-4 max-w-xl text-muted">
+          Start free with NIST Clear on a single drive, or talk to us about Pro,
+          batch, and government / volume licensing.
+        </p>
+        <div class="relative mt-8 flex flex-wrap justify-center gap-3">
+          <a href="/download" class="btn btn-primary">Download free</a>
+          <a href="/about#contact" class="btn btn-secondary">Talk to sales</a>
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>

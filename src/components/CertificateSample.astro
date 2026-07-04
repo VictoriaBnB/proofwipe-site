@@ -1,0 +1,72 @@
+---
+import Icon from './Icon.astro';
+import { standards } from '../data/claims.ts';
+
+/**
+ * ILLUSTRATIVE certificate mock — NOT a real certificate. Field values are
+ * fictional and clearly labelled. Replace with a redacted real sample when the
+ * owner provides one. Standards names come from the gated claims file.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+
+const rows = [
+  { label: 'Certificate ID', value: 'PW-2026-0R7A-4F19-C3E2' },
+  { label: 'Device', value: 'Samsung SSD 870 EVO 1TB' },
+  { label: 'Serial', value: 'S6PTNZ0T4••••••' },
+  { label: 'Method', value: 'Purge — NVMe/ATA firmware sanitize' },
+  { label: 'Verification', value: 'Read-back sampling · 100%' },
+  { label: 'Result', value: 'Success' },
+  { label: 'Operator', value: 'J. Tremblay' },
+  { label: 'Completed', value: '2026-06-18 14:22 UTC' },
+];
+---
+
+<figure class={`card overflow-hidden ${className}`}>
+  <figcaption class="sr-only">Illustrative sample sanitization certificate</figcaption>
+
+  <!-- Header -->
+  <div class="flex items-center justify-between gap-3 border-b border-border bg-panel px-5 py-4">
+    <div class="flex items-center gap-2.5">
+      <img src="/logo.png" alt="" width="28" height="28" class="h-7 w-7 rounded-md" />
+      <div>
+        <p class="text-sm font-semibold leading-tight">Sanitization Certificate</p>
+        <p class="text-xs text-muted">{standards.nist.name} · {standards.cse.name}</p>
+      </div>
+    </div>
+    <span class="inline-flex items-center gap-1.5 rounded-full border border-success/40 bg-success/10 px-2.5 py-1 text-xs font-medium text-success">
+      <Icon name="shield-check" size={14} /> Verified
+    </span>
+  </div>
+
+  <!-- Fields -->
+  <dl class="divide-y divide-border/70 px-5 py-1">
+    {
+      rows.map((r) => (
+        <div class="flex items-baseline justify-between gap-4 py-2">
+          <dt class="text-xs uppercase tracking-wide text-muted">{r.label}</dt>
+          <dd class="text-right text-sm font-medium">{r.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+
+  <!-- Tamper-evidence -->
+  <div class="border-t border-border bg-panel px-5 py-4">
+    <p class="flex items-center gap-1.5 text-xs font-medium text-muted">
+      <Icon name="fingerprint" size={14} class="text-accent" /> SHA-256 log hash
+    </p>
+    <p class="mt-1 break-all font-mono text-[11px] leading-relaxed text-muted/90">
+      9f2c1a7b6e4d0c83a5f1e29d7b4c60a8f3e5d1c927b8a6f40e3d2c1b0a9f8e7d6
+    </p>
+  </div>
+
+  <!-- Illustrative watermark label -->
+  <div class="border-t border-warning/30 bg-warning/10 px-5 py-2">
+    <p class="text-center text-[11px] font-medium uppercase tracking-wider text-warning">
+      Illustrative sample — not a real certificate
+    </p>
+  </div>
+</figure>
