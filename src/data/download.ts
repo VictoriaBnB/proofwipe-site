@@ -1,29 +1,29 @@
 /**
  * Download page data — SINGLE PLACE to update when a release ships.
  *
- * TODO(owner): every field below marked PLACEHOLDER must be replaced with real
- * values before launch. The page renders an explicit "placeholder" notice while
- * `isPlaceholder` is true — flip it to false once the real values are in.
+ * Live values below point at the public proofwipe-releases repo. When cutting a
+ * new release, update `version` + `sha256` (the SHA-256 of the exact exe you
+ * upload) here.
  */
 
 export const download = {
-  /** Set to false once the real release URL + checksum are filled in. */
-  isPlaceholder: true,
+  /** Real release values are wired in; the page shows the live link + checksum. */
+  isPlaceholder: false,
 
-  /** PLACEHOLDER — real GitHub Releases page for the project. */
-  releasesUrl: 'https://github.com/proofwipe/proofwipe/releases', // TODO(owner)
+  /** GitHub Releases page for the project. */
+  releasesUrl: 'https://github.com/VictoriaBnB/proofwipe-releases/releases',
 
-  /** PLACEHOLDER — direct link to the latest release asset. */
+  /** Direct link to the latest release asset. */
   latestAssetUrl:
-    'https://github.com/proofwipe/proofwipe/releases/latest', // TODO(owner)
+    'https://github.com/VictoriaBnB/proofwipe-releases/releases/latest/download/ProofWipe.exe',
 
-  /** PLACEHOLDER — displayed version string. */
-  version: 'v1.1', // TODO(owner): confirm shipped version
+  /** Displayed version string. */
+  version: '1.2.0',
 
   fileName: 'ProofWipe.exe',
 
-  /** PLACEHOLDER — real SHA-256 of the shipped exe. NEVER publish a fake one. */
-  sha256: '', // TODO(owner): paste real checksum; page shows "pending" while empty
+  /** SHA-256 of the shipped exe. NEVER publish a fake one. */
+  sha256: 'b2d4ca1df6667912da67358f72a15d785e7e79cc5f63926efd6d04556d2ce8c6',
 
   requirements: [
     'Windows 10 or Windows 11 (x64)',
