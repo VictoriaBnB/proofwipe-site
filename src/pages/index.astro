@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site.ts';
+
+// NOTE: This is a SCAFFOLD placeholder. The full Home page (hero, trust strip,
+// benefits, how-it-works, standards band, certificate visual, comparison, CTA)
+// is built in Step 2.
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  url: site.url,
+  description: site.description,
+};
+---
+
+<BaseLayout title={site.name} jsonLd={jsonLd}>
+  <section class="container-page py-24">
+    <p class="text-sm font-medium text-accent">Scaffold ready</p>
+    <h1 class="mt-3 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl">
+      {site.tagline}
+    </h1>
+    <p class="mt-5 max-w-2xl text-lg text-muted">
+      {site.description}
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/download" class="btn btn-primary">Download free</a>
+      <a href="/about#contact" class="btn btn-secondary">Talk to sales</a>
+    </div>
+
+    <div class="card mt-12 max-w-2xl p-5 text-sm text-muted">
+      <strong class="text-text">Step 1 scaffold.</strong> Layout, navigation,
+      footer, design tokens, security headers, and the claims data file are in
+      place. The full marketing Home page is built next in Step&nbsp;2.
+    </div>
+  </section>
+</BaseLayout>

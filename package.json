@@ -1,0 +1,20 @@
+{
+  "name": "proofwipe-website",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Marketing website for ProofWipe — verified disk sanitization.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "@tailwindcss/vite": "^4.0.0",
+    "astro": "^7.0.6",
+    "tailwindcss": "^4.0.0"
+  }
+}

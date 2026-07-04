@@ -1,0 +1,94 @@
+---
+import { primaryNav, site } from '../data/site.ts';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-border/80 bg-bg/85 backdrop-blur supports-[backdrop-filter]:bg-bg/70"
+>
+  <nav
+    class="container-page flex h-16 items-center justify-between gap-4"
+    aria-label="Primary"
+  >
+    <a href="/" class="flex items-center gap-2.5 shrink-0" aria-label={`${site.name} home`}>
+      <img
+        src="/logo.png"
+        alt=""
+        width="32"
+        height="32"
+        class="h-8 w-8 rounded-md"
+        loading="eager"
+        decoding="async"
+      />
+      <span class="text-lg font-semibold tracking-tight">{site.name}</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <ul class="hidden items-center gap-1 md:flex">
+      {
+        primaryNav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class:list={[
+                'rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                isActive(item.href)
+                  ? 'text-text'
+                  : 'text-muted hover:text-text',
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="hidden items-center gap-2 md:flex">
+      <a href="/about#contact" class="btn btn-secondary text-sm">Talk to sales</a>
+      <a href="/download" class="btn btn-primary text-sm">Download free</a>
+    </div>
+
+    <!-- Mobile toggle (CSS-only via <details>) -->
+    <details class="relative md:hidden">
+      <summary
+        class="btn btn-secondary list-none px-3 py-2 [&::-webkit-details-marker]:hidden"
+        aria-label="Open menu"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </summary>
+      <div
+        class="card absolute right-0 mt-2 w-56 origin-top-right p-2 shadow-xl bg-panel"
+      >
+        <ul class="flex flex-col">
+          {
+            primaryNav.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                  class:list={[
+                    'block rounded-md px-3 py-2 text-sm',
+                    isActive(item.href) ? 'text-text bg-card' : 'text-muted hover:text-text',
+                  ]}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="mt-2 flex flex-col gap-2 border-t border-border pt-2">
+          <a href="/about#contact" class="btn btn-secondary text-sm">Talk to sales</a>
+          <a href="/download" class="btn btn-primary text-sm">Download free</a>
+        </div>
+      </div>
+    </details>
+  </nav>
+</header>

@@ -1,0 +1,12 @@
+{
+  "name": "ProofWipe",
+  "short_name": "ProofWipe",
+  "description": "Verified disk sanitization you can prove.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#14161A",
+  "theme_color": "#14161A",
+  "icons": [
+    { "src": "/logo.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

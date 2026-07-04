@@ -1,0 +1,27 @@
+# Cloudflare Pages security headers.
+# Applied to every response. Tightened for a data-destruction vendor site:
+# HTTPS-only, no third-party trackers, strict CSP.
+#
+# CSP allowlist rationale:
+#   - script-src / connect-src static.cloudflareinsights.com  -> Cloudflare Web
+#     Analytics beacon (cookieless). Remove if analytics is disabled.
+#   - form-action / connect-src https://formspree.io          -> contact form.
+#   - style-src 'unsafe-inline'                                -> Astro injects
+#     a small amount of inline critical CSS; scoped component styles are files.
+#
+# If you add/remove providers, update this in one place.
+
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  X-DNS-Prefetch-Control: off
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://static.cloudflareinsights.com https://formspree.io; form-action 'self' https://formspree.io; manifest-src 'self'; upgrade-insecure-requests
+
+# Long-cache immutable build assets.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
