@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- *  SINGLE SOURCE OF TRUTH — standards strings & compliance/comparative claims
+ *  SINGLE SOURCE OF TRUTH: standards strings & compliance/comparative claims
  * ============================================================================
  *
  * Every sentence in the site that makes a compliance, standards, or comparative
@@ -31,7 +31,7 @@ export interface Claim {
 }
 
 /* ---------------------------------------------------------------------------
- * Standards vocabulary (names only — no revision numbers).
+ * Standards vocabulary (names only, no revision numbers).
  * ------------------------------------------------------------------------- */
 export const standards = {
   nist: {
@@ -42,17 +42,17 @@ export const standards = {
      * techniques of NIST SP 800-88 Revision N.") and reference
      * `standards.nist.revisionLine` wherever a revision statement belongs.
      */
-    revisionLine: '', // DECISION (owner 2026-07-03): stays fully generic — no revision line.
+    revisionLine: '', // DECISION (owner 2026-07-03): stays fully generic, no revision line.
     // VERIFIED 2026-07-03: no revision-agnostic NIST landing page exists (the
     // generic /pubs/sp/800/88/ URL 404s). Every working deep link is
     // revision-specific and would implicitly signal a revision, so we do NOT
     // hyperlink NIST until the owner decides the revision wording.
-    url: '', // DECISION (owner 2026-07-03): left blank — no NIST link (all deep links are revision-specific).
+    url: '', // DECISION (owner 2026-07-03): left blank, no NIST link (all deep links are revision-specific).
   },
   cse: {
     name: 'CSE ITSP.40.006',
     longName:
-      'Communications Security Establishment (CSE) — IT Media Sanitization',
+      'Communications Security Establishment (CSE): IT Media Sanitization',
     revisionLine: '', // DECISION (owner 2026-07-03): name-only, no version printed.
     // VERIFIED 2026-07-03: current publication on cyber.gc.ca is
     // "ITSP.40.006 v2 IT Media Sanitization" (effective 2017-07-01). Canonical
@@ -79,7 +79,7 @@ export const taxonomy = {
   destroy: {
     term: 'Destroy',
     short:
-      'Physical destruction (shredding, disintegration). ProofWipe is the alternative to Destroy — it enables resale.',
+      'Physical destruction (shredding, disintegration). ProofWipe is the alternative to Destroy: it enables resale.',
   },
 } as const;
 
@@ -97,7 +97,7 @@ export const claims: Record<string, Claim> = {
     id: 'notCertified',
     text: 'ProofWipe implements published sanitization standards. It is not a third-party-certified product.',
     status: 'approved',
-    note: 'Disclaimer — safe to show. Keeps us honest about "implements, not certified".',
+    note: 'Disclaimer, safe to show. Keeps us honest about "implements, not certified".',
   },
   cseAligned: {
     id: 'cseAligned',
@@ -113,7 +113,7 @@ export const claims: Record<string, Claim> = {
   },
   certEveryOutcome: {
     id: 'certEveryOutcome',
-    text: 'A certificate is generated for every outcome — including cancelled or partial wipes.',
+    text: 'A certificate is generated for every outcome, including cancelled or partial wipes.',
     status: 'approved',
     note: 'APPROVED by owner 2026-07-03 (capability copy matches product).',
   },
@@ -125,13 +125,13 @@ export const claims: Record<string, Claim> = {
   },
   offline: {
     id: 'offline',
-    text: 'Offline by design — no phone-home, no telemetry. Licensing uses offline keys.',
+    text: 'Offline by design: no phone-home, no telemetry. Licensing uses offline keys.',
     status: 'approved',
     note: 'APPROVED by owner 2026-07-03 (capability copy matches product).',
   },
   resale: {
     id: 'resale',
-    text: 'Sanitize and resell workstations instead of shredding them — recovering asset value and diverting e-waste.',
+    text: 'Sanitize and resell workstations instead of shredding them, recovering asset value and diverting e-waste.',
     status: 'approved',
     note: 'APPROVED by owner 2026-07-03 (ESG framing approved).',
   },

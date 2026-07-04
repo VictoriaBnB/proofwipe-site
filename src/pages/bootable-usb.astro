@@ -8,13 +8,13 @@ import { claims } from '../data/claims.ts';
 */
 
 const description =
-  'Wipe the Windows system disk itself — and sealed devices like Surface — by booting from ProofWipe media. The same engine, verification, and certificates as the desktop app.';
+  'Wipe the Windows system disk itself, and sealed devices like Surface, by booting from ProofWipe media. The same engine, verification, and certificates as the desktop app.';
 
 const problems = [
   {
     icon: 'lock',
     title: 'The system disk problem',
-    body: 'A running copy of Windows occupies its own disk, so a desktop wiping tool can never sanitize the drive it boots from — ProofWipe’s fail-closed protection forbids it outright. Booting from ProofWipe media removes the host OS from the equation: the internal drive becomes just another target.',
+    body: 'A running copy of Windows occupies its own disk, so a desktop wiping tool can never sanitize the drive it boots from: ProofWipe’s fail-closed protection forbids it outright. Booting from ProofWipe media removes the host OS from the equation: the internal drive becomes just another target.',
   },
   {
     icon: 'hard-drive',
@@ -24,7 +24,7 @@ const problems = [
   {
     icon: 'zap',
     title: 'The USB-bridge problem',
-    body: 'Firmware Purge commands (ATA SANITIZE, NVMe Sanitize) are frequently blocked by USB bridge chips in docks and enclosures. Booted from ProofWipe media, the machine’s native SATA/NVMe controllers talk to the drive directly — unlocking firmware Purge on internal drives.',
+    body: 'Firmware Purge commands (ATA SANITIZE, NVMe Sanitize) are frequently blocked by USB bridge chips in docks and enclosures. Booted from ProofWipe media, the machine’s native SATA/NVMe controllers talk to the drive directly, unlocking firmware Purge on internal drives.',
   },
 ];
 
@@ -32,12 +32,12 @@ const steps = [
   {
     n: '01',
     title: 'Create the stick',
-    body: 'Use the “Create bootable USB” button in the desktop app. It walks you through everything — including fetching the Windows ADK components if they aren’t installed — with a progress UI. No command line.',
+    body: 'Use the “Create bootable USB” button in the desktop app. It walks you through everything, including fetching the Windows ADK components if they aren’t installed, with a progress UI. No command line.',
   },
   {
     n: '02',
     title: 'Boot the target machine',
-    body: 'Plug in the stick and boot from USB. ProofWipe starts in a self-contained WinPE environment — nothing is read from or written to the internal drive by the OS.',
+    body: 'Plug in the stick and boot from USB. ProofWipe starts in a self-contained WinPE environment: nothing is read from or written to the internal drive by the OS.',
   },
   {
     n: '03',
@@ -47,7 +47,7 @@ const steps = [
   {
     n: '04',
     title: 'Take the certificate with you',
-    body: 'Certificates are written to the USB stick itself, so the proof leaves the machine with you — the internal drive holds nothing.',
+    body: 'Certificates are written to the USB stick itself, so the proof leaves the machine with you. The internal drive holds nothing.',
   },
 ];
 
@@ -56,7 +56,7 @@ const sameEngine = [
   'Two-step arming and confirmation before anything destructive',
   'Read-back verification: 1%, 10%, or 100% sampling',
   claims.certEveryOutcome.text,
-  'Fail-closed protection of the boot media itself — the stick you booted from is never a target',
+  'Fail-closed protection of the boot media itself: the stick you booted from is never a target',
 ];
 ---
 
@@ -77,8 +77,8 @@ const sameEngine = [
         Wipe the disk Windows is standing on
       </h1>
       <p class="mt-5 max-w-2xl text-lg text-muted">
-        Boot the machine from ProofWipe media to sanitize the system disk itself
-        — and sealed devices like Surface — with the same engine, verification,
+        Boot the machine from ProofWipe media to sanitize the system disk itself,
+        and sealed devices like Surface, with the same engine, verification,
         and certificates as the desktop app.
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
@@ -120,7 +120,7 @@ const sameEngine = [
         From desktop app to bootable stick
       </h2>
       <p class="mt-4 max-w-2xl text-muted">
-        The desktop app builds the boot media for you — operators never touch a
+        The desktop app builds the boot media for you: operators never touch a
         command line.
       </p>
 
@@ -143,7 +143,7 @@ const sameEngine = [
     <div>
       <p class="text-sm font-semibold text-accent">No compromises</p>
       <h2 id="same-engine" class="mt-2 text-3xl font-bold tracking-tight">
-        The same engine — not a lite version
+        The same engine, not a lite version
       </h2>
       <p class="mt-4 text-muted">
         The boot edition is a different shell around the identical sanitization
@@ -165,14 +165,14 @@ const sameEngine = [
     <div class="card surface-dark p-4 sm:p-5">
       <div class="flex items-center gap-2 border-b border-border pb-3">
         <Icon name="usb" size={16} class="text-accent" />
-        <span class="text-xs text-muted">ProofWipe boot console — WinPE</span>
+        <span class="text-xs text-muted">ProofWipe boot console (WinPE)</span>
       </div>
       <div class="mt-4 space-y-3 font-mono text-[13px] leading-relaxed">
         <p class="text-muted">ProofWipe boot environment ready.</p>
-        <p><span class="text-muted">Target:</span> <span class="text-text">NVMe SSD 512 GB — internal system disk</span></p>
+        <p><span class="text-muted">Target:</span> <span class="text-text">NVMe SSD 512 GB (internal system disk)</span></p>
         <p>
           <span class="text-muted">Method:</span>
-          <span class="text-accent">Purge — NVMe Sanitize</span>
+          <span class="text-accent">Purge (NVMe Sanitize)</span>
           <span class="text-muted">(native controller, no USB bridge)</span>
         </p>
         <p><span class="text-muted">Arming:</span> <span class="text-text">serial confirmed · armed</span></p>
@@ -197,7 +197,7 @@ const sameEngine = [
           <ul class="mt-2 list-disc space-y-1.5 pl-5">
             <li>Building boot media uses Microsoft’s Windows ADK + WinPE add-on; the in-app builder detects them and guides installation if missing.</li>
             <li>The target machine must allow booting from USB (firmware/boot-menu setting; on some managed devices this is administratively controlled).</li>
-            <li>Certificates and logs are stored on the ProofWipe stick — bring it back to the bench to archive or print them.</li>
+            <li>Certificates and logs are stored on the ProofWipe stick. Bring it back to the bench to archive or print them.</li>
           </ul>
         </div>
       </div>
@@ -212,7 +212,7 @@ const sameEngine = [
       </h2>
       <p class="mx-auto mt-4 max-w-xl text-muted">
         Build boot media from the desktop app and take verified sanitization to
-        the hardware — instead of bringing the hardware apart.
+        the hardware, instead of bringing the hardware apart.
       </p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">
         <a href="/download" class="btn btn-primary">Download free</a>

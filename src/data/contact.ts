@@ -1,5 +1,5 @@
 /**
- * Contact form configuration — SINGLE PLACE to wire the form up.
+ * Contact form configuration: SINGLE PLACE to wire the form up.
  *
  * The form posts to Formspree (no backend needed; endpoint is whitelisted in
  * public/_headers CSP under form-action / connect-src). Submissions deliver to
@@ -7,13 +7,13 @@
  *
  * LIVE (2026-07-03): form mvzjdwlp created by owner; endpoint
  * https://formspree.io/f/mvzjdwlp. If the ID is ever cleared, the page falls
- * back to a safe "form not yet wired" state with disabled fields — it will
+ * back to a safe "form not yet wired" state with disabled fields. It will
  * NEVER render a dead POST.
  */
 
 export const contact = {
   /** Formspree form ID (empty = form renders disabled). */
-  formspreeId: 'mvzjdwlp', // live 2026-07-03 — endpoint https://formspree.io/f/mvzjdwlp
+  formspreeId: 'mvzjdwlp', // live 2026-07-03, endpoint https://formspree.io/f/mvzjdwlp
 
   /** Plain-email fallback, always shown next to the form. */
   email: 'proofwipe@gmail.com',

@@ -10,7 +10,7 @@ const SITE = 'https://proofwipe.com';
 // https://astro.build/config
 export default defineConfig({
   site: SITE,
-  // Fully prerendered static site — no SSR adapter. Deployed to Cloudflare as
+  // Fully prerendered static site: no SSR adapter. Deployed to Cloudflare as
   // a Worker serving static assets only (see README); any SESSION/IMAGES
   // bindings on the Worker are Cloudflare runtime defaults, unused by this build.
   output: 'static',

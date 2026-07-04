@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 
 /*
-  PRICING — Free vs Pro. Per owner decision (2026-07-03): NO price numbers in
+  PRICING: Free vs Pro. Per owner decision (2026-07-03): NO price numbers in
   v1. Pro and volume/government licensing both route to "Contact us".
   Tier contents mirror the shipped license gating (LicenseService).
 */
@@ -22,7 +22,7 @@ const rows: { label: string; free: Cell; pro: Cell }[] = [
   { label: 'HPA/DCO hidden-area detection', free: true, pro: true },
   { label: 'BitLocker detection', free: true, pro: true },
   { label: 'Bootable WinPE edition', free: true, pro: true },
-  { label: 'Offline license keys — no phone-home', free: true, pro: true },
+  { label: 'Offline license keys, no phone-home', free: true, pro: true },
 ];
 
 function isBool(c: Cell): c is boolean {
@@ -39,7 +39,7 @@ function isBool(c: Cell): c is boolean {
         Start free. Upgrade when the bench gets busy.
       </h1>
       <p class="mx-auto mt-5 max-w-2xl text-lg text-muted">
-        The Free tier is a complete, honest workflow — not a crippled demo. Pro
+        The Free tier is a complete, honest workflow, not a crippled demo. Pro
         unlocks firmware Purge, full verification, batch, and clean certificates.
       </p>
     </div>
@@ -57,7 +57,7 @@ function isBool(c: Cell): c is boolean {
           <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> NIST Clear (overwrite) sanitization</li>
           <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> 10% read-back verification</li>
           <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Single drive per session</li>
-          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Watermarked HTML certificate — every outcome</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Watermarked HTML certificate (every outcome)</li>
           <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> All safety features: fail-closed protection, two-step arming, HPA/DCO and BitLocker detection</li>
         </ul>
         <a href="/download" class="btn btn-secondary mt-8 w-full">Download free</a>
@@ -73,11 +73,11 @@ function isBool(c: Cell): c is boolean {
         <p class="mt-6 text-4xl font-bold">Contact us</p>
         <ul class="mt-6 flex-1 space-y-3 text-sm text-muted">
           <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Everything in Free, plus:</li>
-          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Firmware Purge — ATA SANITIZE / Secure Erase, NVMe Sanitize / Format</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Firmware Purge: ATA SANITIZE / Secure Erase, NVMe Sanitize / Format</li>
           <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> All verification levels: 1%, 10%, 100%</li>
           <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Multi-drive parallel batch with isolated per-drive sessions</li>
           <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Clean PDF + HTML certificates, no watermark</li>
-          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Offline license key — applied live, no phone-home</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Offline license key, applied live, no phone-home</li>
         </ul>
         <a href="/about#contact" class="btn btn-primary mt-8 w-full">Talk to sales</a>
       </div>
@@ -89,7 +89,7 @@ function isBool(c: Cell): c is boolean {
         <h2 class="font-semibold">Volume &amp; government licensing</h2>
         <p class="mt-1 text-sm text-muted">
           Fleet decommissioning, multi-seat benches, and public-sector
-          procurement — including Canadian public-sector requirements.
+          procurement, including Canadian public-sector requirements.
         </p>
       </div>
       <a href="/about#contact" class="btn btn-secondary shrink-0">Contact us</a>
@@ -150,7 +150,7 @@ function isBool(c: Cell): c is boolean {
       </div>
 
       <p class="mt-6 max-w-2xl text-sm text-muted">
-        Licensing is enforced with offline, signed license keys — no activation
+        Licensing is enforced with offline, signed license keys: no activation
         server, no phone-home. Gated options stay visible in the app, greyed out
         with the reason stated.
       </p>
@@ -162,8 +162,8 @@ function isBool(c: Cell): c is boolean {
     <div class="container-page py-16 text-center lg:py-20">
       <h2 class="text-3xl font-bold tracking-tight">Not sure which tier fits?</h2>
       <p class="mx-auto mt-4 max-w-xl text-muted">
-        Tell us about your bench — drive volumes, media types, and reporting
-        needs — and we’ll point you at the right setup.
+        Tell us about your bench (drive volumes, media types, and reporting
+        needs), and we’ll point you at the right setup.
       </p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">
         <a href="/about#contact" class="btn btn-primary">Talk to sales</a>

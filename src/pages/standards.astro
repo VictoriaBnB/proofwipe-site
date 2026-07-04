@@ -4,7 +4,7 @@ import Icon from '../components/Icon.astro';
 import { claims, taxonomy, standards } from '../data/claims.ts';
 
 /*
-  STANDARDS & COMPLIANCE — educational + SEO page.
+  STANDARDS & COMPLIANCE: educational + SEO page.
 
   RULES (owner-mandated, enforced via src/data/claims.ts):
   - "NIST SP 800-88" is referenced GENERICALLY. No revision number is printed
@@ -28,7 +28,7 @@ const taxonomyCards = [
     term: taxonomy.clear.term,
     short: taxonomy.clear.short,
     detail:
-      'Clear uses logical techniques — typically overwriting every user-addressable location — to protect against simple, non-invasive recovery: file-recovery utilities, undelete tools, casual keyboard attacks. It is generally appropriate when the media stays within an organization’s control or the data is of moderate sensitivity.',
+      'Clear uses logical techniques (typically overwriting every user-addressable location) to protect against simple, non-invasive recovery: file-recovery utilities, undelete tools, casual keyboard attacks. It is generally appropriate when the media stays within an organization’s control or the data is of moderate sensitivity.',
     proofwipe:
       'ProofWipe Clear overwrites the full addressable space with fixed or cryptographically random patterns, handles unwritable sectors by isolating and disclosing them, and then verifies the result by read-back.',
   },
@@ -38,7 +38,7 @@ const taxonomyCards = [
     term: taxonomy.purge.term,
     short: taxonomy.purge.short,
     detail:
-      'Purge applies physical or logical techniques that make recovery infeasible even with state-of-the-art laboratory methods. For modern drives that usually means the device’s own firmware sanitize operations, which can reach cells and reserved areas that host software cannot address — including flash over-provisioning and remapped sectors.',
+      'Purge applies physical or logical techniques that make recovery infeasible even with state-of-the-art laboratory methods. For modern drives that usually means the device’s own firmware sanitize operations, which can reach cells and reserved areas that host software cannot address, including flash over-provisioning and remapped sectors.',
     proofwipe:
       'ProofWipe Purge issues ATA SANITIZE / Secure Erase to SATA drives and Sanitize / Format operations to NVMe drives, detects when a drive genuinely supports them (and says why when it doesn’t), and captures post-sanitize read-back evidence.',
   },
@@ -48,7 +48,7 @@ const taxonomyCards = [
     term: taxonomy.destroy.term,
     short: taxonomy.destroy.short,
     detail:
-      'Destroy renders the media itself unusable — shredding, disintegration, incineration. It is the right choice for damaged media or the very highest sensitivity levels, but it also destroys the asset’s remaining value and creates e-waste.',
+      'Destroy renders the media itself unusable: shredding, disintegration, incineration. It is the right choice for damaged media or the very highest sensitivity levels, but it also destroys the asset’s remaining value and creates e-waste.',
     proofwipe:
       'ProofWipe deliberately does not do this. Its purpose is to make Clear and Purge provable enough that serviceable hardware can be resold instead of destroyed.',
   },
@@ -65,7 +65,7 @@ const mappings = [
   },
   {
     requirement: 'Document the sanitization (who, what, when, how, result)',
-    how: 'Tamper-evident certificate (HTML + PDF) records device identity and serial, method, verification level and outcome, operator, timestamps, arming method, BitLocker status, and hidden-area findings — secured with a SHA-256 log hash.',
+    how: 'Tamper-evident certificate (HTML + PDF) records device identity and serial, method, verification level and outcome, operator, timestamps, arming method, BitLocker status, and hidden-area findings, secured with a SHA-256 log hash.',
   },
   {
     requirement: 'Account for hidden and reserved areas',
@@ -84,7 +84,7 @@ const faqs = [
   },
   {
     q: 'Is software sanitization as good as shredding?',
-    a: 'For most scenarios, a properly executed and verified Purge — or a verified Clear where appropriate — renders the data unrecoverable while keeping the hardware usable. Physical destruction remains appropriate for damaged media or when policy explicitly requires it. The key differences are verification and documentation: ProofWipe proves what was done, which a shredding bin receipt cannot say about the data itself.',
+    a: 'For most scenarios, a properly executed and verified Purge (or a verified Clear where appropriate) renders the data unrecoverable while keeping the hardware usable. Physical destruction remains appropriate for damaged media or when policy explicitly requires it. The key differences are verification and documentation: ProofWipe proves what was done, which a shredding bin receipt cannot say about the data itself.',
   },
   {
     q: 'Why do SSDs need firmware sanitize instead of multi-pass overwrites?',
@@ -121,13 +121,13 @@ const jsonLd = {
         The standards behind provable sanitization
       </h1>
       <p class="mt-5 max-w-2xl text-lg text-muted">
-        {/* claim: implementsTaxonomy — approved */}
+        {/* claim: implementsTaxonomy, approved */}
         {claims.implementsTaxonomy.text} Here’s what those categories mean, where
         they come from, and how ProofWipe maps to them.
       </p>
       <p class="mt-6 inline-flex max-w-2xl items-start gap-2 rounded-lg border border-border bg-card p-3 text-sm text-muted">
         <Icon name="alert-triangle" size={16} class="mt-0.5 shrink-0 text-warning" />
-        {/* claim: notCertified — approved */}
+        {/* claim: notCertified, approved */}
         {claims.notCertified.text}
       </p>
     </div>
@@ -147,8 +147,7 @@ const jsonLd = {
           Guidelines for Media Sanitization · NIST, United States
         </p>
         <p class="mt-4 text-sm leading-relaxed text-muted">
-          The reference framework for media sanitization. It defines the
-          <strong class="text-text">Clear / Purge / Destroy</strong> taxonomy,
+          The reference framework for media sanitization. It defines the <strong class="text-text">Clear / Purge / Destroy</strong> taxonomy,
           guides selecting a category based on data sensitivity and where the
           media goes next, and calls for verification and documentation of the
           result. It is the vocabulary auditors, ITAD downstreams, and security
@@ -165,7 +164,7 @@ const jsonLd = {
           Canada’s guidance on sanitizing IT media, published by the
           Communications Security Establishment’s Canadian Centre for Cyber
           Security. It covers sanitization methods by media type and the
-          record-keeping expected in Government of Canada contexts — the
+          record-keeping expected in Government of Canada contexts, the
           reference point for Canadian public-sector disposition programs.
         </p>
         <a
@@ -185,7 +184,7 @@ const jsonLd = {
     <div class="container-page py-16 lg:py-20">
       <p class="text-sm font-semibold text-accent">The taxonomy</p>
       <h2 id="taxonomy" class="mt-2 text-3xl font-bold tracking-tight">
-        Clear, Purge, Destroy — what each one means
+        Clear, Purge, Destroy: what each one means
       </h2>
 
       <div class="mt-10 space-y-5">
@@ -224,7 +223,7 @@ const jsonLd = {
   <section class="container-page py-16 lg:py-20" aria-labelledby="mapping">
     <p class="text-sm font-semibold text-accent">The mapping</p>
     <h2 id="mapping" class="mt-2 text-3xl font-bold tracking-tight">
-      What the guidance asks for — and what ProofWipe does
+      What the guidance asks for, and what ProofWipe does
     </h2>
     <p class="mt-4 max-w-2xl text-muted">
       Media-sanitization guidance converges on the same operational asks:

@@ -1,6 +1,6 @@
 {
   // ---------------------------------------------------------------------------
-  // Cloudflare Workers — static-assets deployment for the ProofWipe site.
+  // Cloudflare Workers: static-assets deployment for the ProofWipe site.
   //
   // Assets-only Worker (no `main` script): it just serves the built ./dist
   // directory. Workers Builds runs `npm run build` (see dashboard settings in

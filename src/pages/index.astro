@@ -9,7 +9,7 @@ import { claims, comparisons, taxonomy, standards } from '../data/claims.ts';
   HOME PAGE.
   All standards/compliance/comparative copy is pulled from src/data/claims.ts
   and is flagged for owner sign-off (see CLAIMS-FOR-SIGNOFF.md). Competitors are
-  intentionally NOT named — comparisons are against physical shredding and
+  intentionally NOT named. Comparisons are against physical shredding and
   typical unverified wiping only.
 */
 
@@ -25,7 +25,7 @@ const benefits = [
   {
     icon: 'file-check',
     title: 'Audit-ready proof',
-    body: 'A tamper-evident certificate (HTML + PDF) for every drive, secured by a SHA-256 log hash — the documentation auditors and chain-of-custody need.',
+    body: 'A tamper-evident certificate (HTML + PDF) for every drive, secured by a SHA-256 log hash: the documentation auditors and chain-of-custody need.',
   },
   {
     icon: 'shield-check',
@@ -35,7 +35,7 @@ const benefits = [
   {
     icon: 'eye',
     title: 'Verified, not assumed',
-    body: 'Read-back sampling (1%, 10%, or 100%) confirms the data is actually gone — verification is the point, not an afterthought.',
+    body: 'Read-back sampling (1%, 10%, or 100%) confirms the data is actually gone: verification is the point, not an afterthought.',
   },
   {
     icon: 'lock',
@@ -50,7 +50,7 @@ const benefits = [
   {
     icon: 'wifi-off',
     title: 'Offline by design',
-    body: 'No phone-home, no telemetry. Runs from a USB stick with offline license keys — nothing leaves the machine.',
+    body: 'No phone-home, no telemetry. Runs from a USB stick with offline license keys: nothing leaves the machine.',
   },
 ];
 
@@ -62,7 +62,7 @@ const steps = [
   },
   {
     n: '02',
-    title: 'Select drives — safely',
+    title: 'Select drives, safely',
     body: 'Fail-closed protection auto-guards the system and app disks. BitLocker and hidden HPA/DCO areas are detected up front.',
   },
   {
@@ -73,7 +73,7 @@ const steps = [
   {
     n: '04',
     title: 'Verify & certify',
-    body: 'Read-back verification runs, then a tamper-evident certificate is generated — for every outcome, including partial wipes.',
+    body: 'Read-back verification runs, then a tamper-evident certificate is generated: for every outcome, including partial wipes.',
   },
 ];
 
@@ -104,7 +104,7 @@ const featureHighlights = [
   },
 ];
 
-// Comparison — factual, competitors NOT named. Flagged for sign-off.
+// Comparison: factual, competitors NOT named. Flagged for sign-off.
 const compCols = ['Physical shredding', 'Typical unverified wiping', 'ProofWipe'];
 type Cell = 'yes' | 'no' | 'partial';
 const compRows: { label: string; cells: Cell[] }[] = [
@@ -157,7 +157,7 @@ const jsonLd = {
         <p class="mt-6 max-w-xl text-lg text-muted">
           ProofWipe securely erases drives so government and business
           workstations can be <strong class="text-text">resold instead of
-          shredded</strong> — with read-back verification and a tamper-evident
+          shredded</strong>, with read-back verification and a tamper-evident
           certificate for every wipe.
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
@@ -179,7 +179,7 @@ const jsonLd = {
             <span class="h-3 w-3 rounded-full bg-danger/70"></span>
             <span class="h-3 w-3 rounded-full bg-warning/70"></span>
             <span class="h-3 w-3 rounded-full bg-success/70"></span>
-            <span class="ml-2 text-xs text-muted">ProofWipe — sanitization console</span>
+            <span class="ml-2 text-xs text-muted">ProofWipe (sanitization console)</span>
           </div>
 
           <div class="mt-4 space-y-3">
@@ -261,7 +261,7 @@ const jsonLd = {
       </h2>
       <p class="mt-4 text-muted">
         For ITAD vendors, MSPs, and gov / enterprise teams who need to prove data
-        was destroyed — and keep the hardware’s resale value.
+        was destroyed, and keep the hardware’s resale value.
       </p>
     </div>
 
@@ -310,7 +310,7 @@ const jsonLd = {
       <div class="max-w-2xl">
         <p class="text-sm font-semibold text-accent">Capabilities</p>
         <h2 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-          Two ways to sanitize — one way to prove it
+          Two ways to sanitize, one way to prove it
         </h2>
       </div>
       <a href="/features" class="btn btn-secondary text-sm">
@@ -354,7 +354,7 @@ const jsonLd = {
           Grounded in published sanitization standards
         </h2>
         <p class="mt-4 text-muted">
-          {/* claim: implementsTaxonomy — needs sign-off */}
+          {/* claim: implementsTaxonomy, needs sign-off */}
           {claims.implementsTaxonomy.text}
         </p>
 
@@ -371,7 +371,7 @@ const jsonLd = {
 
         <p class="mt-6 flex items-start gap-2 rounded-lg border border-border bg-card p-3 text-xs text-muted">
           <Icon name="alert-triangle" size={15} class="mt-0.5 shrink-0 text-warning" />
-          {/* claim: notCertified — approved */}
+          {/* claim: notCertified, approved */}
           {claims.notCertified.text}
         </p>
 
@@ -392,7 +392,7 @@ const jsonLd = {
         Destroy the data, not the asset
       </h2>
       <p class="mt-4 text-muted">
-        {/* claim: vsShredding — needs sign-off */}
+        {/* claim: vsShredding, needs sign-off */}
         {comparisons.vsShredding.text}
       </p>
     </div>
@@ -449,7 +449,7 @@ const jsonLd = {
     <p class="mt-4 text-xs text-muted">
       <span class="text-success">Yes</span> · <span class="text-warning">Partial / varies</span> ·
       <span class="text-danger">No</span>. Comparison is against physical
-      destruction and unverified wiping in general — not any specific product.
+      destruction and unverified wiping in general, not any specific product.
     </p>
   </section>
 

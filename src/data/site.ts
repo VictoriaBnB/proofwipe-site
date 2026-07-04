@@ -17,7 +17,7 @@ export const site = {
   /** GitHub organisation / repo for the project. */
   github: 'https://github.com/proofwipe', // TODO(signoff): confirm URL
   description:
-    'ProofWipe securely sanitizes disks so government and business workstations can be resold instead of shredded — with read-back verification and tamper-evident certificates for every wipe.',
+    'ProofWipe securely sanitizes disks so government and business workstations can be resold instead of shredded, with read-back verification and tamper-evident certificates for every wipe.',
 } as const;
 
 /** Primary navigation (header). */

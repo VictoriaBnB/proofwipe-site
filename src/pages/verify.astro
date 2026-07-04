@@ -3,13 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 
 /*
-  VERIFY A CERTIFICATE — "coming soon" placeholder for the online validation
+  VERIFY A CERTIFICATE: "coming soon" placeholder for the online validation
   portal (roadmap item; presented as coming soon, NOT live). The mock form is
   intentionally disabled.
 */
 
 const description =
-  'Validate a ProofWipe certificate ID and SHA-256 log hash online — coming soon. Until then, every certificate can be checked manually against its wipe log.';
+  'Validate a ProofWipe certificate ID and SHA-256 log hash online, coming soon. Until then, every certificate can be checked manually against its wipe log.';
 ---
 
 <BaseLayout title="Verify a certificate" description={description}>
@@ -22,8 +22,8 @@ const description =
         Verify a certificate
       </h1>
       <p class="mt-5 max-w-2xl text-lg text-muted">
-        Anyone holding a ProofWipe certificate — an auditor, a buyer, a
-        downstream ITAD partner — will be able to validate its ID and log hash
+        Anyone holding a ProofWipe certificate (an auditor, a buyer, a
+        downstream ITAD partner) will be able to validate its ID and log hash
         here, straight from the certificate itself.
       </p>
     </div>
@@ -33,7 +33,7 @@ const description =
     <!-- Disabled mock form -->
     <div class="card p-8" aria-labelledby="verify-form-heading">
       <h2 id="verify-form-heading" class="font-semibold">Certificate lookup</h2>
-      <p class="mt-1 text-sm text-muted">Preview — not yet operational.</p>
+      <p class="mt-1 text-sm text-muted">Preview: not yet operational.</p>
 
       <div class="mt-6 space-y-5" aria-disabled="true">
         <div>
@@ -57,7 +57,7 @@ const description =
           />
         </div>
         <button type="button" disabled class="btn btn-primary w-full cursor-not-allowed opacity-60">
-          <Icon name="search" size={17} /> Validate — coming soon
+          <Icon name="search" size={17} /> Validate (coming soon)
         </button>
       </div>
 
@@ -78,12 +78,12 @@ const description =
           </li>
           <li class="flex gap-2.5">
             <Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" />
-            The SHA-256 log hash matches the recorded wipe log — proving the
+            The SHA-256 log hash matches the recorded wipe log: proving the
             certificate hasn’t been altered since issuance
           </li>
           <li class="flex gap-2.5">
             <Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" />
-            The outcome on the paper matches the outcome on record — including
+            The outcome on the paper matches the outcome on record, including
             partial or cancelled wipes
           </li>
         </ul>
@@ -98,8 +98,8 @@ const description =
         </p>
         <pre class="mt-3 overflow-x-auto rounded-md border border-border bg-panel p-3 font-mono text-xs text-text"><code>Get-FileHash .\wipe-log.json -Algorithm SHA256</code></pre>
         <p class="mt-3 text-sm leading-relaxed text-muted">
-          If the output matches the hash printed on the certificate, the log —
-          and the outcome it documents — is exactly what ProofWipe recorded.
+          If the output matches the hash printed on the certificate, the log
+          (and the outcome it documents) is exactly what ProofWipe recorded.
         </p>
       </div>
     </div>

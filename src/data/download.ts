@@ -1,5 +1,5 @@
 /**
- * Download page data — SINGLE PLACE to update when a release ships.
+ * Download page data: SINGLE PLACE to update when a release ships.
  *
  * Live values below point at the public proofwipe-releases repo. When cutting a
  * new release, update `version` + `sha256` (the SHA-256 of the exact exe you
@@ -28,7 +28,7 @@ export const download = {
   requirements: [
     'Windows 10 or Windows 11 (x64)',
     'Administrator rights (the app requests elevation on launch)',
-    'No installation — a single portable .exe that runs from a USB stick',
-    'No network connection required — offline by design',
+    'No installation: a single portable .exe that runs from a USB stick',
+    'No network connection required: offline by design',
   ],
 } as const;

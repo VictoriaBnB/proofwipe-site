@@ -3,7 +3,7 @@
 # NOTE ON proofwipe.ca -> proofwipe.com (301):
 #   This file CANNOT perform the cross-domain apex redirect. A Pages _redirects
 #   file only rewrites paths on a domain the Pages project already serves.
-#   The .ca -> .com redirect is configured at the Cloudflare edge instead —
+#   The .ca -> .com redirect is configured at the Cloudflare edge instead:
 #   see website/README.md ("Wiring the two domains"). Use a Redirect Rule:
 #     When incoming host = proofwipe.ca (or www.proofwipe.ca)
 #     Then 301 -> https://proofwipe.com/${path}${query}

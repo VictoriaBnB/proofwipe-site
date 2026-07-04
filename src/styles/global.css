@@ -5,7 +5,7 @@
 
   LIGHT is the default professional surface (white chrome, dark text). The
   "security console" mock and the sample certificate stay dark via `.surface-dark`,
-  which re-declares the tokens to the original dark palette — so nested token
+  which re-declares the tokens to the original dark palette, so nested token
   utilities (bg-card, bg-panel, text-muted, border-border, …) render dark with
   no per-element changes ("light chrome, dark product visuals").
 */

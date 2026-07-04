@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "Marketing website for ProofWipe — verified disk sanitization.",
+  "description": "Marketing website for ProofWipe: verified disk sanitization.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

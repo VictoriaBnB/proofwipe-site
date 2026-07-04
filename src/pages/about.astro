@@ -8,7 +8,7 @@ import { contact, formEndpoint, isFormConfigured } from '../data/contact.ts';
   ABOUT / CONTACT.
   - Contact form posts to Formspree (endpoint whitelisted in the CSP).
     While contact.formspreeId is empty, the form renders DISABLED with a clear
-    "not yet wired" notice — never a dead POST. Plain-email fallback always
+    "not yet wired" notice, never a dead POST. Plain-email fallback always
     shown.
   - Honeypot: Formspree's native `_gotcha` field, visually hidden.
 */
@@ -20,7 +20,7 @@ const values = [
   {
     icon: 'file-check',
     title: 'Proof over promises',
-    body: 'A wipe that can’t be demonstrated might as well not have happened. Verification and tamper-evident documentation aren’t features — they’re the product.',
+    body: 'A wipe that can’t be demonstrated might as well not have happened. Verification and tamper-evident documentation aren’t features: they’re the product.',
   },
   {
     icon: 'lock',
@@ -51,7 +51,7 @@ const values = [
       <p class="mt-5 max-w-2xl text-lg text-muted">
         ProofWipe was built for one gap: organizations shred perfectly good
         workstations because they can’t <em>prove</em> the data is gone.
-        Verified sanitization with audit-ready certificates closes that gap —
+        Verified sanitization with audit-ready certificates closes that gap,
         so IT assets can be resold, redeployed, or donated instead of destroyed.
       </p>
     </div>
@@ -83,12 +83,10 @@ const values = [
         </h2>
         <p class="mt-4 text-muted">
           Pro licensing, volume and government procurement, ITAD partnerships,
-          or questions about the product — we read everything.
+          or questions about the product: we read everything.
         </p>
         <p class="mt-6 text-sm text-muted">
-          Prefer plain email? Write to
-          <a href={`mailto:${contact.email}`} class="text-accent underline-offset-2 hover:underline">{contact.email}</a>
-          — same inbox the form delivers to.
+          Prefer plain email? Write to <a href={`mailto:${contact.email}`} class="text-accent underline-offset-2 hover:underline">{contact.email}</a>, the same inbox the form delivers to.
         </p>
         <div class="card mt-8 p-5 text-sm text-muted">
           <p class="flex items-start gap-2">
@@ -174,11 +172,11 @@ const values = [
               required
               disabled={!isFormConfigured}
               class="mt-1.5 w-full resize-y rounded-lg border border-border bg-panel px-3.5 py-2.5 text-sm placeholder:text-muted/50 disabled:cursor-not-allowed disabled:opacity-60"
-              placeholder="Drive volumes, media types, licensing questions — whatever helps us help you."
+              placeholder="Drive volumes, media types, licensing questions, whatever helps us help you."
             ></textarea>
           </div>
 
-          {/* Honeypot — hidden from humans, discarded by Formspree if filled. */}
+          {/* Honeypot: hidden from humans, discarded by Formspree if filled. */}
           <div class="hidden" aria-hidden="true">
             <label for={contact.honeypotField}>Leave this field empty</label>
             <input
@@ -195,7 +193,7 @@ const values = [
             disabled={!isFormConfigured}
             class="btn btn-primary mt-6 w-full disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isFormConfigured ? 'Send message' : 'Form not yet available — email us instead'}
+            {isFormConfigured ? 'Send message' : 'Form not yet available: email us instead'}
           </button>
         </form>
       </div>

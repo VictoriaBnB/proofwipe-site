@@ -3,7 +3,7 @@ import Icon from './Icon.astro';
 import { standards } from '../data/claims.ts';
 
 /**
- * ILLUSTRATIVE certificate mock — NOT a real certificate. Field values are
+ * ILLUSTRATIVE certificate mock: NOT a real certificate. Field values are
  * fictional and clearly labelled. Replace with a redacted real sample when the
  * owner provides one. Standards names come from the gated claims file.
  */
@@ -16,7 +16,7 @@ const rows = [
   { label: 'Certificate ID', value: 'PW-2026-0R7A-4F19-C3E2' },
   { label: 'Device', value: 'Samsung SSD 870 EVO 1TB' },
   { label: 'Serial', value: 'S6PTNZ0T4••••••' },
-  { label: 'Method', value: 'Purge — NVMe/ATA firmware sanitize' },
+  { label: 'Method', value: 'Purge (NVMe/ATA firmware sanitize)' },
   { label: 'Verification', value: 'Read-back sampling · 100%' },
   { label: 'Result', value: 'Success' },
   { label: 'Operator', value: 'J. Tremblay' },
@@ -66,7 +66,7 @@ const rows = [
   <!-- Illustrative watermark label -->
   <div class="border-t border-warning/30 bg-warning/10 px-5 py-2">
     <p class="text-center text-[11px] font-medium uppercase tracking-wider text-warning">
-      Illustrative sample — not a real certificate
+      Illustrative sample: not a real certificate
     </p>
   </div>
 </figure>

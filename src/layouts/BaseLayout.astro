@@ -44,7 +44,7 @@ const canonical = new URL(
 ).href;
 const ogImageUrl = new URL(ogImage, site.url).href;
 const fullTitle =
-  title === site.name ? `${site.name} — ${site.tagline}` : `${title} · ${site.name}`;
+  title === site.name ? `${site.name}: ${site.tagline}` : `${title} · ${site.name}`;
 ---
 
 <!doctype html>
