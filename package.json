@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "postbuild": "pagefind --site dist && node scripts/check-guards.mjs",
-    "guards": "node scripts/check-guards.mjs"
+    "guards": "node scripts/check-guards.mjs",
+    "test": "node --test scripts/verify-core.test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
