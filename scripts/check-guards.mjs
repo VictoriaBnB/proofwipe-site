@@ -25,7 +25,10 @@ function htmlFiles(dir) {
   const out = [];
   for (const name of readdirSync(dir)) {
     const p = join(dir, name);
-    if (statSync(p).isDirectory()) out.push(...htmlFiles(p));
+    // dist/samples holds APP-GENERATED artifacts (the downloadable sample
+    // certificate). Their wording (e.g. NIST revision text) is governed by the
+    // app's own tests, not the site copy rules — skip them here.
+    if (statSync(p).isDirectory()) { if (name !== 'samples') out.push(...htmlFiles(p)); }
     else if (name.endsWith('.html')) out.push(p);
   }
   return out;
