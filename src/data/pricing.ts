@@ -32,9 +32,9 @@ export const pricing = {
     },
     business: {
       name: 'Business',
-      priceLabel: '$299',
+      priceLabel: '$499',
       cadence: 'one-time',
-      renewalLabel: '$99/yr optional renewal (new versions + support)',
+      renewalLabel: '$199/yr optional renewal (new versions + support)',
       paymentLink:
         import.meta.env.PUBLIC_STRIPE_LINK_BUSINESS ??
         'https://buy.stripe.com/test_PLACEHOLDER_BUSINESS',
