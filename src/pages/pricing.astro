@@ -1,28 +1,40 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
+import { pricing } from '../data/pricing.ts';
 
 /*
-  PRICING: Free vs Pro. Per owner decision (2026-07-03): NO price numbers in
-  v1. Pro and volume/government licensing both route to "Contact us".
-  Tier contents mirror the shipped license gating (LicenseService).
+  PRICING: Free / Pro / Business, Pro most popular. Perpetual licenses (buy
+  once; 12 months of updates included, software works forever). Prices, trial,
+  and refund come from src/data/pricing.ts (mirrors Core PricingConfig).
+
+  Guardrails:
+   - Lead with ProofWipe's OWN value (flat price, unlimited drives, buy once,
+     tamper-evident cert). NO competitor names or pricing anywhere (also
+     enforced by scripts/check-guards.mjs).
+   - Purge-coverage note is factual NIST 800-88 Clear/Purge + read-back only,
+     matching docs/EULA.md — no sufficiency/compliance claim.
+   - Buy buttons -> Payment Links (TEST MODE until Phase 7). Free -> download.
 */
 
 const description =
-  'ProofWipe Free covers NIST Clear with 10% verification on a single drive. Pro unlocks firmware Purge, full verification, multi-drive batch, and clean PDF + HTML certificates. Contact us for Pro and volume or government licensing.';
+  'ProofWipe pricing: a flat price, unlimited drives, and a tamper-evident certificate on every wipe. Free covers NIST 800-88 Clear with 10% verification; Pro adds firmware Purge, full verification, multi-drive batch, and the bootable USB edition; Business adds branded certificates and unlimited technicians at one site.';
 
 type Cell = string | boolean;
-const rows: { label: string; free: Cell; pro: Cell }[] = [
-  { label: 'Sanitization methods', free: 'NIST Clear (overwrite)', pro: 'All methods, including firmware Purge (ATA SANITIZE / Secure Erase, NVMe Sanitize / Format)' },
-  { label: 'Read-back verification', free: '10% sampling', pro: '1%, 10%, or 100% sampling' },
-  { label: 'Drives per session', free: 'Single drive', pro: 'Multi-drive parallel batch' },
-  { label: 'Certificates', free: 'Watermarked HTML', pro: 'Clean PDF + HTML, no watermark' },
-  { label: 'Certificate for every outcome (incl. partial wipes)', free: true, pro: true },
-  { label: 'Fail-closed system-disk protection', free: true, pro: true },
-  { label: 'HPA/DCO hidden-area detection', free: true, pro: true },
-  { label: 'BitLocker detection', free: true, pro: true },
-  { label: 'Bootable WinPE edition', free: true, pro: true },
-  { label: 'Offline license keys, no phone-home', free: true, pro: true },
+const rows: { label: string; free: Cell; pro: Cell; business: Cell }[] = [
+  { label: 'Read-only Drive Audit', free: true, pro: true, business: true },
+  { label: 'NIST 800-88 Clear (overwrite)', free: true, pro: true, business: true },
+  { label: 'Read-back verification', free: '10% sampling', pro: '1% / 10% / 100%', business: '1% / 10% / 100%' },
+  { label: 'NIST 800-88 Purge (firmware sanitize)', free: false, pro: true, business: true },
+  { label: 'Multi-drive parallel batch', free: false, pro: true, business: true },
+  { label: 'Bootable WinPE USB edition', free: false, pro: true, business: true },
+  { label: 'Certificate', free: 'HTML, ProofWipe-marked', pro: 'HTML + PDF, clean', business: 'HTML + PDF, branded' },
+  { label: 'Branded certificate (your logo + company)', free: false, pro: false, business: true },
+  { label: 'Technician seats', free: '1', pro: '1', business: 'Unlimited at one site' },
+  { label: 'Priority support', free: false, pro: false, business: true },
+  { label: 'Tamper-evident SHA-256 log on every certificate', free: true, pro: true, business: true },
+  { label: 'Unlimited drives, no per-drive fee', free: true, pro: true, business: true },
+  { label: 'Offline license keys, no phone-home', free: true, pro: true, business: true },
 ];
 
 function isBool(c: Cell): c is boolean {
@@ -31,84 +43,121 @@ function isBool(c: Cell): c is boolean {
 ---
 
 <BaseLayout title="Pricing" description={description}>
-  <!-- Header -->
+  <!-- Header: lead with ProofWipe's own value -->
   <section class="border-b border-border bg-panel/40">
     <div class="container-page py-16 text-center lg:py-20">
       <p class="text-sm font-semibold text-accent">Pricing</p>
       <h1 class="mx-auto mt-2 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl">
-        Start free. Upgrade when the bench gets busy.
+        One flat price. Unlimited drives. Buy once.
       </h1>
       <p class="mx-auto mt-5 max-w-2xl text-lg text-muted">
-        The Free tier is a complete, honest workflow, not a crippled demo. Pro
-        unlocks firmware Purge, full verification, batch, and clean certificates.
+        No per-drive fees and no metering — wipe one drive or ten thousand for
+        the same price. A purchase includes 12 months of updates, and the
+        software keeps working forever. Every wipe produces a tamper-evident,
+        SHA-256-logged certificate you can verify.
+      </p>
+      <p class="mx-auto mt-4 max-w-2xl text-sm text-muted">
+        Try Pro free for {pricing.trialDays} days, and every paid license has a
+        {' '}{pricing.refundDays}-day money-back window.
       </p>
     </div>
   </section>
 
+  {pricing.isTestMode && (
+    <div class="container-page pt-6">
+      <div class="flex items-start gap-3 rounded-lg border border-warning/40 bg-warning/10 p-4 text-sm">
+        <Icon name="alert-triangle" size={18} class="mt-0.5 shrink-0 text-warning" />
+        <p class="text-muted">
+          <strong class="text-warning">Checkout is in test mode.</strong> The
+          buy buttons use Stripe test links while we finish setup. Purchases are
+          not live yet.
+        </p>
+      </div>
+    </div>
+  )}
+
   <!-- Tier cards -->
   <section class="container-page py-16 lg:py-20">
-    <div class="mx-auto grid max-w-4xl gap-6 lg:grid-cols-2">
+    <div class="mx-auto grid max-w-6xl gap-6 lg:grid-cols-3">
       <!-- Free -->
       <div class="card flex flex-col p-8">
         <h2 class="text-xl font-semibold">Free</h2>
-        <p class="mt-1 text-sm text-muted">For evaluation and occasional single-drive wipes</p>
+        <p class="mt-1 text-sm text-muted">Evaluation and occasional single-drive wipes</p>
         <p class="mt-6 text-4xl font-bold">$0</p>
+        <p class="mt-1 text-sm text-muted">Free forever</p>
         <ul class="mt-6 flex-1 space-y-3 text-sm text-muted">
-          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> NIST Clear (overwrite) sanitization</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> NIST 800-88 Clear (overwrite)</li>
           <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> 10% read-back verification</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Read-only Drive Audit</li>
           <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Single drive per session</li>
-          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Watermarked HTML certificate (every outcome)</li>
-          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> All safety features: fail-closed protection, two-step arming, HPA/DCO and BitLocker detection</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> HTML certificate, ProofWipe-marked (every outcome)</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Tamper-evident SHA-256 log, verifiable on this site</li>
         </ul>
         <a href="/download" class="btn btn-secondary mt-8 w-full">Download free</a>
       </div>
 
-      <!-- Pro -->
-      <div class="card relative flex flex-col border-accent/50 p-8">
-        <span class="absolute -top-3 right-6 rounded-full border border-accent/50 bg-accent/15 px-3 py-1 text-xs font-semibold text-accent">
-          For production benches
+      <!-- Pro (most popular) -->
+      <div class="card relative flex flex-col border-accent/60 p-8 shadow-lg shadow-accent/5">
+        <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full border border-accent/50 bg-accent/15 px-3 py-1 text-xs font-semibold text-accent">
+          Most popular
         </span>
         <h2 class="text-xl font-semibold">Pro</h2>
-        <p class="mt-1 text-sm text-muted">For ITAD vendors, MSPs, and enterprise decommissioning</p>
-        <p class="mt-6 text-4xl font-bold">Contact us</p>
+        <p class="mt-1 text-sm text-muted">ITAD vendors, MSPs, and IT benches</p>
+        <p class="mt-6 text-4xl font-bold">{pricing.tiers.pro.priceLabel}</p>
+        <p class="mt-1 text-sm text-muted">one-time · {pricing.tiers.pro.renewalLabel}</p>
         <ul class="mt-6 flex-1 space-y-3 text-sm text-muted">
           <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Everything in Free, plus:</li>
           <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Firmware Purge: ATA SANITIZE / Secure Erase, NVMe Sanitize / Format</li>
-          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> All verification levels: 1%, 10%, 100%</li>
-          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Multi-drive parallel batch with isolated per-drive sessions</li>
-          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Clean PDF + HTML certificates, no watermark</li>
-          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Offline license key, applied live, no phone-home</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Full verification: 1%, 10%, or 100%</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Multi-drive parallel batch</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Clean PDF + HTML certificates, no mark</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Bootable WinPE USB edition</li>
         </ul>
-        <a href="/about#contact" class="btn btn-primary mt-8 w-full">Talk to sales</a>
+        <a href={pricing.tiers.pro.paymentLink} class="btn btn-primary mt-8 w-full">Buy Pro</a>
+      </div>
+
+      <!-- Business -->
+      <div class="card flex flex-col p-8">
+        <h2 class="text-xl font-semibold">Business</h2>
+        <p class="mt-1 text-sm text-muted">Teams and multi-technician sites</p>
+        <p class="mt-6 text-4xl font-bold">{pricing.tiers.business.priceLabel}</p>
+        <p class="mt-1 text-sm text-muted">one-time · {pricing.tiers.business.renewalLabel}</p>
+        <ul class="mt-6 flex-1 space-y-3 text-sm text-muted">
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Everything in Pro, plus:</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Branded certificates: your company name + logo</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Unlimited technicians at one site</li>
+          <li class="flex gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-success" /> Priority support</li>
+        </ul>
+        <a href={pricing.tiers.business.paymentLink} class="btn btn-secondary mt-8 w-full">Buy Business</a>
+        <p class="mt-3 text-xs text-muted">
+          After checkout we’ll email you to collect your company name and logo,
+          then send your branded license key.
+        </p>
       </div>
     </div>
 
-    <!-- Volume / gov -->
-    <div class="card mx-auto mt-6 flex max-w-4xl flex-col items-start gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <h2 class="font-semibold">Volume &amp; government licensing</h2>
-        <p class="mt-1 text-sm text-muted">
-          Fleet decommissioning, multi-seat benches, and public-sector
-          procurement, including Canadian public-sector requirements.
-        </p>
-      </div>
-      <a href="/about#contact" class="btn btn-secondary shrink-0">Contact us</a>
-    </div>
+    <p class="mx-auto mt-8 max-w-3xl text-center text-sm text-muted">
+      Every tier includes unlimited drives with no per-drive fee, offline signed
+      license keys with no phone-home, fail-closed system-disk protection,
+      two-step arming, HPA/DCO and BitLocker detection, and a certificate for
+      every outcome including partial wipes.
+    </p>
   </section>
 
   <!-- Comparison table -->
   <section class="border-t border-border bg-panel/40">
     <div class="container-page py-16 lg:py-20">
-      <h2 class="text-3xl font-bold tracking-tight">Free vs Pro, in detail</h2>
+      <h2 class="text-3xl font-bold tracking-tight">Compare tiers</h2>
 
       <div class="mt-10 overflow-x-auto">
-        <table class="w-full min-w-[42rem] border-collapse text-left">
-          <caption class="sr-only">Feature comparison between ProofWipe Free and Pro</caption>
+        <table class="w-full min-w-[48rem] border-collapse text-left">
+          <caption class="sr-only">Feature comparison across ProofWipe Free, Pro, and Business</caption>
           <thead>
             <tr class="border-b border-border">
               <th scope="col" class="py-3 pr-4 text-sm font-medium text-muted">Capability</th>
               <th scope="col" class="px-4 py-3 text-center text-sm font-semibold">Free</th>
               <th scope="col" class="px-4 py-3 text-center text-sm font-semibold text-accent">Pro</th>
+              <th scope="col" class="px-4 py-3 text-center text-sm font-semibold">Business</th>
             </tr>
           </thead>
           <tbody>
@@ -118,7 +167,7 @@ function isBool(c: Cell): c is boolean {
                   <th scope="row" class="max-w-md py-3.5 pr-4 text-sm font-normal text-text">
                     {r.label}
                   </th>
-                  {[r.free, r.pro].map((cell, i) => (
+                  {[r.free, r.pro, r.business].map((cell, i) => (
                     <td
                       class:list={[
                         'px-4 py-3.5 text-center text-sm',
@@ -132,7 +181,7 @@ function isBool(c: Cell): c is boolean {
                             <span class="sr-only">Included</span>
                           </span>
                         ) : (
-                          <span class="inline-flex text-danger">
+                          <span class="inline-flex text-muted/50">
                             <Icon name="x" size={18} />
                             <span class="sr-only">Not included</span>
                           </span>
@@ -149,25 +198,40 @@ function isBool(c: Cell): c is boolean {
         </table>
       </div>
 
-      <p class="mt-6 max-w-2xl text-sm text-muted">
-        Licensing is enforced with offline, signed license keys: no activation
-        server, no phone-home. Gated options stay visible in the app, greyed out
-        with the reason stated.
-      </p>
+      <!-- Honest Purge-coverage note (matches docs/EULA.md wording) -->
+      <div class="mt-10 max-w-3xl space-y-3 text-sm text-muted">
+        <p>
+          <strong class="text-text">What the methods are.</strong> ProofWipe
+          implements NIST 800-88 Clear (overwrite) and Purge (firmware sanitize:
+          ATA SANITIZE / Secure Erase, NVMe Sanitize / Format), and verifies the
+          result by reading the media back. A firmware Purge reaches areas an
+          overwrite cannot, such as reallocated sectors; whether a given method
+          fits your data, policies, or obligations is your decision. ProofWipe
+          makes no guarantee that using it satisfies any particular law,
+          regulation, standard, or contract.
+        </p>
+        <p>
+          Certificates and logs are self-generated technical records of what the
+          software did on your machine — not a third-party attestation or legal
+          certification. Licensing is enforced with offline, signed keys: no
+          activation server, no phone-home. Gated options stay visible in the
+          app, greyed out with the reason stated.
+        </p>
+      </div>
     </div>
   </section>
 
-  <!-- FAQ-ish CTA -->
+  <!-- CTA -->
   <section class="border-t border-border">
     <div class="container-page py-16 text-center lg:py-20">
-      <h2 class="text-3xl font-bold tracking-tight">Not sure which tier fits?</h2>
+      <h2 class="text-3xl font-bold tracking-tight">Start free, upgrade when you’re ready</h2>
       <p class="mx-auto mt-4 max-w-xl text-muted">
-        Tell us about your bench (drive volumes, media types, and reporting
-        needs), and we’ll point you at the right setup.
+        The Free tier is a complete, honest workflow — not a crippled demo.
+        Try Pro free for {pricing.trialDays} days from inside the app.
       </p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">
-        <a href="/about#contact" class="btn btn-primary">Talk to sales</a>
-        <a href="/download" class="btn btn-secondary">Try Free first</a>
+        <a href="/download" class="btn btn-secondary">Download free</a>
+        <a href={pricing.tiers.pro.paymentLink} class="btn btn-primary">Buy Pro</a>
       </div>
     </div>
   </section>
