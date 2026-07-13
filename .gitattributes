@@ -1,0 +1,3 @@
+# Sample certificate artifacts: byte-exact (the wipe log hashes to the value
+# on the certificate; ANY eol conversion breaks /verify). Treat as binary.
+public/samples/** -text
