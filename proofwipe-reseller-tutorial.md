@@ -32,7 +32,7 @@ Take the stick to the computer you are selling and plug it into a USB port. Turn
 
 ## Step 3: Confirm you have the right drive
 
-Run Drive Audit first. It is read-only, so it changes nothing, and it shows you the drive's model and its real serial number. Take a second to confirm this is the machine you mean to wipe. This is your measure-twice moment.
+Before it wipes anything, ProofWipe shows you a read-only list of the drives it found. It changes nothing, and it lists each drive's model and real serial number, with the machine's internal drive marked as wipeable and the USB stick you booted from marked as protected. Pick the internal drive, and take a second to confirm the model and serial match the machine in front of you. This is your measure-twice moment.
 
 **[SCREENSHOT: Drive Audit results showing model and serial number]**
 
