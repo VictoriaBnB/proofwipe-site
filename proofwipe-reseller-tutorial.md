@@ -54,9 +54,13 @@ When the wipe finishes, ProofWipe writes a certificate and a matching log to the
 
 **[SCREENSHOT: a finished certificate, "Sanitization Verified"]**
 
-## What to hand the buyer
+## Keep your certificate of destruction
 
-Give the buyer the certificate for each machine, or keep them for your own records, whichever the sale calls for. Either way you now have a clear, verifiable record that each computer left your hands with nothing recoverable on it, sanitized to a recognized standard rather than just "cleaned up."
+For an organization, the certificate is your record that the data was destroyed before the machine left your control, and it is the part auditors, clients, or your own policy will ask about. So it is less about handing something to whoever takes the machine and more about keeping proof for yourself.
+
+Save each certificate and its matching log wherever your organization keeps records: a shared drive, a compliance folder, or a server of your choosing. Name them so you can tie each one back to a machine by serial number or asset tag. If your disposal chain needs it, an ITAD partner, a recycler, or the buyer, you can pass a copy along, but the important copy is the one you keep.
+
+That record is the difference between saying you wiped the machines and being able to show, per device, exactly what was sanitized, by what method, verified, and when.
 
 ## Common questions
 
