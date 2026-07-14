@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+/*
+  NIST 800-88 CLEAR VS PURGE explainer — exact-match URL for the search term.
+
+  COPY verbatim from content/articles/proofwipe-clear-vs-purge.md (owner's
+  voice — do not rewrite). This page adds layout + SEO only. The only edits:
+  typographic quotes and the requested link (closing proofwipe.com ->
+  /download). NOTE: keep {' '} before the inline link — Astro collapses
+  newline-only whitespace.
+*/
+
+const title = 'NIST 800-88 Clear vs Purge: the difference, and which you need';
+const description =
+  'NIST 800-88 Clear vs Purge, explained: Clear overwrites the drive, Purge triggers the drive’s own firmware sanitize to reach the spare areas an overwrite cannot. The difference between Clear and Purge, when to use each, and why SSDs and NVMe drives need Purge.';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: "NIST 800-88 Clear vs Purge: what's the difference, and which do you need?",
+  description,
+  author: { '@type': 'Organization', name: 'ProofWipe' },
+  publisher: { '@type': 'Organization', name: 'ProofWipe', url: 'https://proofwipe.com' },
+  mainEntityOfPage: 'https://proofwipe.com/nist-800-88-clear-vs-purge',
+};
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <article class="container-page py-14 lg:py-20">
+    <div class="mx-auto max-w-3xl">
+      <p class="text-sm font-semibold text-accent">Standards explained</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+        NIST 800-88 Clear vs Purge: what's the difference, and which do you need?
+      </h1>
+
+      <div class="prose-pw mt-8 space-y-5 text-[1.0625rem] leading-relaxed text-muted">
+        <p>
+          If you have looked into wiping drives properly, you have run into NIST 800-88. It is the
+          guideline most organizations point to for sanitizing storage before disposal or reuse,
+          and it defines a few levels of wiping. The two you will actually choose between are Clear
+          and Purge. Here is what each one means in plain terms, and how to pick.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">The three levels, briefly</h2>
+        <p>
+          NIST 800-88 describes three levels of sanitization: Clear, Purge, and Destroy. They step
+          up in how thoroughly the data is removed.
+        </p>
+        <p>
+          Clear removes data using normal write commands, so it cannot be recovered with ordinary
+          software tools. Purge goes further, using stronger methods that also reach areas normal
+          writes cannot, so the data cannot be recovered even in a lab. Destroy is physical,
+          shredding or degaussing the drive so it can never be used again.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Clear: overwrite the drive</h2>
+        <p>
+          Clear works by overwriting the drive's storage, usually with zeros or a pattern, so the
+          old data is written over. It is simple, it works on any drive, and once it is done the
+          data is gone as far as any normal recovery tool is concerned.
+        </p>
+        <p>
+          Its limitation shows up on solid-state drives. SSDs and NVMe drives spread data around
+          for wear-leveling and keep spare, over-provisioned areas that a normal overwrite does
+          not touch, so on flash storage a Clear pass can leave data in places it could not reach.
+          On old spinning hard drives, Clear is thorough. On SSDs, it is a reasonable baseline but
+          not the strongest option.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Purge: let the drive sanitize itself</h2>
+        <p>
+          Purge uses the drive's own built-in sanitize commands, ATA Secure Erase on SATA drives
+          and NVMe Sanitize on NVMe drives, to erase the entire flash, including the spare and
+          reallocated areas an overwrite cannot reach. Because the drive's controller does the
+          work internally, it is both more complete and much faster than overwriting. On a
+          supported NVMe drive a Purge often finishes in a couple of minutes.
+        </p>
+        <p>
+          For SSDs and NVMe, Purge is the right choice. It is the level that actually accounts for
+          how flash storage works.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Destroy: only when the drive is done</h2>
+        <p>
+          Destroy means physically shredding or degaussing the drive. It is the most final option,
+          but it also ends the drive's life, so it kills any resale or reuse value, and it is
+          overkill when a verified Purge has already made the data unrecoverable. Save it for
+          drives that failed, cannot be sanitized, or that policy specifically requires be
+          destroyed.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">So which do you use?</h2>
+        <p>
+          If you are reusing or reselling the drive or the machine, you want Clear or Purge, not
+          Destroy. On a spinning hard drive, Clear is fine. On any SSD or NVMe drive, which is
+          nearly everything now, use Purge. And whichever you use, verify it, read the drive back
+          afterward to confirm the data is actually gone, and keep a record.
+        </p>
+        <p>
+          ProofWipe does both Clear and Purge, picks the right sanitize command for the drive,
+          reads it back to verify, and produces a certificate that states which NIST 800-88 level
+          was used and that it was verified. Get it at{' '}
+          <a href="/download" class="font-medium text-accent hover:underline">proofwipe.com</a>.
+        </p>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

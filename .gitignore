@@ -19,3 +19,6 @@ Thumbs.db
 # Editor
 .vscode/
 .idea/
+
+# Local preview screenshots (visual QA only)
+/preview/
