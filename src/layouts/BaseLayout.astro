@@ -12,6 +12,8 @@ interface Props {
   canonicalPath?: string;
   /** Social share image path under /public. */
   ogImage?: string;
+  /** Open Graph type — 'website' (default) or 'article' for guides/articles. */
+  ogType?: string;
   /** Set true on legal/utility pages to discourage indexing. */
   noindex?: boolean;
   /** Optional JSON-LD object injected into <head>. */
@@ -23,6 +25,7 @@ const {
   description = site.description,
   canonicalPath,
   ogImage = '/og/proofwipe-og.png',
+  ogType = 'website',
   noindex = false,
   jsonLd,
 } = Astro.props;
@@ -70,7 +73,7 @@ const fullTitle =
     <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />

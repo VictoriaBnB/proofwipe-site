@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
 
 /*
   DBAN ALTERNATIVE landing page — exact-match URL for the search term.
@@ -45,7 +46,7 @@ const jsonLd = {
 };
 ---
 
-<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+<BaseLayout title={title} description={description} jsonLd={jsonLd} ogType="article">
   <article class="container-page py-14 lg:py-20">
     <div class="mx-auto max-w-3xl">
       <p class="text-sm font-semibold text-accent">Switching tools</p>
@@ -156,6 +157,8 @@ const jsonLd = {
           <a href="/download" class="font-medium text-accent hover:underline">proofwipe.com</a>.
         </p>
       </div>
+
+      <RelatedLinks links={['/nist-800-88-clear-vs-purge', '/guides/wipe-and-resell-workstations', '/wipe-laptop-soldered-storage']} />
     </div>
   </article>
 </BaseLayout>

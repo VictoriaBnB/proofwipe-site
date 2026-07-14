@@ -1,0 +1,38 @@
+---
+/*
+  "Related reading" block for the foot of an article. Give it an ordered list
+  of hrefs; titles/summaries are resolved from the shared article registry
+  (src/data/articles.ts) so cross-links never drift from the hub. Rendered as
+  a simple titled card list — accessible, no JS, works on touch.
+*/
+import { relatedFor } from '../data/articles.ts';
+
+interface Props {
+  links: string[];
+}
+const { links } = Astro.props;
+const items = relatedFor(links);
+---
+
+{
+  items.length > 0 && (
+    <aside class="not-prose mt-14 border-t border-border pt-8" aria-labelledby="related-heading">
+      <h2 id="related-heading" class="text-sm font-semibold uppercase tracking-wider text-muted">
+        Related reading
+      </h2>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+        {items.map((a) => (
+          <li>
+            <a
+              href={a.href}
+              class="group block h-full rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent/40"
+            >
+              <span class="font-semibold text-text group-hover:text-accent">{a.title}</span>
+              <span class="mt-1 block text-sm leading-relaxed text-muted">{a.summary}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  )
+}

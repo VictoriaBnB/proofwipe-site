@@ -22,8 +22,10 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // Legal/utility pages that don't need to rank.
-      filter: (page) => !page.includes('/404'),
+      // Exclude pages that carry <meta robots=noindex> (404 + the legal
+      // pages) — a sitemap should only list indexable URLs.
+      filter: (page) =>
+        !['/404', '/privacy', '/terms'].some((p) => page.replace(/\/$/, '').endsWith(p)),
     }),
   ],
   vite: {

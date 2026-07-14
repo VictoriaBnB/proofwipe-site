@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { articles } from '../data/articles.ts';
+
+/*
+  RESOURCES HUB — one card per article, driven by the shared registry
+  (src/data/articles.ts) so it can never drift from the Related cross-links or
+  the footer. Linked from the footer Resources list ("All resources").
+*/
+
+const title = 'Resources: guides to securely wiping and reselling drives';
+const description =
+  'ProofWipe guides and explainers: how to wipe and resell workstations, wipe a multi-drive server or RAID, erase soldered laptop storage, NIST 800-88 Clear vs Purge, and a modern DBAN alternative for SSD / NVMe.';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'ProofWipe resources',
+  description,
+  url: 'https://proofwipe.com/resources',
+  hasPart: articles.map((a) => ({
+    '@type': 'Article',
+    headline: a.title,
+    url: new URL(a.href, 'https://proofwipe.com').href,
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <section class="container-page py-14 lg:py-20">
+    <div class="mx-auto max-w-3xl">
+      <p class="text-sm font-semibold text-accent">Resources</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+        Guides to wiping drives the right way
+      </h1>
+      <p class="mt-4 text-lg text-muted">
+        Practical, no-nonsense guides to securely sanitizing drives for disposal or resale —
+        with a verified certificate for every wipe.
+      </p>
+
+      <ul class="mt-10 space-y-4">
+        {
+          articles.map((a) => (
+            <li>
+              <a
+                href={a.href}
+                class="group block rounded-xl border border-border bg-card p-6 transition-colors hover:border-accent/40"
+              >
+                <h2 class="flex items-center gap-1.5 text-lg font-semibold text-text group-hover:text-accent">
+                  {a.title}
+                </h2>
+                <p class="mt-2 text-sm leading-relaxed text-muted">{a.summary}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="mt-12 rounded-xl border border-border bg-panel p-6 text-center">
+        <p class="text-muted">Ready to wipe your own drives?</p>
+        <div class="mt-4 flex flex-wrap justify-center gap-3">
+          <a href="/download" class="btn btn-primary">Download free</a>
+          <a href="/verify" class="btn btn-secondary">Verify a certificate</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
