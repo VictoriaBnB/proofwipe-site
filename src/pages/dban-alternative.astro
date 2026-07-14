@@ -1,0 +1,161 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+/*
+  DBAN ALTERNATIVE landing page — exact-match URL for the search term.
+
+  The COPY comes verbatim from proofwipe-dban-alternative.md (owner's voice —
+  do not rewrite; owner explicitly sanctioned naming DBAN on 2026-07-13, and
+  DBAN is not on the forbidden-competitor list in scripts/check-guards.mjs).
+  This page only supplies layout, table styling and SEO. The only edits are
+  typographic quotes, bolded lead sentences (words unchanged), and the two
+  requested links: proofwipe.com/verify -> /verify, closing proofwipe.com ->
+  /download. NOTE: keep {' '} before inline links — Astro collapses
+  newline-only whitespace (same bug fixed in the reseller guide).
+*/
+
+const title = 'DBAN alternative: securely wipe SSD & NVMe drives';
+const description =
+  "Looking for a DBAN alternative that actually works on SSDs and NVMe drives? DBAN's overwrite cannot reach flash spare areas and leaves no proof. ProofWipe runs NIST 800-88 firmware Purge, verifies the wipe by read-back, and issues a tamper-evident certificate for every drive — booting from USB just like DBAN.";
+
+// Comparison rows — text verbatim from the md table.
+type Row = { label: string; dban: string; pw: string };
+const rows: Row[] = [
+  { label: 'Wipes spinning hard drives', dban: 'Yes', pw: 'Yes' },
+  { label: 'Properly sanitizes SSD / NVMe', dban: 'No', pw: 'Yes, firmware Purge' },
+  { label: 'Reads back to verify the wipe', dban: 'No', pw: 'Yes' },
+  { label: 'Certificate of destruction', dban: 'No', pw: 'Yes, tamper-evident' },
+  { label: 'Still maintained', dban: 'No', pw: 'Yes' },
+  { label: 'Boots from a USB stick', dban: 'Yes', pw: 'Yes' },
+  { label: 'Blocks wiping the wrong drive', dban: 'No', pw: 'Yes' },
+  { label: 'Pricing', dban: 'Free', pw: 'Flat, no per-drive fees' },
+];
+
+const cellClass = (v: string) =>
+  v.startsWith('Yes') ? 'text-success' : v === 'No' ? 'text-danger' : 'text-text';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'The modern DBAN alternative for SSDs and NVMe drives',
+  description,
+  author: { '@type': 'Organization', name: 'ProofWipe' },
+  publisher: { '@type': 'Organization', name: 'ProofWipe', url: 'https://proofwipe.com' },
+  mainEntityOfPage: 'https://proofwipe.com/dban-alternative',
+};
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <article class="container-page py-14 lg:py-20">
+    <div class="mx-auto max-w-3xl">
+      <p class="text-sm font-semibold text-accent">Switching tools</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+        The modern DBAN alternative for SSDs and NVMe drives
+      </h1>
+
+      <div class="prose-pw mt-8 space-y-5 text-[1.0625rem] leading-relaxed text-muted">
+        <p>
+          If you have used DBAN (Darik's Boot and Nuke) to wipe drives before disposal, you know
+          the routine: put it on a USB stick or CD, boot the machine, and let it grind through the
+          disk. It did the job for years on spinning hard drives. The trouble is that DBAN has not
+          had a real update in about a decade, and almost every machine today runs an SSD or an
+          NVMe drive, which DBAN was never built to handle properly. Here is what changed, and
+          what to use instead.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Why DBAN is not enough anymore</h2>
+        <p>
+          <strong class="text-text">It does not properly sanitize SSDs.</strong> DBAN overwrites
+          the drive from the outside, which worked on old spinning disks. Modern SSDs and NVMe
+          drives use wear-leveling and keep spare, over-provisioned areas that an outside
+          overwrite cannot reach, so data can survive a DBAN pass. DBAN's own project warns that
+          it cannot guarantee secure erasure on solid-state drives. Overwriting a flash drive and
+          calling it wiped is a false sense of security.
+        </p>
+        <p>
+          <strong class="text-text">It does not verify anything.</strong> DBAN runs its passes and
+          reports done. It never reads the drive back to confirm the data is actually gone, so you
+          are trusting that it worked with no evidence either way.
+        </p>
+        <p>
+          <strong class="text-text">It leaves you no record.</strong> When DBAN finishes, you have
+          nothing to show for it. No certificate, no serial number, no proof to hand an auditor or
+          keep on file. For a business disposing of client or employee data, &ldquo;we ran
+          DBAN&rdquo; is not a defensible record.
+        </p>
+        <p>
+          <strong class="text-text">It is unmaintained.</strong> The project effectively stopped
+          years ago, and the official site now points serious users to a paid product. A free tool
+          that no longer gets updates is a shaky thing to build your disposal process on.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">What to use instead</h2>
+        <p>
+          ProofWipe is built for the drives you actually have now, and for the record you actually
+          need.
+        </p>
+        <p>
+          <strong class="text-text">It handles SSDs and NVMe the right way.</strong> Alongside a
+          standard overwrite (NIST 800-88 Clear), ProofWipe can trigger the drive's own firmware
+          sanitize command (NIST 800-88 Purge), which erases the entire flash, including the spare
+          areas an outside overwrite cannot reach. On a supported NVMe drive this often finishes
+          in under two minutes, even on a nearly full drive.
+        </p>
+        <p>
+          <strong class="text-text">It proves the drive is clean.</strong> ProofWipe reads the
+          drive back after the wipe and confirms the data is gone, rather than assuming it worked.
+        </p>
+        <p>
+          <strong class="text-text">It gives you a certificate for every drive.</strong> Each wipe
+          produces a certificate listing the drive, its serial number, the method, the
+          verification result, and the date, with a tamper-evident fingerprint. Anyone can check
+          it at{' '}
+          <a href="/verify" class="font-medium text-accent hover:underline">proofwipe.com/verify</a>,
+          right in their browser, nothing uploaded.
+        </p>
+        <p>
+          <strong class="text-text">It boots from a USB stick, just like DBAN.</strong> Build the
+          stick once, carry it machine to machine, and wipe each one's own internal drive, even
+          machines with no working operating system. It also protects the drive it is running
+          from, so you cannot wipe the wrong thing by accident.
+        </p>
+        <p>
+          <strong class="text-text">And it is flat-priced.</strong> No per-drive fees. Wipe as
+          many drives as you like.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">DBAN vs ProofWipe at a glance</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[28rem] border-collapse text-left">
+            <caption class="sr-only">Comparison of DBAN and ProofWipe</caption>
+            <thead>
+              <tr class="border-b border-border">
+                <th scope="col" class="py-3 pr-4 text-sm font-medium text-muted">&nbsp;</th>
+                <th scope="col" class="px-4 py-3 text-center text-sm font-semibold text-text">DBAN</th>
+                <th scope="col" class="px-4 py-3 text-center text-sm font-semibold text-accent">ProofWipe</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr class="border-b border-border/60">
+                  <th scope="row" class="py-3.5 pr-4 text-sm font-normal text-text">{row.label}</th>
+                  <td class:list={['px-4 py-3.5 text-center text-sm', cellClass(row.dban)]}>{row.dban}</td>
+                  <td class:list={['bg-accent/5 px-4 py-3.5 text-center text-sm font-medium', cellClass(row.pw)]}>{row.pw}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Time to move off DBAN</h2>
+        <p>
+          DBAN was a great free tool for its era. But if you are wiping SSDs, need to prove the
+          job was done, or are disposing of equipment for a business, it has aged out of the work.
+          ProofWipe does what DBAN did, on the drives you have now, with the proof you need. Get
+          it at{' '}
+          <a href="/download" class="font-medium text-accent hover:underline">proofwipe.com</a>.
+        </p>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
