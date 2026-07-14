@@ -1,0 +1,78 @@
+---
+/*
+  On-brand teaching diagram for /nist-800-88-clear-vs-purge.
+  Left: Clear overwrites the user-addressable area but cannot reach the spare /
+  over-provisioned flash, where data may remain. Right: Purge (firmware
+  sanitize) clears the entire flash, spare blocks included. Site palette + sans
+  font; pure inline SVG, responsive (viewBox + w-full h-auto).
+*/
+---
+
+<figure class="not-prose my-8">
+  <svg
+    viewBox="0 0 760 372"
+    role="img"
+    aria-label="Comparison of Clear and Purge on a solid-state drive. Clear overwrites only the user-addressable area, leaving the spare and over-provisioned flash blocks where data may remain. Purge triggers the drive's firmware sanitize and clears the entire flash, including the spare blocks."
+    class="mx-auto block h-auto w-full max-w-3xl rounded-xl border border-border bg-card p-2"
+    style="font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;"
+  >
+    <title>Clear overwrites only the user area and misses the spare flash; Purge erases the entire flash</title>
+
+    <!-- ===== LEFT: Clear ===== -->
+    <text x="30" y="38" font-size="19" font-weight="700" fill="#141922">Clear (overwrite)</text>
+    <text x="30" y="60" font-size="13" fill="#5A6472">Reaches the user-addressable area only</text>
+
+    <rect x="30" y="80" width="330" height="196" rx="14" fill="#FFFFFF" stroke="#E4E8EE" stroke-width="1.5" />
+    <text x="52" y="108" font-size="11" font-weight="600" letter-spacing="0.6" fill="#5A6472">SSD / NVMe FLASH</text>
+
+    <!-- user area: wiped -->
+    <rect x="50" y="122" width="206" height="136" rx="10" fill="#EAF1FF" stroke="#3E7BFA" stroke-width="1.5" />
+    <text x="153" y="168" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1E56E6">User area</text>
+    <circle cx="153" cy="196" r="15" fill="#3E7BFA" />
+    <path d="M146 196 l5 5 l9 -11" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="153" y="240" text-anchor="middle" font-size="12" fill="#5A6472">overwritten</text>
+
+    <!-- spare / OP: data may remain -->
+    <rect x="268" y="122" width="76" height="136" rx="10" fill="#FDECEA" stroke="#CD3A3F" stroke-width="1.5" />
+    <text x="306" y="146" text-anchor="middle" font-size="10.5" font-weight="700" fill="#B42318">Spare / OP</text>
+    <g fill="#CD3A3F" opacity="0.85">
+      <rect x="283" y="162" width="46" height="7" rx="2" />
+      <rect x="283" y="176" width="46" height="7" rx="2" />
+      <rect x="283" y="190" width="34" height="7" rx="2" />
+    </g>
+    <text x="306" y="228" text-anchor="middle" font-size="10" fill="#B42318">data may</text>
+    <text x="306" y="241" text-anchor="middle" font-size="10" fill="#B42318">remain</text>
+
+    <!-- ===== RIGHT: Purge ===== -->
+    <text x="410" y="38" font-size="19" font-weight="700" fill="#141922">Purge (firmware sanitize)</text>
+    <text x="410" y="60" font-size="13" fill="#5A6472">Erases the entire flash, spare included</text>
+
+    <rect x="410" y="80" width="330" height="196" rx="14" fill="#FFFFFF" stroke="#E4E8EE" stroke-width="1.5" />
+    <text x="432" y="108" font-size="11" font-weight="600" letter-spacing="0.6" fill="#5A6472">SSD / NVMe FLASH</text>
+
+    <!-- user area: wiped -->
+    <rect x="430" y="122" width="206" height="136" rx="10" fill="#EAF1FF" stroke="#3E7BFA" stroke-width="1.5" />
+    <text x="533" y="168" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1E56E6">User area</text>
+    <circle cx="533" cy="196" r="15" fill="#3E7BFA" />
+    <path d="M526 196 l5 5 l9 -11" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- spare / OP: also wiped -->
+    <rect x="648" y="122" width="76" height="136" rx="10" fill="#EAF1FF" stroke="#3E7BFA" stroke-width="1.5" />
+    <text x="686" y="146" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1E56E6">Spare / OP</text>
+    <circle cx="686" cy="192" r="13" fill="#3E7BFA" />
+    <path d="M680 192 l4.5 4.5 l8 -10" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="686" y="240" text-anchor="middle" font-size="10" fill="#1E56E6">cleared</text>
+
+    <!-- ===== legend ===== -->
+    <g transform="translate(30, 300)">
+      <rect x="0" y="6" width="16" height="16" rx="4" fill="#EAF1FF" stroke="#3E7BFA" stroke-width="1.5" />
+      <text x="24" y="19" font-size="12.5" fill="#5A6472">Wiped, unrecoverable</text>
+      <rect x="210" y="6" width="16" height="16" rx="4" fill="#FDECEA" stroke="#CD3A3F" stroke-width="1.5" />
+      <text x="234" y="19" font-size="12.5" fill="#5A6472">Data may remain</text>
+    </g>
+  </svg>
+  <figcaption class="mt-3 text-center text-sm text-muted">
+    On flash storage, an overwrite (Clear) cannot reach the spare and over-provisioned blocks. A
+    firmware Purge clears the whole drive.
+  </figcaption>
+</figure>

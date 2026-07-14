@@ -1,25 +1,26 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import RelatedLinks from '../components/RelatedLinks.astro';
+import CompareMark from '../components/CompareMark.astro';
 
 /*
-  DBAN ALTERNATIVE landing page — exact-match URL for the search term.
+  DBAN ALTERNATIVE landing page, an exact-match URL for the search term.
 
-  The COPY comes verbatim from content/articles/proofwipe-dban-alternative.md (owner's voice —
+  The COPY comes verbatim from content/articles/proofwipe-dban-alternative.md (owner's voice,
   do not rewrite; owner explicitly sanctioned naming DBAN on 2026-07-13, and
   DBAN is not on the forbidden-competitor list in scripts/check-guards.mjs).
   This page only supplies layout, table styling and SEO. The only edits are
   typographic quotes, bolded lead sentences (words unchanged), and the two
   requested links: proofwipe.com/verify -> /verify, closing proofwipe.com ->
-  /download. NOTE: keep {' '} before inline links — Astro collapses
+  /download. NOTE: keep {' '} before inline links, since Astro collapses
   newline-only whitespace (same bug fixed in the reseller guide).
 */
 
 const title = 'DBAN alternative: securely wipe SSD & NVMe drives';
 const description =
-  "Looking for a DBAN alternative that actually works on SSDs and NVMe drives? DBAN's overwrite cannot reach flash spare areas and leaves no proof. ProofWipe runs NIST 800-88 firmware Purge, verifies the wipe by read-back, and issues a tamper-evident certificate for every drive — booting from USB just like DBAN.";
+  "Looking for a DBAN alternative that actually works on SSDs and NVMe drives? DBAN's overwrite cannot reach flash spare areas and leaves no proof. ProofWipe runs NIST 800-88 firmware Purge, verifies the wipe by read-back, and issues a tamper-evident certificate for every drive, booting from USB just like DBAN.";
 
-// Comparison rows — text verbatim from the md table.
+// Comparison rows: text verbatim from the md table.
 type Row = { label: string; dban: string; pw: string };
 const rows: Row[] = [
   { label: 'Wipes spinning hard drives', dban: 'Yes', pw: 'Yes' },
@@ -31,9 +32,6 @@ const rows: Row[] = [
   { label: 'Blocks wiping the wrong drive', dban: 'No', pw: 'Yes' },
   { label: 'Pricing', dban: 'Free', pw: 'Flat, no per-drive fees' },
 ];
-
-const cellClass = (v: string) =>
-  v.startsWith('Yes') ? 'text-success' : v === 'No' ? 'text-danger' : 'text-text';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -140,8 +138,8 @@ const jsonLd = {
               {rows.map((row) => (
                 <tr class="border-b border-border/60">
                   <th scope="row" class="py-3.5 pr-4 text-sm font-normal text-text">{row.label}</th>
-                  <td class:list={['px-4 py-3.5 text-center text-sm', cellClass(row.dban)]}>{row.dban}</td>
-                  <td class:list={['bg-accent/5 px-4 py-3.5 text-center text-sm font-medium', cellClass(row.pw)]}>{row.pw}</td>
+                  <td class="px-4 py-3.5 text-center"><CompareMark value={row.dban} /></td>
+                  <td class="bg-accent/5 px-4 py-3.5 text-center"><CompareMark value={row.pw} /></td>
                 </tr>
               ))}
             </tbody>

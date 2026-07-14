@@ -1,22 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import RelatedLinks from '../components/RelatedLinks.astro';
+import ServerRaidDiagram from '../components/diagrams/ServerRaidDiagram.astro';
 
 /*
-  WIPE-A-SERVER guide — targets "how to wipe a server" / "securely wipe server
+  WIPE-A-SERVER guide, targets "how to wipe a server" / "securely wipe server
   drives / RAID".
 
-  COPY verbatim from content/articles/proofwipe-wipe-a-server.md (owner's voice
-  — do not rewrite). Layout + SEO only. Edits: typographic quotes, bolded lead
-  sentences (words unchanged), and the two requested links — "our guide to
+  COPY verbatim from content/articles/proofwipe-wipe-a-server.md (owner's voice,
+  do not rewrite). Layout + SEO only. Edits: typographic quotes, bolded lead
+  sentences (words unchanged), and the two requested links, "our guide to
   wiping and reselling workstations" -> /guides/wipe-and-resell-workstations,
-  closing proofwipe.com -> /download. NOTE: keep {' '} before inline links —
+  closing proofwipe.com -> /download. NOTE: keep {' '} before inline links, since
   Astro collapses newline-only whitespace.
 */
 
 const title = 'How to securely wipe a server with multiple drives (RAID included)';
 const description =
-  'How to wipe a server with multiple drives: present each disk individually (break hardware RAID to HBA / pass-through), then batch-wipe SATA / NVMe / SAS drives in Windows or boot the ProofWipe stick to sanitize the server’s own drives — each verified, each with its own certificate.';
+  'How to wipe a server with multiple drives: present each disk individually (break hardware RAID to HBA / pass-through), then batch-wipe SATA / NVMe / SAS drives in Windows or boot the ProofWipe stick to sanitize the server’s own drives, each verified and each with its own certificate.';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -71,6 +72,7 @@ const jsonLd = {
           logical volume wipes the addressable data, but it cannot reach each member drive's spare
           areas, and you end up with a single certificate for the array instead of one per drive.
         </p>
+        <ServerRaidDiagram />
         <p>
           So before you wipe, put the controller into HBA, JBOD, or pass-through mode, or pull the
           drives and attach them directly. Now each physical disk appears on its own, with its real

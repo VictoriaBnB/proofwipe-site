@@ -7,6 +7,8 @@ import { analytics, isAnalyticsEnabled } from '../data/analytics.ts';
 
 interface Props {
   title: string;
+  /** Exact <title>/OG/Twitter title, bypassing the "· ProofWipe" suffix. Opt-in. */
+  titleTag?: string;
   description?: string;
   /** Path-relative canonical (e.g. "/features"). Defaults to current URL. */
   canonicalPath?: string;
@@ -22,6 +24,7 @@ interface Props {
 
 const {
   title,
+  titleTag,
   description = site.description,
   canonicalPath,
   ogImage = '/og/proofwipe-og.png',
@@ -47,7 +50,8 @@ const canonical = new URL(
 ).href;
 const ogImageUrl = new URL(ogImage, site.url).href;
 const fullTitle =
-  title === site.name ? `${site.name}: ${site.tagline}` : `${title} · ${site.name}`;
+  titleTag ??
+  (title === site.name ? `${site.name}: ${site.tagline}` : `${title} · ${site.name}`);
 ---
 
 <!doctype html>
