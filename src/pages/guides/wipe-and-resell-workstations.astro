@@ -27,6 +27,10 @@ const img = (name: string) => `/guides/wipe-and-resell/${name}`;
 
 const faq = [
   {
+    q: 'What USB stick do I need?',
+    a: 'Any stick 2 GB or larger. Make sure there is nothing on it you want to keep, because building the bootable stick writes over everything already on the drive. If the machine you are wiping only has USB-C ports, use a USB-C adapter or a USB-C stick, it works the same way.',
+  },
+  {
     q: 'Do I have to do the machines one at a time?',
     a: 'You reuse the same stick on every machine, so it is one after another, but each one is only a few minutes of your attention.',
   },
@@ -36,7 +40,7 @@ const faq = [
   },
   {
     q: 'How long does each machine take?',
-    a: 'A firmware Purge on a supported drive is often just a couple of minutes. A full overwrite depends on the drive size and takes longer.',
+    a: "A firmware Purge is fast, and it barely depends on how full the drive is. In our testing, 256 GB SSDs, including one that was nearly full, purged in under two minutes each, so a 256 GB drive should come in under three minutes. A full overwrite (Clear) instead scales with the drive's size and takes longer.",
   },
   {
     q: 'Is this good enough for compliance?',
@@ -238,7 +242,7 @@ const jsonLd = {
           When the wipe finishes, ProofWipe writes a certificate and a matching log to the USB
           stick. The certificate names the drive, its serial number, the method, the verification
           result, and the date, and it carries a fingerprint that ties it to the log so neither can
-          be quietly changed. Anyone can check a certificate at
+          be quietly changed. Anyone can check a certificate at{' '}
           <a href="/verify" class="font-medium text-accent hover:underline">proofwipe.com/verify</a>,
           which recomputes that fingerprint right in the browser and confirms it matches. Nothing
           gets uploaded, it all happens on their side.
@@ -288,7 +292,7 @@ const jsonLd = {
         <p>
           Wiping your old workstations properly takes a few minutes each and leaves you with a
           certificate for every one. Your machines go out the door clean, and you have the proof to
-          show for it. Get ProofWipe at
+          show for it. Get ProofWipe at{' '}
           <a href="/download" class="font-medium text-accent hover:underline">proofwipe.com</a>.
         </p>
       </div>

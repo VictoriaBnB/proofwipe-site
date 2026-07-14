@@ -64,11 +64,13 @@ That record is the difference between saying you wiped the machines and being ab
 
 ## Common questions
 
+**What USB stick do I need?** Any stick 2 GB or larger. Make sure there is nothing on it you want to keep, because building the bootable stick writes over everything already on the drive. If the machine you are wiping only has USB-C ports, use a USB-C adapter or a USB-C stick, it works the same way.
+
 **Do I have to do the machines one at a time?** You reuse the same stick on every machine, so it is one after another, but each one is only a few minutes of your attention.
 
 **Does this work on SSDs?** Yes. Solid-state drives are exactly where the firmware Purge method shines, because it reaches areas that a plain overwrite cannot.
 
-**How long does each machine take?** A firmware Purge on a supported drive is often just a couple of minutes. A full overwrite depends on the drive size and takes longer.
+**How long does each machine take?** A firmware Purge is fast, and it barely depends on how full the drive is. In our testing, 256 GB SSDs, including one that was nearly full, purged in under two minutes each, so a 256 GB drive should come in under three minutes. A full overwrite (Clear) instead scales with the drive's size and takes longer.
 
 **Is this good enough for compliance?** ProofWipe implements the NIST 800-88 Clear and Purge methods with read-back verification, which is the recognized standard for media sanitization, and it gives you a documented record of each wipe. Whether that satisfies a specific regulation you are subject to is for you to confirm, but it gives you the standard and the paper trail.
 
