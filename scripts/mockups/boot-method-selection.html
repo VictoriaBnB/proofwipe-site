@@ -1,0 +1,23 @@
+<!doctype html>
+<!-- Boot edition step 4: method + verification menus. Labels verbatim from
+     BootWipeCatalog.MethodChoice.Label / VerificationChoice.Label and the
+     PurgeFlowSupport.PendingValidationNote WipeFlow prints on picking Purge. -->
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="terminal.css"></head>
+<body>
+<pre><span class="wh">Sanitization method:</span>
+<span class="bl">&gt; NVMe Firmware Purge (Sanitize / Format)  ·  NIST 800-88 PURGE, verified-zero  [pending hardware validation]</span>
+  NIST 800-88 Clear (1-pass zeros)
+  Cryptographic Random (1-pass AES-CTR)
+  DoD 5220.22-M 3-pass (Legacy)  [legacy]
+  Back
+
+<span class="ye">Firmware Purge under WinPE is code-complete but PENDING HARDWARE VALIDATION — it inherits the
+desktop's unvalidated sanitize-status encoders. The session fail-closes and read-back-verifies,
+but do not rely on this path until it has been proven on real booted hardware.</span>
+
+<span class="wh">Verification level:</span>
+  1% sampling
+  10% sampling
+<span class="bl">&gt; 100% (full read-back)</span>
+  Back</pre>
+</body></html>
