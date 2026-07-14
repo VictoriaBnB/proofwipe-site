@@ -49,6 +49,12 @@ export const footerNav = [
     ],
   },
   {
+    heading: 'Resources',
+    links: [
+      { label: 'How to wipe & resell workstations', href: '/guides/wipe-and-resell-workstations' },
+    ],
+  },
+  {
     heading: 'Company',
     links: [
       { label: 'About', href: '/about' },
