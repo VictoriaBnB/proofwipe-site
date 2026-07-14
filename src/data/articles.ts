@@ -12,6 +12,12 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    href: '/how-it-works',
+    title: 'How ProofWipe wipes a drive, and proves it',
+    summary:
+      'The exact method: NIST 800-88 Clear or Purge, read-back verification, fail-closed honesty, and a tamper-evident certificate anyone can check. Nothing taken on faith.',
+  },
+  {
     href: '/guides/wipe-and-resell-workstations',
     title: 'How to wipe & resell workstations',
     summary:
@@ -40,6 +46,12 @@ export const articles: Article[] = [
     title: 'DBAN alternative for SSD / NVMe',
     summary:
       'Why DBAN’s overwrite can’t properly sanitize modern flash, leaves no proof, and is unmaintained, and what to use instead.',
+  },
+  {
+    href: '/certificate-of-data-destruction',
+    title: 'What a certificate of data destruction should show',
+    summary:
+      'Drive and serial, method, verification result, date, and a tamper-evident fingerprint. How to tell a real, verifiable certificate from a typed-in template.',
   },
   {
     href: '/pipeda-data-destruction',

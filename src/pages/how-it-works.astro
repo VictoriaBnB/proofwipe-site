@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
+
+/*
+  METHODOLOGY / TRUST page. COPY verbatim from
+  content/articles/proofwipe-how-it-works.md (owner voice, no em dashes).
+  Layout + SEO only. Links: proofwipe.com/verify to /verify, closing
+  proofwipe.com to /download. Keep the {' '} before inline links, since Astro
+  collapses newline-only whitespace.
+*/
+
+const titleTag = 'How ProofWipe Wipes a Drive and Proves It | ProofWipe';
+const description =
+  'Exactly how ProofWipe sanitizes a drive to NIST 800-88, verifies it by reading back, and produces a tamper-evident certificate anyone can check.';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      headline: 'How ProofWipe wipes a drive, and how it proves it',
+      description,
+      author: { '@type': 'Organization', name: 'ProofWipe' },
+      publisher: { '@type': 'Organization', name: 'ProofWipe', url: 'https://proofwipe.com' },
+      mainEntityOfPage: 'https://proofwipe.com/how-it-works',
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'How does ProofWipe verify a wipe worked?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'After the wipe it reads the drive back and checks it is actually clean, rather than reporting success the moment the erase command returns. If the read-back does not pass, it records the wipe as failed, not clean.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What makes the certificate tamper-evident?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'The certificate carries a SHA-256 fingerprint computed over the canonical log of the wipe, so the certificate and log are cryptographically tied. Change either one and the fingerprint no longer matches. Anyone can recompute it at proofwipe.com/verify in their browser.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Can ProofWipe wipe the wrong drive by accident?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'No. It refuses to wipe the drive it is running from, and every wipe is armed in two steps confirming the exact drive by its own identifier before it will start.',
+          },
+        },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  titleTag={titleTag}
+  title="How ProofWipe works"
+  description={description}
+  jsonLd={jsonLd}
+  ogType="article"
+  ogImage="/og/how-it-works.png"
+>
+  <article class="container-page py-14 lg:py-20">
+    <div class="mx-auto max-w-3xl">
+      <p class="text-sm font-semibold text-accent">How it works</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+        How ProofWipe wipes a drive, and how it proves it
+      </h1>
+
+      <div class="prose-pw mt-8 space-y-5 text-[1.0625rem] leading-relaxed text-muted">
+        <p>
+          It is fair to be skeptical of any tool that says &ldquo;trust me, the data is gone.&rdquo;
+          A wipe you cannot check is just a hope. So here is exactly what ProofWipe does when it
+          sanitizes a drive, and exactly how the certificate lets anyone confirm it, with nothing
+          taken on faith.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Two methods, both from NIST 800-88</h2>
+        <p>
+          ProofWipe follows NIST 800-88, the guideline most organizations point to for sanitizing
+          storage. It gives you the two methods that guideline defines for reuse and resale.
+        </p>
+        <p>
+          Clear overwrites the whole drive using normal write commands. It works on any drive, and
+          once it is done the old data cannot be recovered with ordinary software. On a spinning
+          hard drive it is thorough. On solid-state drives it has a known limit, which is why the
+          second method exists.
+        </p>
+        <p>
+          Purge uses the drive's own built-in sanitize command, ATA Secure Erase on SATA drives and
+          NVMe Sanitize on NVMe drives, to erase the entire flash, including the spare and
+          over-provisioned areas that an outside overwrite cannot reach. The drive's controller does
+          the work internally, so it is both more complete and much faster. On a supported NVMe
+          drive it often finishes in a couple of minutes. For any SSD or NVMe drive, this is the
+          method that actually accounts for how flash storage works, and ProofWipe picks the right
+          command for the drive automatically.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">It reads the drive back to verify</h2>
+        <p>
+          This is the part most tools skip. After the wipe, ProofWipe reads the drive back and
+          checks that it is actually clean, rather than reporting success the moment the command
+          returns. If the read-back does not come out the way a sanitized drive should, it does not
+          claim the wipe worked. Verification is the difference between &ldquo;we sent the erase
+          command&rdquo; and &ldquo;we confirmed the data is gone.&rdquo;
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">It fails honestly</h2>
+        <p>
+          ProofWipe is built to never report success it cannot back up. If a drive is disconnected
+          partway through, if a command is refused, or if verification does not pass, it stops and
+          records the wipe as failed rather than clean. A cancelled run is marked as partial, not
+          complete. The whole design is fail-closed: when anything is uncertain, the result is the
+          cautious one, so a certificate that says verified really means verified.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">It protects the drive it runs from</h2>
+        <p>
+          Whether you run the desktop app or boot a machine from the USB stick, ProofWipe will not
+          let you wipe the drive it is currently running from. You cannot erase the wrong thing by
+          accident, and to start any wipe you arm it in two steps, confirming the exact drive by its
+          own identifier. That double check is deliberate. Wiping is irreversible, so the tool makes
+          you point at the right target twice before it will touch it.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">How the certificate proves the job</h2>
+        <p>
+          Every sanitized drive gets its own certificate. It lists the drive, its serial number, the
+          method used, the read-back verification result, and the date and time. Alongside it,
+          ProofWipe writes a matching log of what happened.
+        </p>
+        <p>
+          The certificate carries a tamper-evident fingerprint. It is a SHA-256 hash computed over
+          the canonical log of the wipe, so the certificate and the log are cryptographically tied
+          together. If anyone changed a single character of either one afterward, the fingerprint
+          would no longer match, and the check would fail. That is what makes it evidence rather
+          than a printout.
+        </p>
+        <p>
+          Anyone can verify a certificate at{' '}
+          <a href="/verify" class="font-medium text-accent hover:underline">proofwipe.com/verify</a>.
+          It recomputes the fingerprint right in the browser and confirms it matches the record.
+          Nothing gets uploaded, the whole check happens on their side, so a buyer, an auditor, or a
+          client can confirm a certificate is genuine without sending anything to us or to you.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">What this adds up to</h2>
+        <p>
+          The point of all of it is that you do not have to take the result on trust. The method
+          suits the drive, the wipe is verified by reading it back, the tool refuses to overstate
+          what it did, and the certificate can be independently checked by anyone who holds it. That
+          is what a defensible wipe looks like: not just done, but provably done. See it for
+          yourself at{' '}
+          <a href="/download" class="font-medium text-accent hover:underline">proofwipe.com</a>.
+        </p>
+      </div>
+
+      <RelatedLinks links={['/certificate-of-data-destruction', '/nist-800-88-clear-vs-purge', '/verify']} />
+    </div>
+  </article>
+</BaseLayout>
