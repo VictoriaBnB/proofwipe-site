@@ -52,9 +52,11 @@ export const footerNav = [
     heading: 'Resources',
     links: [
       { label: 'How to wipe & resell workstations', href: '/guides/wipe-and-resell-workstations' },
+      { label: 'How to wipe a server (multi-drive / RAID)', href: '/wipe-a-server' },
       { label: 'Wipe a laptop with soldered storage', href: '/wipe-laptop-soldered-storage' },
       { label: 'NIST 800-88 Clear vs Purge', href: '/nist-800-88-clear-vs-purge' },
       { label: 'DBAN alternative for SSD / NVMe', href: '/dban-alternative' },
+      { label: 'All resources', href: '/resources' },
     ],
   },
   {

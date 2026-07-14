@@ -53,6 +53,9 @@ for (const f of files)
 const allowedCertified = [
   'not a third-party-certified product', // approved disclaimer
   'Is ProofWipe certified',              // FAQ question answered BY the disclaimer
+  // Benign "given a certificate" sense in the wipe-a-server guide's verbatim
+  // owner copy — NOT the third-party-certification claim this rule guards.
+  'sanitized and certified on its own',
 ];
 for (const f of files) {
   const stripped = allowedCertified.reduce((t, a) => t.split(a).join(''), f.text);
