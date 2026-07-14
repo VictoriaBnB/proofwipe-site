@@ -1,0 +1,24 @@
+/*
+  ProofWipe BOOT EDITION mockup stylesheet — the bootable USB edition is a
+  Spectre.Console TUI (src/ProofWipe.Boot: Program.cs renders through
+  SpectreBootUi), NOT the WPF desktop app. These screens are full-bleed
+  console on black: a machine booted into ProofWipe, no window chrome.
+  Colors ~ Windows console (Campbell) mapping of Spectre markup names.
+*/
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; height:100%; }
+body {
+  background:#000000;
+  font-family: Consolas, 'Cascadia Mono', monospace;
+  font-size:16px; line-height:1.42;
+  color:#CCCCCC;
+  padding:26px 30px;
+}
+pre { font-family:inherit; white-space:pre; }
+.cy { color:#3A96DD; }  /* cyan  — headers, boot media rows */
+.ye { color:#C19C00; }  /* yellow — wipeable rows, warnings */
+.gr { color:#767676; }  /* grey  — secondary */
+.wh { color:#F2F2F2; }  /* white — prompt titles */
+.gn { color:#16C60C; }  /* green — success */
+.re { color:#E74856; }  /* red   — final confirmation */
+.bl { color:#3B78FF; }  /* blue  — Spectre selection highlight */

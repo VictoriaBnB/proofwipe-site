@@ -1,0 +1,37 @@
+<!doctype html>
+<!-- Generic OEM one-time boot menu (firmware screen, not ProofWipe UI). -->
+<html><head><meta charset="utf-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:100%; height:100%; }
+  body {
+    background:#000; color:#C8C8C8;
+    font-family: Consolas, 'Cascadia Mono', monospace; font-size:19px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .frame { width:560px; }
+  .box { border:2px solid #8A8FA3; padding:0 0 14px; background:#04060f; }
+  .box .title {
+    text-align:center; padding:10px 0; margin-bottom:10px;
+    border-bottom:1px solid #8A8FA3; color:#E8E8E8; letter-spacing:1px;
+  }
+  .item { padding:7px 22px; white-space:nowrap; }
+  .item.sel { background:#1E56E6; color:#FFFFFF; }
+  .hint { margin-top:16px; color:#7d8290; font-size:15px; text-align:center; line-height:1.7; }
+</style></head>
+<body>
+  <div class="frame">
+    <div class="box">
+      <div class="title">Please select boot device:</div>
+      <div class="item">Windows Boot Manager (Samsung SSD 970 EVO Plus 500GB)</div>
+      <div class="item sel">UEFI: SanDisk Ultra USB 3.0, Partition 1</div>
+      <div class="item">Onboard NIC (IPV4)</div>
+      <div class="item">Onboard NIC (IPV6)</div>
+    </div>
+    <div class="hint">
+      &uarr; and &darr; to move selection<br>
+      ENTER to select boot device<br>
+      ESC to boot using defaults
+    </div>
+  </div>
+</body></html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- Boot edition step 5a: arm -> final confirmation -> wipe running.
+     Strings verbatim from WipeFlow.Arm/ConfirmFinal/RunWipe and the
+     SpectreBootUi.WithProgress description format. -->
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="terminal.css"></head>
+<body>
+<pre><span class="cy">ARM THE WIPE</span>
+<span class="gr">Type the LAST 4 characters of the drive's serial number to arm the wipe.</span>
+<span class="wh">Arming input (blank to cancel):</span> 193H
+<span class="gn">Armed.</span>
+
+<span class="re">FINAL CONFIRMATION — this permanently destroys all data on:</span>
+<span class="re">  Disk 0  Samsung SSD 970 EVO Plus 500GB  500.1 GB  SN S4EVNM0N705193H</span>
+<span class="gr">  Method: NVMe Firmware Purge (Sanitize / Format)    Verification: 100% (full read-back)</span>
+<span class="ye">  Firmware Purge cannot be cancelled once the drive begins erasing.</span>
+<span class="wh">Type ERASE to proceed:</span> ERASE
+
+<span class="gr">Purging… Ctrl+C cancels only BEFORE the firmware command is issued (a certificate is produced
+for every outcome).</span>
+
+Verifying  512 MB/s  ETA 00:00:38  <span class="gn">━━━━━━━━━━━━━━━━━━━━━━━━━╸</span><span class="gr">──────</span>  84% <span class="gn">⠸</span></pre>
+</body></html>

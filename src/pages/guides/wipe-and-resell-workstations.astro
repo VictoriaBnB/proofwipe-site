@@ -1,0 +1,297 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+/*
+  GUIDE: How to securely wipe and resell your old workstations, with no IT team.
+
+  The article COPY comes verbatim from proofwipe-reseller-tutorial.md (owner's
+  voice — do not rewrite). This page only supplies layout, images and SEO.
+
+  Images live in /public/guides/wipe-and-resell/. Step 1 shows the desktop
+  app's Create Bootable USB wizard (WPF mockup, tokens from
+  ProofWipe.App Themes/Theme.xaml). Steps 3–5 show the BOOTABLE EDITION,
+  which is a Spectre.Console TUI (src/ProofWipe.Boot), rendered full-bleed
+  as a machine booted into ProofWipe — mockup sources in scripts/mockups/.
+  certificate.png is a capture of the REAL sample certificate at
+  /samples/sample-certificate.html (placeholder data).
+
+  SEO: targets "wipe computers before selling / IT asset disposition" searches.
+  Article + FAQPage JSON-LD below; FAQ text matches the visible copy exactly.
+*/
+
+const title = 'How to securely wipe and resell your old workstations, with no IT team';
+const description =
+  'Sell, trade in, or hand off old desktops and laptops safely: a step-by-step guide to wiping every drive to the NIST 800-88 standard — with a tamper-evident certificate for every machine — in a few minutes per PC, no IT department required.';
+
+const img = (name: string) => `/guides/wipe-and-resell/${name}`;
+
+const faq = [
+  {
+    q: 'Do I have to do the machines one at a time?',
+    a: 'You reuse the same stick on every machine, so it is one after another, but each one is only a few minutes of your attention.',
+  },
+  {
+    q: 'Does this work on SSDs?',
+    a: 'Yes. Solid-state drives are exactly where the firmware Purge method shines, because it reaches areas that a plain overwrite cannot.',
+  },
+  {
+    q: 'How long does each machine take?',
+    a: 'A firmware Purge on a supported drive is often just a couple of minutes. A full overwrite depends on the drive size and takes longer.',
+  },
+  {
+    q: 'Is this good enough for compliance?',
+    a: 'ProofWipe implements the NIST 800-88 Clear and Purge methods with read-back verification, which is the recognized standard for media sanitization, and it gives you a documented record of each wipe. Whether that satisfies a specific regulation you are subject to is for you to confirm, but it gives you the standard and the paper trail.',
+  },
+  {
+    q: "What if the machine's Windows is broken or the drive is a mess?",
+    a: 'It does not matter. The stick boots the machine on its own, so the computer does not need a working Windows, or even a working drive, to be wiped.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      headline: title,
+      description,
+      image: new URL(img('certificate.png'), 'https://proofwipe.com').href,
+      author: { '@type': 'Organization', name: 'ProofWipe' },
+      publisher: { '@type': 'Organization', name: 'ProofWipe', url: 'https://proofwipe.com' },
+      mainEntityOfPage: 'https://proofwipe.com/guides/wipe-and-resell-workstations',
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faq.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <article class="container-page py-14 lg:py-20">
+    <div class="mx-auto max-w-3xl">
+      <p class="text-sm font-semibold text-accent">Guide</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+        How to securely wipe and resell your old workstations, with no IT team
+      </h1>
+
+      <div class="prose-pw mt-8 space-y-5 text-[1.0625rem] leading-relaxed text-muted">
+        <p>
+          You have a stack of old desktops or laptops to sell, trade in, or hand to a refurbisher.
+          Before any of them leave the building, the data on them has to be gone. Not
+          &ldquo;deleted,&rdquo; not &ldquo;reformatted,&rdquo; actually gone, and ideally with
+          something in writing that proves it. This guide walks you through doing that yourself, in
+          a few minutes per machine, with no IT department and no special training.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Why deleting and reformatting are not enough</h2>
+        <p>
+          When you delete a file or even reformat a drive, the data is not really removed. It is
+          just marked as space that can be reused, and until something writes over it, free
+          recovery tools can pull it back. That means old client files, saved logins, emails, and
+          financial records can still be lifted off a machine you thought was empty. For a
+          business, a drive that walks out the door with recoverable data on it is a real
+          liability, and &ldquo;we deleted everything&rdquo; is not much of a defense.
+        </p>
+        <p>
+          Proper sanitization actually removes the data so it cannot be recovered, and just as
+          importantly, it gives you a record that the job was done.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">What you walk away with</h2>
+        <p>
+          For every machine you wipe, you get a certificate. It lists the exact drive and its
+          serial number, the method used, the read-back verification result, and the date and time.
+          It carries a tamper-evident fingerprint, so if anyone ever altered it, the fingerprint
+          would no longer match. You can hand that certificate to the buyer, keep it in your
+          records, or produce it if a client or auditor ever asks how you disposed of their data.
+          That is the difference between &ldquo;we wiped it&rdquo; and proof that you did.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">What you need</h2>
+        <p>
+          You need three things: any working Windows PC to build the tool, a blank USB stick that
+          is 2&nbsp;GB or larger (building the stick erases it, so use a spare), and ProofWipe.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Step 1: Make the bootable USB stick</h2>
+        <p>
+          On any PC that has ProofWipe installed, plug in your spare USB stick, open Create
+          Bootable USB, and pick the stick from the list. ProofWipe formats it, loads a small
+          self-contained wipe tool onto it, and copies your license across. This takes a couple of
+          minutes. When it is done, you have a reusable &ldquo;wipe stick&rdquo; that you carry
+          from machine to machine.
+        </p>
+        <figure class="my-8">
+          <img
+            src={img('create-bootable-usb.png')}
+            alt="ProofWipe's Create Bootable USB wizard confirming the selected USB stick before erasing it and building the boot media"
+            width="660" height="500" loading="lazy"
+            class="mx-auto rounded-xl border border-border shadow-sm"
+          />
+          <figcaption class="mt-3 text-center text-sm text-muted">
+            The Create Bootable USB wizard with the stick selected.
+          </figcaption>
+        </figure>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Step 2: Start the machine from the stick</h2>
+        <p>
+          Take the stick to the computer you are selling and plug it into a USB port. Turn the
+          machine on, and as it starts, tap the boot menu key. On most computers that is F12,
+          though some use F9, F10, or the Escape key. Pick the USB stick from the menu, and the
+          machine starts up in ProofWipe instead of Windows. This is what lets you wipe the
+          machine's own main drive, the one Windows normally runs from.
+        </p>
+        <figure class="my-8">
+          <img
+            src={img('boot-menu.png')}
+            alt="A one-time firmware boot menu with the UEFI USB stick entry highlighted, ready to boot into ProofWipe"
+            width="1000" height="620" loading="lazy"
+            class="mx-auto rounded-xl border border-border shadow-sm"
+          />
+          <figcaption class="mt-3 text-center text-sm text-muted">
+            The one-time boot menu (F12 on most machines) with the USB stick highlighted.
+          </figcaption>
+        </figure>
+        <blockquote class="rounded-lg border-l-4 border-warning bg-panel p-4 font-medium text-text">
+          Important: this erases everything on that machine's internal drive, and there is no undo.
+          Make sure it is the right computer and that anything you still need has already been
+          saved somewhere else.
+        </blockquote>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Step 3: Confirm you have the right drive</h2>
+        <p>
+          Before it wipes anything, ProofWipe shows you a read-only list of the drives it found.
+          It changes nothing, and it lists each drive's model and real serial number, with the
+          machine's internal drive marked as wipeable and the USB stick you booted from marked as
+          protected. Pick the internal drive, and take a second to confirm the model and serial
+          match the machine in front of you. This is your measure-twice moment.
+        </p>
+        <figure class="my-8">
+          <img
+            src={img('drive-audit.png')}
+            alt="The ProofWipe bootable edition after startup: a read-only drive inventory table with fail-closed protection notes, and the drive selection showing the internal drive's model and serial number while the boot USB itself is protected"
+            width="980" height="570" loading="lazy"
+            class="mx-auto rounded-xl border border-border shadow-sm"
+          />
+          <figcaption class="mt-3 text-center text-sm text-muted">
+            Booted into ProofWipe: the read-only drive list confirms the model and serial number
+            — the stick you booted from is protected and can never be wiped.
+          </figcaption>
+        </figure>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Step 4: Choose how to wipe, and turn on verification</h2>
+        <p>
+          There are two methods, both from the NIST 800-88 standard, which is the recognized
+          guideline for wiping media. Clear overwrites the whole drive and works on any drive.
+          Purge tells the drive's own firmware to sanitize itself, which is the fastest and most
+          thorough option on drives that support it, and it is the right choice for modern
+          solid-state drives. Turn on read-back verification as well, so ProofWipe checks that the
+          data is actually gone afterward, rather than just assuming it worked.
+        </p>
+        <figure class="my-8">
+          <img
+            src={img('method-selection.png')}
+            alt="The bootable edition's sanitization method menu with NVMe Firmware Purge highlighted, and the verification menu set to 100% full read-back"
+            width="1080" height="410" loading="lazy"
+            class="mx-auto rounded-xl border border-border shadow-sm"
+          />
+          <figcaption class="mt-3 text-center text-sm text-muted">
+            Method selection with Purge chosen and full read-back verification on.
+          </figcaption>
+        </figure>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Step 5: Arm it and let it run</h2>
+        <p>
+          To start a wipe you arm it in two steps, confirming the exact drive by its own
+          identifier. That double check is what makes sure the wrong drive can never be erased by
+          accident. Start it, and let it work. A firmware Purge on a supported drive often finishes
+          in a couple of minutes, while a full overwrite takes longer. If a drive is ever
+          disconnected partway through, ProofWipe stops and reports the wipe as failed. It never
+          reports success it cannot back up.
+        </p>
+        <figure class="my-8 space-y-6">
+          <img
+            src={img('wipe-running.png')}
+            alt="Arming the wipe by typing the last characters of the drive's serial number, the final ERASE confirmation naming the exact drive, and the wipe running with a live progress bar"
+            width="1000" height="400" loading="lazy"
+            class="mx-auto rounded-xl border border-border shadow-sm"
+          />
+          <img
+            src={img('wipe-verified.png')}
+            alt="The verified result: SUCCESS — firmware Purge completed and verified, final readable state confirmed as zeros by read-back, with the certificate and tamper-evidence log written to the USB stick"
+            width="1060" height="280" loading="lazy"
+            class="mx-auto rounded-xl border border-border shadow-sm"
+          />
+          <figcaption class="mt-3 text-center text-sm text-muted">
+            The wipe running, then the verified result with its certificate written to the stick.
+          </figcaption>
+        </figure>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Step 6: Your proof</h2>
+        <p>
+          When the wipe finishes, ProofWipe writes a certificate and a matching log to the USB
+          stick. The certificate names the drive, its serial number, the method, the verification
+          result, and the date, and it carries a fingerprint that ties it to the log so neither can
+          be quietly changed. Anyone can check a certificate at
+          <a href="/verify" class="font-medium text-accent hover:underline">proofwipe.com/verify</a>,
+          which recomputes that fingerprint right in the browser and confirms it matches. Nothing
+          gets uploaded, it all happens on their side.
+        </p>
+        <figure class="my-8">
+          <img
+            src={img('certificate.png')}
+            alt="A finished ProofWipe Certificate of Media Sanitization with the green Sanitization Verified banner, drive identity, NIST 800-88 Purge details, verification results and SHA-256 tamper evidence"
+            width="930" height="2090" loading="lazy"
+            class="mx-auto rounded-xl border border-border shadow-sm"
+          />
+          <figcaption class="mt-3 text-center text-sm text-muted">
+            A finished certificate — &ldquo;Sanitization Verified&rdquo; (sample document with placeholder data;
+            <a href="/samples/sample-certificate.html" class="text-accent hover:underline">view the live sample</a>).
+          </figcaption>
+        </figure>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Keep your certificate of destruction</h2>
+        <p>
+          For an organization, the certificate is your record that the data was destroyed before
+          the machine left your control, and it is the part auditors, clients, or your own policy
+          will ask about. So it is less about handing something to whoever takes the machine and
+          more about keeping proof for yourself.
+        </p>
+        <p>
+          Save each certificate and its matching log wherever your organization keeps records: a
+          shared drive, a compliance folder, or a server of your choosing. Name them so you can
+          tie each one back to a machine by serial number or asset tag. If your disposal chain
+          needs it, an ITAD partner, a recycler, or the buyer, you can pass a copy along, but the
+          important copy is the one you keep.
+        </p>
+        <p>
+          That record is the difference between saying you wiped the machines and being able to
+          show, per device, exactly what was sanitized, by what method, verified, and when.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Common questions</h2>
+        <div class="space-y-5">
+          {faq.map((f) => (
+            <p>
+              <strong class="text-text">{f.q}</strong>
+              {' '}{f.a}
+            </p>
+          ))}
+        </div>
+
+        <p>
+          Wiping your old workstations properly takes a few minutes each and leaves you with a
+          certificate for every one. Your machines go out the door clean, and you have the proof to
+          show for it. Get ProofWipe at
+          <a href="/download" class="font-medium text-accent hover:underline">proofwipe.com</a>.
+        </p>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
