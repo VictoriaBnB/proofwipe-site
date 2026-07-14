@@ -56,6 +56,7 @@ export const footerNav = [
       { label: 'Wipe a laptop with soldered storage', href: '/wipe-laptop-soldered-storage' },
       { label: 'NIST 800-88 Clear vs Purge', href: '/nist-800-88-clear-vs-purge' },
       { label: 'DBAN alternative for SSD / NVMe', href: '/dban-alternative' },
+      { label: 'PIPEDA & BC privacy compliance', href: '/pipeda-data-destruction' },
       { label: 'All resources', href: '/resources' },
     ],
   },

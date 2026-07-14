@@ -6,13 +6,13 @@ import RelatedLinks from '../../components/RelatedLinks.astro';
   GUIDE: How to securely wipe and resell your old workstations, with no IT team.
 
   The article COPY comes verbatim from content/articles/proofwipe-reseller-tutorial.md (owner's
-  voice — do not rewrite). This page only supplies layout, images and SEO.
+  voice, do not rewrite). This page only supplies layout, images and SEO.
 
   Images live in /public/guides/wipe-and-resell/. Step 1 shows the desktop
   app's Create Bootable USB wizard (WPF mockup, tokens from
   ProofWipe.App Themes/Theme.xaml). Steps 3–5 show the BOOTABLE EDITION,
   which is a Spectre.Console TUI (src/ProofWipe.Boot), rendered full-bleed
-  as a machine booted into ProofWipe — mockup sources in scripts/mockups/.
+  as a machine booted into ProofWipe; mockup sources in scripts/mockups/.
   certificate.png is a capture of the REAL sample certificate at
   /samples/sample-certificate.html (placeholder data).
 
@@ -22,7 +22,7 @@ import RelatedLinks from '../../components/RelatedLinks.astro';
 
 const title = 'How to securely wipe and resell your old workstations, with no IT team';
 const description =
-  'Sell, trade in, or hand off old desktops and laptops safely: a step-by-step guide to wiping every drive to the NIST 800-88 standard — with a tamper-evident certificate for every machine — in a few minutes per PC, no IT department required.';
+  'Sell, trade in, or hand off old desktops and laptops safely: a step-by-step guide to wiping every drive to the NIST 800-88 standard, with a tamper-evident certificate for every machine, in a few minutes per PC, no IT department required.';
 
 const img = (name: string) => `/guides/wipe-and-resell/${name}`;
 
@@ -234,8 +234,8 @@ const jsonLd = {
             class="mx-auto rounded-xl border border-border shadow-sm"
           />
           <figcaption class="mt-3 text-center text-sm text-muted">
-            Booted into ProofWipe: the read-only drive list confirms the model and serial number
-            — the stick you booted from is protected and can never be wiped.
+            Booted into ProofWipe: the read-only drive list confirms the model and serial number.
+            The stick you booted from is protected and can never be wiped.
           </figcaption>
         </figure>
 
@@ -278,7 +278,7 @@ const jsonLd = {
           />
           <img
             src={img('wipe-verified.png')}
-            alt="The verified result: SUCCESS — firmware Purge completed and verified, final readable state confirmed as zeros by read-back, with the certificate and tamper-evidence log written to the USB stick"
+            alt="The verified result: SUCCESS, firmware Purge completed and verified, final readable state confirmed as zeros by read-back, with the certificate and tamper-evidence log written to the USB stick"
             width="1060" height="280" loading="lazy"
             class="mx-auto rounded-xl border border-border shadow-sm"
           />
@@ -305,7 +305,7 @@ const jsonLd = {
             class="mx-auto rounded-xl border border-border shadow-sm"
           />
           <figcaption class="mt-3 text-center text-sm text-muted">
-            A finished certificate — &ldquo;Sanitization Verified&rdquo; (sample document with placeholder data;
+            A finished certificate reading &ldquo;Sanitization Verified&rdquo; (sample document with placeholder data;
             <a href="/samples/sample-certificate.html" class="text-accent hover:underline">view the live sample</a>).
           </figcaption>
         </figure>

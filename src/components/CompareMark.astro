@@ -1,0 +1,43 @@
+---
+/*
+  A comparison-table cell mark: an on-brand check (green) for a "Yes…" value, a
+  cross (red) for "No", or plain text for a neutral value (e.g. pricing). The
+  exact value text is always kept beneath the mark for accessibility.
+*/
+interface Props {
+  value: string;
+}
+const { value } = Astro.props;
+const kind = value.startsWith('Yes') ? 'yes' : value === 'No' ? 'no' : 'neutral';
+---
+
+<span class="inline-flex flex-col items-center gap-1.5">
+  {
+    kind === 'yes' && (
+      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" class="shrink-0">
+        <circle cx="11" cy="11" r="11" fill="#158048" />
+        <path
+          d="M6 11.3 l3.2 3.2 L16 7.6"
+          fill="none"
+          stroke="#fff"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    )
+  }
+  {
+    kind === 'no' && (
+      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" class="shrink-0">
+        <circle cx="11" cy="11" r="11" fill="#CD3A3F" />
+        <path d="M7.3 7.3 l7.4 7.4 M14.7 7.3 l-7.4 7.4" stroke="#fff" stroke-width="2.2" stroke-linecap="round" />
+      </svg>
+    )
+  }
+  <span
+    class:list={[
+      'text-sm',
+      kind === 'yes' ? 'text-success' : kind === 'no' ? 'text-danger' : 'text-text',
+    ]}>{value}</span>
+</span>

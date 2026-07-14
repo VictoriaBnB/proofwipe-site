@@ -1,21 +1,22 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import RelatedLinks from '../components/RelatedLinks.astro';
+import SolderedFlowDiagram from '../components/diagrams/SolderedFlowDiagram.astro';
 
 /*
-  SOLDERED-STORAGE landing page — targets "wipe laptop soldered SSD" / "erase
+  SOLDERED-STORAGE landing page, targets "wipe laptop soldered SSD" / "erase
   soldered storage".
 
   COPY verbatim from content/articles/proofwipe-soldered-storage.md (owner's
-  voice — do not rewrite). Layout + SEO only. Edits: typographic quotes and the
-  two requested links — closing proofwipe.com -> /download, and "our guide to
+  voice, do not rewrite). Layout + SEO only. Edits: typographic quotes and the
+  two requested links: closing proofwipe.com -> /download, and "our guide to
   wiping and reselling workstations" -> /guides/wipe-and-resell-workstations.
-  NOTE: keep {' '} before inline links — Astro collapses newline-only whitespace.
+  NOTE: keep {' '} before inline links, since Astro collapses newline-only whitespace.
 */
 
 const title = 'How to wipe a laptop with soldered SSD / storage';
 const description =
-  'Can’t remove the drive? Here’s how to securely wipe a laptop with soldered storage — Surface and modern ultrabooks included — in place, with no disassembly. Boot from USB and run a verified NIST 800-88 firmware Purge on the soldered SSD, with a certificate to prove it.';
+  'Can’t remove the drive? Here’s how to securely wipe a laptop with soldered storage (Surface and modern ultrabooks included) in place, with no disassembly. Boot from USB and run a verified NIST 800-88 firmware Purge on the soldered SSD, with a certificate to prove it.';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -62,6 +63,7 @@ const jsonLd = {
           You do not need to remove soldered storage to securely erase it. You sanitize it right
           where it sits, using the drive's own firmware, and you get a record proving it was done.
         </p>
+        <SolderedFlowDiagram />
         <p>
           The approach is the same one you would use to wipe any machine's own drive. Build a
           bootable USB stick with a wiping tool. Boot the laptop from the stick instead of its

@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
+import PipedaFlowDiagram from '../components/diagrams/PipedaFlowDiagram.astro';
+
+/*
+  PIPEDA / BC privacy compliance article, targets "PIPEDA drive disposal",
+  "FOIPPA drive sanitization", "wipe drives for privacy compliance".
+
+  COPY verbatim from content/articles/proofwipe-pipeda-privacy.md (owner's
+  voice, references real privacy law, do NOT rewrite, do not add em dashes, do
+  not strengthen or weaken the "not legal advice" language). Layout + SEO only.
+  Edits: the three requested links. Keep {' '} before inline links, since Astro
+  collapses newline-only whitespace.
+*/
+
+const titleTag = 'PIPEDA and BC Privacy: Securely Wiping Drives for Compliance | ProofWipe';
+const description =
+  'How PIPEDA, BC FOIPPA, and privacy impact assessments treat drive disposal, and how a verified NIST 800-88 wipe with a certificate supports secure destruction obligations.';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      headline: 'Wiping drives to meet PIPEDA and BC privacy rules',
+      description,
+      author: { '@type': 'Organization', name: 'ProofWipe' },
+      publisher: { '@type': 'Organization', name: 'ProofWipe', url: 'https://proofwipe.com' },
+      mainEntityOfPage: 'https://proofwipe.com/pipeda-data-destruction',
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Does PIPEDA require me to wipe drives before disposal?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'PIPEDA Principle 4.5 says personal information must be destroyed, erased, or made anonymous when it is no longer needed, and Principle 4.7 requires safeguards through disposal. So yes, when a drive holds personal information you no longer need, you are expected to actually remove it, not just retire the machine.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What does BC FOIPPA say about disposing of drives?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'FOIPPA section 30 requires public bodies to make reasonable security arrangements to protect personal information, including against unauthorized disposal, and section 31 covers retention. A verified wipe with a record is how you show that arrangement was made.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Does a wipe certificate help with a PIA or STRA?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes. A per-drive certificate stating the drive, method, verification result, and date turns "drives are securely wiped at end of life" from a statement into evidence a reviewer can rely on.',
+          },
+        },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout titleTag={titleTag} title="PIPEDA and BC privacy" description={description} jsonLd={jsonLd} ogType="article">
+  <article class="container-page py-14 lg:py-20">
+    <div class="mx-auto max-w-3xl">
+      <p class="text-sm font-semibold text-accent">Compliance</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+        Wiping drives to meet PIPEDA and BC privacy rules
+      </h1>
+
+      <div class="prose-pw mt-8 space-y-5 text-[1.0625rem] leading-relaxed text-muted">
+        <p>
+          If your organization handles personal information in Canada, getting rid of old drives is
+          not just an IT chore. Privacy law expects you to protect that information for its whole
+          life, and that includes the day the hardware leaves your hands. This is a plain-language
+          look at what the rules actually ask for when you dispose of storage, and how a verified
+          wipe with a certificate helps you meet it. It is background information, not legal advice,
+          so check anything specific against your own obligations.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">The rule most people miss: disposal is a privacy step</h2>
+        <p>
+          It is easy to think of privacy law as being about collecting and using data. It also
+          covers getting rid of it. Under PIPEDA, the federal private-sector privacy law, an
+          organization can only keep personal information as long as it needs it, and when it is no
+          longer needed it has to be destroyed, erased, or made anonymous (Principle 4.5, Limiting
+          Retention). The same law says personal information must be protected by safeguards
+          appropriate to how sensitive it is, and it names disposal as one of the moments where a
+          safeguard is required, so information is not exposed when you throw hardware away
+          (Principle 4.7, Safeguards).
+        </p>
+        <p>
+          Put those two together and the message is simple. When a drive holds personal information
+          you no longer need, you are expected to actually remove that information, not just stop
+          using the machine. A laptop sitting in a closet, or sold with a quick reformat, still has
+          the data on it, and that is the gap the rules are pointing at.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">In BC, the public sector has its own version</h2>
+        <p>
+          If you work for a BC public body, a ministry, a health authority, a school district, a
+          local government, your rules come from FOIPPA, the Freedom of Information and Protection
+          of Privacy Act, not PIPEDA. It lands in the same place. Section 30 says a public body must
+          protect personal information in its custody or control by making reasonable security
+          arrangements against risks like unauthorized access, collection, use, disclosure, or
+          disposal. Section 31 governs how long personal information has to be kept before it can
+          go. Reasonable security arrangements against unauthorized disposal is exactly the box a
+          proper wipe checks: the data is gone in a controlled way, and you can show it.
+        </p>
+        <p>
+          BC private-sector organizations fall under PIPA BC rather than PIPEDA, but the disposal
+          expectation is the same shape: protect personal information with reasonable security,
+          including when you dispose of it.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Where PIAs and STRAs come in</h2>
+        <p>
+          Anyone who has worked in BC government knows the PIA and the STRA. A Privacy Impact
+          Assessment looks at how a system or process handles personal information and whether it
+          meets FOIPPA, and the disposal and retention of that information is part of what a PIA
+          covers. A Security Threat and Risk Assessment looks at the security risks around a system
+          and how they are controlled. End-of-life for the hardware, how drives get sanitized when
+          a device is retired, is a real line item in both.
+        </p>
+        <p>
+          This is where a lot of processes are thin. It is one thing to write "drives are securely
+          wiped at end of life" in a PIA. It is another to be able to show, per drive, that it
+          happened, what method was used, and that someone verified it. A wipe that produces a
+          certificate turns that sentence into evidence. When a reviewer asks how retired laptops
+          are handled, you have a record for each one instead of a promise.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">What "securely wiped" actually needs to mean</h2>
+        <p>
+          The rules ask for the data to be genuinely unrecoverable, not just hidden. Two things
+          matter for that.
+        </p>
+        <p>
+          First, the method has to suit the drive. Almost every machine now runs a solid-state or
+          NVMe drive, and those keep spare, over-provisioned areas that a plain overwrite cannot
+          reach. NIST 800-88, the recognized guideline for sanitizing media, separates a Clear
+          (overwrite) from a Purge (the drive's own firmware sanitize command). On flash storage,
+          Purge is the method that actually reaches everything. Using the right one is what makes
+          "wiped" true rather than approximate.
+        </p>
+        <p>
+          Second, you need proof. "We deleted everything" is not a record. A defensible disposal
+          step leaves you something in writing that names the drive and its serial number, states
+          the method, confirms the wipe was verified by reading the drive back, and is dated. That
+          is the artifact a PIA reviewer, an auditor, or a client can actually rely on.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">How ProofWipe fits</h2>
+        <PipedaFlowDiagram />
+        <p>
+          ProofWipe is built to be that disposal step. It runs a NIST 800-88 Clear or Purge, picks
+          the right sanitize command for the drive, reads the drive back to confirm the data is
+          gone, and writes a tamper-evident certificate for each drive. The certificate lists the
+          drive, its serial number, the method, the verification result, and the date, and it
+          carries a fingerprint so it cannot be quietly altered. Anyone can check one at{' '}
+          <a href="/verify" class="font-medium text-accent hover:underline">proofwipe.com/verify</a>,
+          in their browser, with nothing uploaded.
+        </p>
+        <p>
+          For a retention and disposal policy, that gives you the two pieces the rules are really
+          asking for: the data is actually removed in a way that fits modern drives, and you have a
+          per-drive record that it was done. It slots straight into the disposal section of a PIA or
+          an STRA, and into the "reasonable security arrangements" language in FOIPPA s.30 or the
+          safeguards and retention principles in PIPEDA.
+        </p>
+        <p>
+          None of this is legal advice, and no tool makes you compliant on its own. Compliance is
+          about your whole process, your policies, your retention schedule, your records, and where
+          sanitizing drives fits into it. What ProofWipe does is make the disposal step something
+          you can stand behind and show, instead of something you hope was good enough. Get it at{' '}
+          <a href="/download" class="font-medium text-accent hover:underline">proofwipe.com</a>, and
+          see the full walkthrough in{' '}
+          <a href="/guides/wipe-and-resell-workstations" class="font-medium text-accent hover:underline"
+            >our guide to wiping and reselling workstations</a>.
+        </p>
+      </div>
+
+      <RelatedLinks links={['/nist-800-88-clear-vs-purge', '/guides/wipe-and-resell-workstations', '/verify']} />
+    </div>
+  </article>
+</BaseLayout>
