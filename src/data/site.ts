@@ -52,6 +52,7 @@ export const footerNav = [
     heading: 'Resources',
     links: [
       { label: 'How to wipe & resell workstations', href: '/guides/wipe-and-resell-workstations' },
+      { label: 'DBAN alternative for SSD / NVMe', href: '/dban-alternative' },
     ],
   },
   {
