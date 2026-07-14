@@ -22,3 +22,6 @@ Thumbs.db
 
 # Local preview screenshots (visual QA only)
 /preview/
+
+# OG image build intermediates (PNGs in public/og are committed)
+scripts/og/out/
