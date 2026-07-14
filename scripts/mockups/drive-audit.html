@@ -1,0 +1,48 @@
+<!doctype html>
+<!-- Mirrors MainWindow.xaml config column: DRIVE DETAILS inset + READ-ONLY DRIVE AUDIT box.
+     Row labels come from DriveDetails.cs; audit status string from MainViewModel. -->
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="mockup.css"></head>
+<body style="padding:14px;">
+  <div class="card" style="height:calc(100% - 0px);">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span class="glyph" style="font-size:18px;color:var(--accent-strong);">&#xEDA2;</span>
+      <span class="h2">Samsung SSD 970 EVO Plus 500GB</span>
+    </div>
+    <div class="secondary" style="margin-top:6px;">Volumes: 2 partitions (no drive letters — booted from ProofWipe USB)</div>
+
+    <div style="background:var(--inset);border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:12px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <span class="section-header">DRIVE DETAILS</span>
+        <span style="background:var(--accent-soft);color:var(--accent-strong);font-size:9px;font-weight:700;border-radius:3px;padding:2px 6px;">READ-ONLY</span>
+      </div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Disk 0 — Samsung SSD 970 EVO Plus 500GB</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <tr><td style="width:42%;color:var(--dim);padding:0 10px 5px 0;">Model</td><td class="mono" style="padding:0 0 5px;">Samsung SSD 970 EVO Plus 500GB</td></tr>
+        <tr><td style="color:var(--dim);padding:0 10px 5px 0;">Serial number</td><td class="mono" style="padding:0 0 5px;">S4EVNM0N705193H</td></tr>
+        <tr><td style="color:var(--dim);padding:0 10px 5px 0;">Device ID</td><td class="mono" style="padding:0 0 5px;">\\.\PHYSICALDRIVE0</td></tr>
+        <tr><td style="color:var(--dim);padding:0 10px 5px 0;">Firmware revision</td><td class="mono" style="padding:0 0 5px;">2B2QEXM7</td></tr>
+        <tr><td style="color:var(--dim);padding:0 10px 5px 0;">Capacity</td><td class="mono" style="padding:0 0 5px;">465.8 GB user-addressable</td></tr>
+        <tr><td style="color:var(--dim);padding:0 10px 5px 0;">Bus / interface</td><td class="mono" style="padding:0 0 5px;">NVMe</td></tr>
+        <tr><td style="color:var(--dim);padding:0 10px 5px 0;">Media type</td><td class="mono" style="padding:0 0 5px;">SSD</td></tr>
+        <tr><td style="color:var(--dim);padding:0 10px 5px 0;">Self-encrypting (SED) / encryption</td><td class="mono" style="padding:0 0 5px;">Crypto-erase capable (SED)</td></tr>
+        <tr><td style="color:var(--dim);padding:0 10px 5px 0;">Hidden areas (HPA/DCO)</td><td class="mono" style="padding:0 0 5px;">Not applicable (NVMe)</td></tr>
+        <tr><td style="color:var(--dim);padding:0 10px 0 0;">Supported sanitize methods</td><td class="mono" style="padding:0;">Block Erase · Crypto Erase · Overwrite</td></tr>
+      </table>
+      <div style="height:1px;background:var(--border);margin:8px 0;"></div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <tr>
+          <td style="width:42%;color:var(--dim);padding-right:10px;">Method ProofWipe will use</td>
+          <td style="color:var(--accent-strong);font-weight:600;">NVMe Firmware Purge (Sanitize / Format)&nbsp;&nbsp;·&nbsp;&nbsp;NIST 800-88 PURGE</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="notice-accent-box" style="margin-top:14px;">
+      <div class="section-header" style="margin-bottom:6px;">READ-ONLY DRIVE AUDIT</div>
+      <div class="secondary">Reads this drive and reports what a read finds — it does not write anything. Available on any drive, including protected ones. This is not a certificate of sanitization.</div>
+      <button class="btn" style="width:100%;padding:9px 0;margin-top:10px;">Run read-only audit</button>
+      <div class="secondary" style="margin-top:8px;">Audit complete: StructuredDataPresent. Read-only report saved to X:\ProofWipe\Reports.</div>
+      <button class="btn" style="width:100%;padding:7px 0;margin-top:8px;font-size:12px;">Open last audit report</button>
+    </div>
+  </div>
+</body></html>

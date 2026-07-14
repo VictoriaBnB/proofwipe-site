@@ -1,0 +1,37 @@
+<!doctype html>
+<!-- Mirrors CreateBootableUsbWindow.xaml, Confirm stage (stick selected). 660x620 window. -->
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="mockup.css"></head>
+<body>
+<div class="window">
+  <div class="titlebar">
+    <span class="caption">Create bootable USB</span>
+    <span class="buttons"><span>&#xE921;</span><span>&#xE922;</span><span>&#xE8BB;</span></span>
+  </div>
+  <div class="client" style="padding:24px;">
+    <div class="h1">Create bootable USB</div>
+    <div class="secondary" style="margin-top:4px;">Build a ProofWipe WinPE stick to wipe system disks and sealed devices.</div>
+
+    <div class="card" style="margin-top:16px;">
+      <div class="section-header">CONFIRM TARGET</div>
+      <div style="font-size:15px;font-weight:600;margin-top:6px;">SanDisk Ultra USB 3.0 — 14.4 GB</div>
+      <div class="secondary" style="margin-top:2px;">Disk 2 · USB · Removable · Volume E:</div>
+
+      <div class="notice notice-danger" style="margin-top:12px;">
+        EVERYTHING on this stick will be permanently erased and replaced with ProofWipe boot media.
+      </div>
+
+      <div style="font-size:12px;color:var(--warning);margin-top:12px;">
+        Boot payload: embedded in this ProofWipe build — SHA-256 verified before use.
+      </div>
+
+      <div style="font-size:13px;margin-top:14px;margin-bottom:6px;">Type ERASE to confirm:</div>
+      <div class="textbox" style="width:220px;">ERASE</div>
+    </div>
+
+    <div style="margin-top:16px;display:flex;gap:10px;">
+      <button class="btn btn-danger" style="padding:10px 20px;">Erase and build</button>
+      <button class="btn" style="padding:10px 16px;">Back</button>
+    </div>
+  </div>
+</div>
+</body></html>
