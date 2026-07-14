@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 /*
   GUIDE: How to securely wipe and resell your old workstations, with no IT team.
 
-  The article COPY comes verbatim from proofwipe-reseller-tutorial.md (owner's
+  The article COPY comes verbatim from content/articles/proofwipe-reseller-tutorial.md (owner's
   voice — do not rewrite). This page only supplies layout, images and SEO.
 
   Images live in /public/guides/wipe-and-resell/. Step 1 shows the desktop
@@ -24,6 +24,18 @@ const description =
   'Sell, trade in, or hand off old desktops and laptops safely: a step-by-step guide to wiping every drive to the NIST 800-88 standard — with a tamper-evident certificate for every machine — in a few minutes per PC, no IT department required.';
 
 const img = (name: string) => `/guides/wipe-and-resell/${name}`;
+
+// Boot-menu / UEFI keys by brand for Step 2. Rendered as an always-visible,
+// touch-friendly table (never hover-only); the `hint` also feeds an optional
+// desktop title tooltip. Data provided by the owner 2026-07-13.
+const bootKeys: { brand: string; bootMenu: string; uefi: string; hint: string }[] = [
+  { brand: 'Dell', bootMenu: 'F12', uefi: 'F2', hint: 'Dell: F12 for the boot menu, F2 for UEFI settings.' },
+  { brand: 'HP', bootMenu: 'F9 or Esc', uefi: 'F10', hint: 'HP: F9 or Esc for the boot menu, F10 for UEFI settings.' },
+  { brand: 'Lenovo', bootMenu: 'F12, or the Novo button on some models', uefi: 'F1 or F2', hint: 'Lenovo: F12, or the small Novo button on some models.' },
+  { brand: 'Microsoft Surface', bootMenu: 'Hold Volume Down, press and release Power, keep holding Volume Down', uefi: 'Volume Up + Power', hint: 'Surface: hold Volume Down, press and release Power, and keep holding Volume Down until it boots. For UEFI, hold Volume Up while pressing Power.' },
+  { brand: 'ASUS / Acer', bootMenu: 'F12 or Esc', uefi: 'F2 or Del', hint: 'ASUS / Acer: F12 or Esc for the boot menu, F2 or Del for UEFI settings.' },
+  { brand: 'Other', bootMenu: 'Try F12, F9, Esc, F2, or Del at power-on', uefi: 'F2 or Del', hint: 'No brand match? Tap F12, F9, Esc, F2, or Del right as the machine powers on.' },
+];
 
 const faq = [
   {
@@ -162,6 +174,43 @@ const jsonLd = {
             The one-time boot menu (F12 on most machines) with the USB stick highlighted.
           </figcaption>
         </figure>
+
+        <p>
+          A few machines, Microsoft Surface especially, will not boot from a USB stick until you
+          turn off a setting called Secure Boot in their UEFI (firmware) settings. If the stick
+          does not show up or the machine refuses to start from it, go into the UEFI settings,
+          turn Secure Boot off, and try again. Turn Secure Boot back on afterward, once the wipe
+          is done.
+        </p>
+
+        <!-- Always-visible, touch-friendly reference (NOT hover-only). Each row
+             also carries a title tooltip as a desktop-only addition. -->
+        <figure class="not-prose my-8 overflow-hidden rounded-xl border border-border">
+          <figcaption class="border-b border-border bg-panel px-4 py-3 text-sm font-semibold text-text">
+            Boot menu &amp; UEFI keys by brand
+          </figcaption>
+          <div class="overflow-x-auto">
+            <table class="w-full min-w-[34rem] border-collapse text-left text-sm">
+              <thead>
+                <tr class="border-b border-border">
+                  <th scope="col" class="px-4 py-2.5 font-medium text-muted">Brand</th>
+                  <th scope="col" class="px-4 py-2.5 font-medium text-muted">Boot menu key</th>
+                  <th scope="col" class="px-4 py-2.5 font-medium text-muted">UEFI / firmware settings</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bootKeys.map((k) => (
+                  <tr class="border-b border-border/60 last:border-0" title={k.hint}>
+                    <th scope="row" class="px-4 py-2.5 font-semibold text-text">{k.brand}</th>
+                    <td class="px-4 py-2.5 text-muted">{k.bootMenu}</td>
+                    <td class="px-4 py-2.5 text-muted">{k.uefi}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </figure>
+
         <blockquote class="rounded-lg border-l-4 border-warning bg-panel p-4 font-medium text-text">
           Important: this erases everything on that machine's internal drive, and there is no undo.
           Make sure it is the right computer and that anything you still need has already been

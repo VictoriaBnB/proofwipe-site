@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+/*
+  SOLDERED-STORAGE landing page — targets "wipe laptop soldered SSD" / "erase
+  soldered storage".
+
+  COPY verbatim from content/articles/proofwipe-soldered-storage.md (owner's
+  voice — do not rewrite). Layout + SEO only. Edits: typographic quotes and the
+  two requested links — closing proofwipe.com -> /download, and "our guide to
+  wiping and reselling workstations" -> /guides/wipe-and-resell-workstations.
+  NOTE: keep {' '} before inline links — Astro collapses newline-only whitespace.
+*/
+
+const title = 'How to wipe a laptop with soldered SSD / storage';
+const description =
+  'Can’t remove the drive? Here’s how to securely wipe a laptop with soldered storage — Surface and modern ultrabooks included — in place, with no disassembly. Boot from USB and run a verified NIST 800-88 firmware Purge on the soldered SSD, with a certificate to prove it.';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to securely wipe a laptop with soldered storage',
+  description,
+  author: { '@type': 'Organization', name: 'ProofWipe' },
+  publisher: { '@type': 'Organization', name: 'ProofWipe', url: 'https://proofwipe.com' },
+  mainEntityOfPage: 'https://proofwipe.com/wipe-laptop-soldered-storage',
+};
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <article class="container-page py-14 lg:py-20">
+    <div class="mx-auto max-w-3xl">
+      <p class="text-sm font-semibold text-accent">Guide</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+        How to securely wipe a laptop with soldered storage
+      </h1>
+
+      <div class="prose-pw mt-8 space-y-5 text-[1.0625rem] leading-relaxed text-muted">
+        <p>
+          More and more laptops ship with the storage soldered directly to the motherboard. Many
+          ultrabooks, most Microsoft Surface devices, and a growing number of business laptops no
+          longer have a drive you can unscrew and pull out. That breaks the old way of disposing of
+          machines securely, so here is how to handle it.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Why soldered storage is a problem for disposal</h2>
+        <p>
+          For years the secure-disposal routine was simple: remove the drive and shred it. When the
+          storage is soldered on, you cannot remove it without destroying the whole machine. So you
+          are left with two bad options. Physically destroy a perfectly good laptop just to kill
+          the data, throwing away its resale and reuse value. Or hand it on and hope the
+          &ldquo;delete and reformat&rdquo; you did is enough, which it is not, because deleted and
+          reformatted data is easy to recover.
+        </p>
+        <p>
+          Neither is acceptable if the machine held business, client, or personal data.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">The answer: wipe the storage in place</h2>
+        <p>
+          You do not need to remove soldered storage to securely erase it. You sanitize it right
+          where it sits, using the drive's own firmware, and you get a record proving it was done.
+        </p>
+        <p>
+          The approach is the same one you would use to wipe any machine's own drive. Build a
+          bootable USB stick with a wiping tool. Boot the laptop from the stick instead of its
+          operating system. Run a firmware sanitize, NIST 800-88 Purge, which tells the soldered
+          SSD's own controller to erase its entire flash. Verify it by reading the drive back. Save
+          the certificate.
+        </p>
+        <p>
+          No disassembly, no shredding, no destroyed hardware. The data is gone, the laptop still
+          works and still has resale value, and you have proof.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Why firmware Purge is the right method here</h2>
+        <p>
+          Soldered storage is almost always flash, an SSD or an NVMe module. Overwriting flash from
+          the outside can leave data behind in the spare areas that wear-leveling uses. A firmware
+          Purge, using the drive's built-in NVMe Sanitize or Secure Erase command, erases the whole
+          thing, including those areas, and it does it in minutes. It is both the most thorough and
+          the fastest option for exactly the kind of storage that gets soldered on.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Do it with ProofWipe</h2>
+        <p>
+          ProofWipe boots from a USB stick, runs a verified NIST 800-88 Purge on the machine's own
+          soldered drive, and writes a tamper-evident certificate you can keep or hand off. It
+          protects the drive it is running from, so you cannot wipe the wrong thing, and there are
+          no per-drive fees. Get it at{' '}
+          <a href="/download" class="font-medium text-accent hover:underline">proofwipe.com</a>,
+          and see the full walkthrough in{' '}
+          <a href="/guides/wipe-and-resell-workstations" class="font-medium text-accent hover:underline"
+            >our guide to wiping and reselling workstations</a>.
+        </p>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

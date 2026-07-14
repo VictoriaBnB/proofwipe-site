@@ -28,6 +28,19 @@ Take the stick to the computer you are selling and plug it into a USB port. Turn
 
 **[SCREENSHOT: the one-time boot menu with the USB stick highlighted]**
 
+A few machines, Microsoft Surface especially, will not boot from a USB stick until you turn off a setting called Secure Boot in their UEFI (firmware) settings. If the stick does not show up or the machine refuses to start from it, go into the UEFI settings, turn Secure Boot off, and try again. Turn Secure Boot back on afterward, once the wipe is done.
+
+**Boot menu & UEFI keys by brand**
+
+| Brand | Boot menu key | UEFI / firmware settings |
+|---|---|---|
+| Dell | F12 | F2 |
+| HP | F9 or Esc | F10 |
+| Lenovo | F12, or the Novo button on some models | F1 or F2 |
+| Microsoft Surface | Hold Volume Down, press and release Power, keep holding Volume Down | Volume Up + Power |
+| ASUS / Acer | F12 or Esc | F2 or Del |
+| Other | Try F12, F9, Esc, F2, or Del at power-on | F2 or Del |
+
 > Important: this erases everything on that machine's internal drive, and there is no undo. Make sure it is the right computer and that anything you still need has already been saved somewhere else.
 
 ## Step 3: Confirm you have the right drive
