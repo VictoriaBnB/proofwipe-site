@@ -24,6 +24,12 @@ export const articles: Article[] = [
       'The full step-by-step: build a bootable stick, wipe each machine to NIST 800-88, and keep a verified certificate for every PC. No IT team required.',
   },
   {
+    href: '/drive-health-resale-grade',
+    title: 'Drive health & resale grading',
+    summary:
+      'ProofWipe reads SMART/NVMe health data and grades each drive Healthy, Caution, or Failing before you wipe, with the grade recorded on the certificate for the buyer.',
+  },
+  {
     href: '/wipe-a-server',
     title: 'How to wipe a server (multi-drive / RAID)',
     summary:
