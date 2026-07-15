@@ -18,12 +18,12 @@ export const download = {
     'https://github.com/VictoriaBnB/proofwipe-releases/releases/latest/download/ProofWipe.exe',
 
   /** Displayed version string. */
-  version: '1.4.1',
+  version: '1.5.0',
 
   fileName: 'ProofWipe.exe',
 
   /** SHA-256 of the shipped exe. NEVER publish a fake one. */
-  sha256: '7a7b47ff34648af1b6575603c3991b38cf63ecd7c5ad28d446e3b62e6f5f0cd7',
+  sha256: 'bf5d23c9958512314784e8d0d04b4336a73dd382c05dd02151747a09f56a3219',
 
   requirements: [
     'Windows 10 or Windows 11 (x64)',
