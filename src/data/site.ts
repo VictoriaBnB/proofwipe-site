@@ -53,6 +53,7 @@ export const footerNav = [
     links: [
       { label: 'How ProofWipe works', href: '/how-it-works' },
       { label: 'How to wipe & resell workstations', href: '/guides/wipe-and-resell-workstations' },
+      { label: 'Drive health & resale grading', href: '/drive-health-resale-grade' },
       { label: 'How to wipe a server (multi-drive / RAID)', href: '/wipe-a-server' },
       { label: 'Wipe a laptop with soldered storage', href: '/wipe-laptop-soldered-storage' },
       { label: 'NIST 800-88 Clear vs Purge', href: '/nist-800-88-clear-vs-purge' },
