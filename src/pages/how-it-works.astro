@@ -87,10 +87,16 @@ const jsonLd = {
           storage. It gives you the two methods that guideline defines for reuse and resale.
         </p>
         <p>
-          Clear overwrites the whole drive using normal write commands. It works on any drive, and
-          once it is done the old data cannot be recovered with ordinary software. On a spinning
-          hard drive it is thorough. On solid-state drives it has a known limit, which is why the
-          second method exists.
+          Clear overwrites the whole drive using normal write commands, so the old data is written
+          over and cannot be recovered with ordinary software. On a traditional spinning hard
+          drive, where every part of the disk is directly writable, that is thorough and complete.
+          Solid-state drives are built differently. They constantly move data around for
+          wear-leveling and hold spare, over-provisioned areas that normal write commands never
+          reach, so an overwrite by itself can leave copies behind in those hidden areas. That is
+          not a weakness in the overwrite, it is simply how flash hardware works, and it is
+          exactly why ProofWipe reaches for the second method on those drives instead of trusting
+          an overwrite alone. You do not have to know any of this in the moment, because ProofWipe
+          detects the drive and applies the right method for you.
         </p>
         <p>
           Purge uses the drive's own built-in sanitize command, ATA Secure Erase on SATA drives and
