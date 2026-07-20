@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" role="img" width="1000" height="560" font-family="'Segoe UI', system-ui, -apple-system, Roboto, sans-serif">
+  <title>Illustration of the ProofWipe certificate database export view</title>
+  <desc>The export view offers a CSV of every certificate and a combined per-client PDF report, with an honest roll-up banner that only states all fingerprints verified when every certificate in the set passed.</desc>
+
+  <!-- panel -->
+  <rect x="1" y="1" width="998" height="558" rx="16" fill="#ffffff" stroke="#e4e8ee" stroke-width="2"/>
+
+  <!-- header -->
+  <text x="40" y="52" font-size="22" font-weight="700" fill="#141922">Export report</text>
+  <text x="40" y="80" font-size="14.5" fill="#5a6472">Client set: <tspan font-weight="600" fill="#141922">Northline Ltd</tspan>  ·  42 certificates in the current filter</text>
+  <line x1="1" y1="102" x2="999" y2="102" stroke="#e4e8ee" stroke-width="2"/>
+
+  <!-- CSV option -->
+  <rect x="40" y="128" width="440" height="196" rx="12" fill="#ffffff" stroke="#e4e8ee" stroke-width="1.5"/>
+  <rect x="64" y="152" width="44" height="52" rx="6" fill="#eaf1ff" stroke="#3e7bfa" stroke-width="1.5"/>
+  <text x="86" y="184" font-size="12" font-weight="700" fill="#3e7bfa" text-anchor="middle">CSV</text>
+  <text x="124" y="168" font-size="16.5" font-weight="700" fill="#141922">Spreadsheet (CSV)</text>
+  <text x="124" y="192" font-size="13.5" fill="#5a6472">One row per certificate, for your own records.</text>
+  <g font-size="13.5" fill="#3f4855">
+    <text x="64" y="232">•  Drive model and serial number</text>
+    <text x="64" y="256">•  Method (Clear or Purge) and result</text>
+    <text x="64" y="280">•  Health grade and date</text>
+    <text x="64" y="304">•  Verification status per row</text>
+  </g>
+
+  <!-- PDF option -->
+  <rect x="520" y="128" width="440" height="196" rx="12" fill="#ffffff" stroke="#3e7bfa" stroke-width="2"/>
+  <rect x="544" y="152" width="44" height="52" rx="6" fill="#fdeeee" stroke="#cd3a3f" stroke-width="1.5"/>
+  <text x="566" y="184" font-size="12" font-weight="700" fill="#cd3a3f" text-anchor="middle">PDF</text>
+  <text x="604" y="168" font-size="16.5" font-weight="700" fill="#141922">Per-client PDF report</text>
+  <text x="604" y="192" font-size="13.5" fill="#5a6472">One document to hand a client or auditor.</text>
+  <g font-size="13.5" fill="#3f4855">
+    <text x="544" y="232">•  Combined decommission summary</text>
+    <text x="544" y="256">•  Every drive, serial, method, result</text>
+    <text x="544" y="280">•  Health grade and date per drive</text>
+    <text x="544" y="304">•  Honest verification roll-up</text>
+  </g>
+  <rect x="854" y="140" width="86" height="24" rx="12" fill="#eef2ff"/>
+  <text x="897" y="157" font-size="12" font-weight="600" fill="#3e7bfa" text-anchor="middle">Selected</text>
+
+  <!-- roll-up banner (all verified -> green) -->
+  <rect x="40" y="352" width="920" height="60" rx="10" fill="#e7f4ec" stroke="#bfe3cc" stroke-width="1.5"/>
+  <circle cx="76" cy="382" r="15" fill="#158048"/>
+  <path d="M69 382 l5 5 l9 -11" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="104" y="377" font-size="15" font-weight="700" fill="#136b3e">All 42 fingerprints verified</text>
+  <text x="104" y="399" font-size="13" fill="#2f6b48">The roll-up says this only because every certificate in the set passed its check. Any alert would be listed instead.</text>
+
+  <!-- actions -->
+  <line x1="1" y1="452" x2="999" y2="452" stroke="#e4e8ee" stroke-width="2"/>
+  <rect x="716" y="486" width="110" height="42" rx="8" fill="#ffffff" stroke="#e4e8ee" stroke-width="1.5"/>
+  <text x="771" y="512" font-size="14.5" font-weight="600" fill="#5a6472" text-anchor="middle">Cancel</text>
+  <rect x="838" y="486" width="122" height="42" rx="8" fill="#3e7bfa"/>
+  <text x="899" y="512" font-size="14.5" font-weight="600" fill="#ffffff" text-anchor="middle">Export PDF</text>
+</svg>

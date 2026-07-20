@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 620" role="img" width="820" height="620" font-family="'Segoe UI', system-ui, -apple-system, Roboto, sans-serif">
+  <title>Illustration of the combined per-client PDF report</title>
+  <desc>A one-page decommission summary for a client listing each drive, its serial, method, result, health grade, and date, ending with an honest roll-up that all fingerprints verified.</desc>
+
+  <!-- page -->
+  <rect x="20" y="14" width="780" height="592" rx="6" fill="#ffffff" stroke="#e4e8ee" stroke-width="2"/>
+
+  <!-- report header -->
+  <rect x="52" y="46" width="30" height="30" rx="7" fill="#3e7bfa"/>
+  <path d="M60 61 l5 5 l10 -12" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="94" y="60" font-size="15" font-weight="700" fill="#141922">ProofWipe</text>
+  <text x="94" y="78" font-size="11.5" fill="#5a6472">Certificate of destruction · decommission summary</text>
+  <text x="768" y="60" font-size="11.5" fill="#5a6472" text-anchor="end">Generated 2026-07-19</text>
+  <text x="768" y="78" font-size="11.5" fill="#5a6472" text-anchor="end">42 drives · report page 1 of 3</text>
+  <line x1="52" y1="94" x2="768" y2="94" stroke="#141922" stroke-width="1.5"/>
+
+  <!-- client meta -->
+  <text x="52" y="122" font-size="12" fill="#5a6472">Client</text>
+  <text x="52" y="142" font-size="16" font-weight="700" fill="#141922">Northline Ltd</text>
+  <text x="430" y="122" font-size="12" fill="#5a6472">Period</text>
+  <text x="430" y="142" font-size="14" fill="#141922">2026-06-27 to 2026-07-02</text>
+
+  <!-- table header -->
+  <rect x="52" y="160" width="716" height="30" fill="#f4f6f9"/>
+  <g font-size="11" font-weight="700" letter-spacing="0.4" fill="#5a6472">
+    <text x="62" y="180">DRIVE</text>
+    <text x="238" y="180">SERIAL</text>
+    <text x="410" y="180">METHOD</text>
+    <text x="500" y="180">RESULT</text>
+    <text x="580" y="180">HEALTH</text>
+    <text x="680" y="180">DATE</text>
+  </g>
+
+  <!-- rows -->
+  <g font-size="12.5" fill="#141922">
+    <text x="62" y="214">Samsung SSD 870 EVO</text>
+    <text x="238" y="214" font-size="11.5" fill="#5a6472" font-family="ui-monospace, Consolas, monospace">S5R9NJ0T204W</text>
+    <text x="410" y="214" fill="#5a6472">Purge</text>
+    <text x="500" y="214" font-weight="600" fill="#158048">Pass</text>
+    <text x="580" y="214" fill="#5a6472">Healthy</text>
+    <text x="680" y="214" fill="#5a6472">07-02</text>
+    <line x1="52" y1="228" x2="768" y2="228" stroke="#eef1f5" stroke-width="1"/>
+
+    <text x="62" y="252">WD Blue HDD 1TB</text>
+    <text x="238" y="252" font-size="11.5" fill="#5a6472" font-family="ui-monospace, Consolas, monospace">WD-WXA1E8841Q</text>
+    <text x="410" y="252" fill="#5a6472">Clear</text>
+    <text x="500" y="252" font-weight="600" fill="#158048">Pass</text>
+    <text x="580" y="252" fill="#a85b00">Caution</text>
+    <text x="680" y="252" fill="#5a6472">07-02</text>
+    <line x1="52" y1="266" x2="768" y2="266" stroke="#eef1f5" stroke-width="1"/>
+
+    <text x="62" y="290">Crucial MX500 500GB</text>
+    <text x="238" y="290" font-size="11.5" fill="#5a6472" font-family="ui-monospace, Consolas, monospace">2148E29C3F0A</text>
+    <text x="410" y="290" fill="#5a6472">Purge</text>
+    <text x="500" y="290" font-weight="600" fill="#158048">Pass</text>
+    <text x="580" y="290" fill="#5a6472">Healthy</text>
+    <text x="680" y="290" fill="#5a6472">06-28</text>
+    <line x1="52" y1="304" x2="768" y2="304" stroke="#eef1f5" stroke-width="1"/>
+
+    <text x="62" y="328">Kingston A400 240GB</text>
+    <text x="238" y="328" font-size="11.5" fill="#5a6472" font-family="ui-monospace, Consolas, monospace">50026B7268C16B1</text>
+    <text x="410" y="328" fill="#5a6472">Purge</text>
+    <text x="500" y="328" font-weight="600" fill="#158048">Pass</text>
+    <text x="580" y="328" fill="#5a6472">Healthy</text>
+    <text x="680" y="328" fill="#5a6472">06-27</text>
+    <line x1="52" y1="342" x2="768" y2="342" stroke="#eef1f5" stroke-width="1"/>
+
+    <text x="62" y="366">Toshiba L200 1TB</text>
+    <text x="238" y="366" font-size="11.5" fill="#5a6472" font-family="ui-monospace, Consolas, monospace">Z8KP1A4S</text>
+    <text x="410" y="366" fill="#5a6472">Clear</text>
+    <text x="500" y="366" font-weight="600" fill="#158048">Pass</text>
+    <text x="580" y="366" fill="#5a6472">Healthy</text>
+    <text x="680" y="366" fill="#5a6472">06-27</text>
+    <line x1="52" y1="380" x2="768" y2="380" stroke="#eef1f5" stroke-width="1"/>
+  </g>
+  <text x="62" y="404" font-size="12" fill="#8a93a2">… 37 more drives on the following pages</text>
+
+  <!-- roll-up -->
+  <rect x="52" y="436" width="716" height="72" rx="8" fill="#e7f4ec" stroke="#bfe3cc" stroke-width="1.5"/>
+  <circle cx="90" cy="472" r="17" fill="#158048"/>
+  <path d="M82 472 l6 6 l11 -13" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="122" y="466" font-size="15.5" font-weight="700" fill="#136b3e">All fingerprints verified (42 of 42)</text>
+  <text x="122" y="488" font-size="12.5" fill="#2f6b48">Every certificate in this report was re-checked against its wipe log and passed. Verify any one at proofwipe.com/verify.</text>
+
+  <!-- footer -->
+  <line x1="52" y1="540" x2="768" y2="540" stroke="#e4e8ee" stroke-width="1.5"/>
+  <text x="52" y="566" font-size="11" fill="#8a93a2">Each certificate carries a tamper-evident SHA-256 fingerprint. This summary reflects the source files exactly and does not alter them.</text>
+  <text x="52" y="584" font-size="11" fill="#8a93a2">ProofWipe · proofwipe.com</text>
+</svg>

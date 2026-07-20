@@ -60,6 +60,12 @@ export const articles: Article[] = [
       'Drive and serial, method, verification result, date, and a tamper-evident fingerprint. How to tell a real, verifiable certificate from a typed-in template.',
   },
   {
+    href: '/certificate-database',
+    title: 'Certificate database: manage & verify certificates',
+    summary:
+      'A Business-tier tool that gathers every certificate of destruction from all your sources into one place, re-verifies each one, and exports a CSV or a clean per-client PDF report.',
+  },
+  {
     href: '/pipeda-data-destruction',
     title: 'PIPEDA & BC privacy: wiping drives for compliance',
     summary:

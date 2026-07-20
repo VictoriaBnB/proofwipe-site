@@ -24,6 +24,7 @@ PAGES = [
     ("dban-alternative", "Switching tools", "The modern DBAN alternative for SSDs and NVMe", "cert"),
     ("wipe-and-resell-workstations", "Guide", "How to securely wipe and resell your old workstations", "cert"),
     ("drive-health-resale-grade", "Guide", "Check a drive's health and grade it for resale", "drive"),
+    ("certificate-database", "Guide", "Keep every certificate of destruction in one place", "cert"),
 ]
 
 CERT_MOTIF = """

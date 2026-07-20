@@ -1,0 +1,204 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
+
+/*
+  CERTIFICATE DATABASE tutorial (Business-tier feature).
+
+  COPY verbatim from content/articles/proofwipe-cert-database-tutorial.md
+  (owner's voice, do not rewrite). This page adds layout + SEO + illustrations
+  only. The only edits: typographic quotes and the requested inline links
+  (proofwipe.com -> /download, "guide to certificates of data destruction" ->
+  /certificate-of-data-destruction, "proofwipe.com/verify" -> /verify). Keep
+  {' '} before inline links, since Astro collapses newline-only whitespace.
+
+  Screenshots: the app is WPF and cannot be captured here, so these are on-brand
+  SVG ILLUSTRATIONS (site palette + card styling), each labelled as such in its
+  caption. They are not photorealistic screenshots. Sources live in
+  /public/guides/certificate-database/.
+
+  Article + FAQPage JSON-LD below; FAQ text matches the visible copy exactly.
+*/
+
+const title = 'Certificate database';
+const titleTag =
+  'Certificate Database: Manage and Verify Your Certificates of Destruction | ProofWipe';
+const description =
+  "ProofWipe's certificate database aggregates every certificate of destruction from all sources, re-verifies each one, and exports a clean per-client report. A Business-tier feature.";
+
+const img = (name: string) => `/guides/certificate-database/${name}`;
+
+const faq = [
+  {
+    q: 'Does the certificate database change my certificate files?',
+    a: 'No. It only reads and indexes them; the original files are never modified.',
+  },
+  {
+    q: 'How does it know a certificate is genuine?',
+    a: "On import it recomputes each certificate's tamper-evident fingerprint, the same check anyone can run at proofwipe.com/verify, and flags any that fail.",
+  },
+  {
+    q: 'What can I export?',
+    a: 'A CSV of every certificate, and a combined per-client PDF report listing each drive, serial, method, result, health grade, and date, with an honest roll-up that only says all fingerprints verified when that is true.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      headline: 'Keep every certificate of destruction in one place',
+      description,
+      image: new URL(img('database-window.svg'), 'https://proofwipe.com').href,
+      author: { '@type': 'Organization', name: 'ProofWipe' },
+      publisher: { '@type': 'Organization', name: 'ProofWipe', url: 'https://proofwipe.com' },
+      mainEntityOfPage: 'https://proofwipe.com/certificate-database',
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faq.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  titleTag={titleTag}
+  description={description}
+  jsonLd={jsonLd}
+  ogType="article"
+  ogImage="/og/certificate-database.png"
+>
+  <article class="container-page py-14 lg:py-20">
+    <div class="mx-auto max-w-3xl">
+      <p class="text-sm font-semibold text-accent">Guide</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+        Keep every certificate of destruction in one place
+      </h1>
+
+      <div class="prose-pw mt-8 space-y-5 text-[1.0625rem] leading-relaxed text-muted">
+        <p>
+          Once you are wiping drives regularly, the certificates start piling up: some on the
+          machine you ran the app from, some on USB sticks, some collected from network-booted
+          machines. ProofWipe's certificate database pulls them all into one searchable place,
+          checks that each one is genuine, and lets you export a clean report for a client or an
+          auditor. It is a Business-tier feature. Here is how it works.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">What it is for</h2>
+        <p>
+          The database answers the questions you get asked when you dispose of equipment for other
+          people. Show me proof this batch of drives was wiped. Find the certificate for this
+          specific serial number. Give me one report covering everything you did for us this
+          quarter. Instead of digging through folders, you have every certificate indexed, verified,
+          and exportable.
+        </p>
+        <p>
+          Importantly, it never changes your certificates. It only reads and indexes them; the
+          original certificate and log files stay exactly as they were, which is what keeps them
+          trustworthy.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Point it at your certificates</h2>
+        <p>
+          Open the certificate database from the main window (it is available on the Business tier).
+          Add the places your certificates live as sources: the folder the desktop app saves to, a
+          USB stick you carry between machines, and the folder where a ProofWipe network-boot server
+          collects certificates. ProofWipe scans them and builds the index. You can add more sources
+          any time and rescan.
+        </p>
+        <figure class="my-8">
+          <img
+            src={img('database-window.svg')}
+            alt="Illustration of the certificate database window: a Sources panel lists the desktop app folder, a field USB stick, and a network-boot server, while the results list shows several certificates with green Verified fingerprint badges and one red Alert row for a certificate whose log no longer matches."
+            width="1000" height="640" loading="lazy"
+            class="mx-auto h-auto w-full max-w-[880px] rounded-xl border border-border shadow-sm"
+          />
+          <figcaption class="mt-3 text-center text-sm text-muted">
+            Illustration: the certificate database with its Sources panel and a results list.
+            Verified certificates carry a green fingerprint badge; an altered one is flagged as an
+            alert. (On-brand mockup, not a screenshot of the app.)
+          </figcaption>
+        </figure>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Every certificate is re-verified</h2>
+        <p>
+          As it imports each certificate, ProofWipe recomputes its tamper-evident fingerprint, the
+          same check anyone can run at{' '}
+          <a href="/verify" class="font-medium text-accent hover:underline">proofwipe.com/verify</a>.
+          Each entry is marked with its status, so you can see at a glance that everything is
+          genuine. If a certificate has been altered, is corrupt, or its log no longer matches its
+          fingerprint, it is flagged as an alert rather than quietly listed as fine. That means the
+          database is not just a filing cabinet, it is a continuous integrity check on your records.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Find what you need</h2>
+        <p>
+          Search and filter across everything: by serial number or drive model, by date range, by
+          method (Clear or Purge), by result, or by verification status. Group certificates into
+          per-client or per-batch sets with your own labels, so a job for one customer stays
+          together. The labels live only in the database, nothing is written back beside the
+          original files.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Export a report</h2>
+        <p>
+          When someone needs proof, export the filtered set. A CSV gives you every certificate as a
+          row for your own records or a spreadsheet. A combined PDF gives you a clean per-client
+          decommission summary listing each drive, its serial, the method, the result, the health
+          grade, and the date, with an honest roll-up that says all fingerprints verified only when
+          that is actually true. That PDF is the single document you hand a client or an auditor to
+          show a batch of equipment was properly and verifiably sanitized.
+        </p>
+        <figure class="my-8 space-y-6">
+          <img
+            src={img('export-view.svg')}
+            alt="Illustration of the export view: a choice between a CSV of every certificate and a per-client PDF report, with a green roll-up banner reading all 42 fingerprints verified because every certificate in the set passed."
+            width="1000" height="560" loading="lazy"
+            class="mx-auto h-auto w-full max-w-[880px] rounded-xl border border-border shadow-sm"
+          />
+          <img
+            src={img('pdf-report.svg')}
+            alt="Illustration of the combined per-client PDF report: a decommission summary for Northline Ltd listing each drive, serial, method, result, health grade, and date, ending with an honest roll-up that all 42 fingerprints verified."
+            width="820" height="620" loading="lazy"
+            class="mx-auto h-auto w-full max-w-[680px] rounded-xl border border-border shadow-sm"
+          />
+          <figcaption class="mt-3 text-center text-sm text-muted">
+            Illustration: exporting the filtered set as a CSV or a per-client PDF, and the PDF
+            report itself. The roll-up only states all fingerprints verified when every certificate
+            passed. (On-brand mockups, not screenshots of the app.)
+          </figcaption>
+        </figure>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Why it matters</h2>
+        <p>
+          For a business disposing of client or employee data, the wipe is only half the job; being
+          able to produce the proof, on demand and verified, is the other half. The certificate
+          database turns a scattered pile of files into a record you can stand behind and search in
+          seconds. Get ProofWipe at{' '}
+          <a href="/download" class="font-medium text-accent hover:underline">proofwipe.com</a>, and
+          see what a certificate should contain in our{' '}
+          <a href="/certificate-of-data-destruction" class="font-medium text-accent hover:underline">guide to certificates of data destruction</a>.
+        </p>
+
+        <h2 class="pt-4 text-2xl font-semibold text-text">Common questions</h2>
+        <div class="space-y-5">
+          {faq.map((f) => (
+            <p>
+              <strong class="text-text">{f.q}</strong>
+              {' '}{f.a}
+            </p>
+          ))}
+        </div>
+      </div>
+
+      <RelatedLinks links={['/certificate-of-data-destruction', '/guides/wipe-and-resell-workstations', '/how-it-works', '/drive-health-resale-grade', '/verify']} />
+    </div>
+  </article>
+</BaseLayout>
