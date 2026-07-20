@@ -1,14 +1,15 @@
-2026-07-10T20:57:26.9826170Z|ProofWipe firmware Purge session 483F1A3F-C4BA-4B61-90EE-A363DB7DE5E0 started
-2026-07-10T20:57:26.9856146Z|Target: \\.\PhysicalDrive7 — Example NVMe SSD (sample device), serial SAMPLE-0000-0001, bus Nvme
-2026-07-10T20:57:26.9856967Z|Hardware serial (certificate): SAMPLE00000001
-2026-07-10T20:57:26.9858840Z|Method: NVMe Firmware Purge (Sanitize / Format) [nvme-firmware-purge]
-2026-07-10T20:57:26.9859319Z|Operator: Sample Operator
-2026-07-10T20:57:26.9860347Z|Arming: serial number verified by operator
-2026-07-10T20:57:26.9890265Z|Capability confirmed: Supported — NVMe Sanitize block erase — physical erase, reads zero, covers the whole medium including over-provisioned/spare (NIST 800-88 Purge)
-2026-07-10T20:57:26.9890324Z|Issuing firmware sanitize command — this cannot be cancelled once the drive begins erasing.
-2026-07-10T20:57:26.9913682Z|Firmware command completed: NVMe Sanitize block erase — physical erase, reads zero, covers the whole medium including over-provisioned/spare (NIST 800-88 Purge)
-2026-07-10T20:57:26.9962791Z|Sanitize in progress: 50%
-2026-07-10T20:57:26.9965323Z|Sanitize status: COMPLETED (positively reported by the device).
-2026-07-10T20:57:27.0457408Z|Advisory spot check (evidence only, NOT the verification): All 16 spot-check regions read as constant 0x00 — consistent with a block erase. (16 fixed regions, 0 unreadable). The authoritative result is the 'Final readable state' from the full verification read-back.
-2026-07-10T20:57:27.0477361Z|Final readable state: CONFIRMED 0x00 across 8 sampled region(s) at 100% (full read-back).
-2026-07-10T20:57:27.0487684Z|Session ended: Succeeded (duration 00:00:00)
+2026-07-20T15:53:37.6693664Z|ProofWipe firmware Purge session 89D0B2B9-11BA-4B85-B60B-0CD115A45734 started
+2026-07-20T15:53:37.6712959Z|Target: \\.\PhysicalDrive7 - Example NVMe SSD (sample device), serial SAMPLE-0000-0001, bus Nvme
+2026-07-20T15:53:37.6713497Z|Hardware serial (certificate): SAMPLE00000001
+2026-07-20T15:53:37.6713735Z|Drive health (pre-wipe): not assessed (no health snapshot in this drive record)
+2026-07-20T15:53:37.6714265Z|Method: NVMe Firmware Purge (Sanitize / Format) [nvme-firmware-purge]
+2026-07-20T15:53:37.6714457Z|Operator: Sample Operator
+2026-07-20T15:53:37.6715021Z|Arming: serial number verified by operator
+2026-07-20T15:53:37.6732724Z|Capability confirmed: Supported. NVMe Sanitize block erase: physical erase, reads zero, covers the whole medium including over-provisioned/spare (NIST 800-88 Purge)
+2026-07-20T15:53:37.6732761Z|Issuing firmware sanitize command - this cannot be cancelled once the drive begins erasing.
+2026-07-20T15:53:37.6746863Z|Firmware command completed: NVMe Sanitize block erase: physical erase, reads zero, covers the whole medium including over-provisioned/spare (NIST 800-88 Purge)
+2026-07-20T15:53:37.6767675Z|Sanitize in progress: 50%
+2026-07-20T15:53:37.6768644Z|Sanitize status: COMPLETED (positively reported by the device).
+2026-07-20T15:53:37.7048566Z|Advisory spot check (evidence only, NOT the verification): All 16 spot-check regions read as constant 0x00, consistent with a block erase. (16 fixed regions, 0 unreadable). The authoritative result is the 'Final readable state' from the full verification read-back.
+2026-07-20T15:53:37.7062001Z|Final readable state: CONFIRMED 0x00 across 8 sampled region(s) at 100% (full read-back).
+2026-07-20T15:53:37.7074327Z|Session ended: Succeeded (duration 00:00:00)
