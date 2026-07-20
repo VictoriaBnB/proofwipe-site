@@ -168,15 +168,15 @@ export async function verifyLogAgainstHash(logBytes, expectedHash, subtle) {
 export function describeOutcome(outcome) {
   switch (outcome) {
     case 'Succeeded':
-      return { label: 'Succeeded — sanitization completed and verified', tone: 'ok' };
+      return { label: 'Succeeded: sanitization completed and verified', tone: 'ok' };
     case 'Cancelled':
-      return { label: 'Cancelled — PARTIAL wipe; the media was not fully sanitized', tone: 'warn' };
+      return { label: 'Cancelled: PARTIAL wipe; the media was not fully sanitized', tone: 'warn' };
     case 'VerificationFailed':
-      return { label: 'Verification FAILED — the wipe could not be verified', tone: 'bad' };
+      return { label: 'Verification FAILED: the wipe could not be verified', tone: 'bad' };
     case 'Failed':
-      return { label: 'Failed — the session did not complete', tone: 'bad' };
+      return { label: 'Failed: the session did not complete', tone: 'bad' };
     default:
-      return { label: `${outcome} (unrecognized outcome — inspect the log)`, tone: 'warn' };
+      return { label: `${outcome} (unrecognized outcome, inspect the log)`, tone: 'warn' };
   }
 }
 
@@ -211,7 +211,7 @@ export async function verifyCertificatePair(certHtml, logBytes, subtle) {
       status: 'fail',
       reason:
         'The log is intact, but the certificate’s summary fields do not match the ' +
-        'hash-verified log — the certificate’s displayed values appear altered.',
+        'hash-verified log. The certificate’s displayed values appear altered.',
       mismatches,
       facts,
       computed,

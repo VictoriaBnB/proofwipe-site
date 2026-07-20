@@ -167,7 +167,7 @@ test('cancelled and partial outcomes are surfaced honestly from the log', async 
   assert.equal(verdict.status, 'pass');           // the RECORD is intact…
   const outcome = describeOutcome(verdict.facts.outcome);
   assert.equal(outcome.tone, 'warn');             // …and still says partial
-  assert.match(outcome.label, /PARTIAL/);
+  assert.equal(outcome.label, 'Cancelled: PARTIAL wipe; the media was not fully sanitized');
   assert.equal(describeOutcome('VerificationFailed').tone, 'bad');
 });
 
