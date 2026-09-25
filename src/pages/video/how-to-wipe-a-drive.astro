@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import VideoWalkthrough from '../../components/VideoWalkthrough.astro';
+import RelatedLinks from '../../components/RelatedLinks.astro';
+import { video, fmt, isoDuration } from '../../data/video.ts';
+
+/*
+  VIDEO PAGE: the full step-by-step walkthrough, with chapters and the complete
+  transcript (accessibility + search). Player is click-to-load, privacy-enhanced
+  (see VideoWalkthrough). Chapters/transcript are generated from the real
+  narration + timings (src/data/video.ts), so they always match the video.
+*/
+
+const titleTag = 'Video: How to Securely Wipe a Drive, and Prove It | ProofWipe';
+const description =
+  'Watch the full ProofWipe walkthrough: wipe a drive to NIST 800-88 with 100% read-back verification, build a bootable USB, use the BIOS boot menu, Purge an NVMe SSD, and verify the certificate.';
+const site = 'https://proofwipe.com';
+const watch = `https://www.youtube.com/watch?v=${video.id}`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: video.title,
+  description: video.description,
+  thumbnailUrl: [new URL(video.poster, site).href],
+  uploadDate: video.uploadDate,
+  duration: isoDuration(video.durationSec),
+  embedUrl: `https://www.youtube-nocookie.com/embed/${video.id}`,
+  contentUrl: watch,
+  publisher: { '@type': 'Organization', name: 'ProofWipe', url: site, logo: { '@type': 'ImageObject', url: `${site}/icon-512.png` } },
+  hasPart: video.chapters.map((c, i) => ({
+    '@type': 'Clip',
+    name: c.title,
+    startOffset: c.t,
+    endOffset: video.chapters[i + 1]?.t ?? video.durationSec,
+    url: `${watch}&t=${c.t}s`,
+  })),
+};
+
+const learn = [
+  { icon: 'lock', title: 'Why the system disk is protected', body: 'Fail-closed protection, and a read-only audit that never writes a byte.', ch: 1 },
+  { icon: 'hard-drive', title: 'Wipe and verify a drive', body: 'NIST 800-88 Clear with 100% full read-back, armed by the drive’s own identifier.', ch: 2 },
+  { icon: 'usb', title: 'Build a bootable USB', body: 'One click in the desktop app, no command line, license copied onto the stick.', ch: 3 },
+  { icon: 'zap', title: 'Boot menu, BIOS and Secure Boot', body: 'Boot keys by brand, Surface button combos, and when to switch Secure Boot off.', ch: 4 },
+  { icon: 'shield-check', title: 'Firmware Purge an NVMe SSD', body: 'The drive erases itself, then read-back confirms every sampled region is zero.', ch: 6 },
+  { icon: 'file-check', title: 'Prove it with the certificate', body: 'A SHA-256 tamper-evident certificate, checked in the browser at proofwipe.com/verify.', ch: 7 },
+];
+---
+
+<BaseLayout title="Video walkthrough" titleTag={titleTag} description={description} jsonLd={jsonLd} ogImage="/og/video.png" ogType="video.other">
+  <!-- ===================== HERO ===================== -->
+  <section class="relative overflow-hidden border-b border-border">
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute -top-48 left-1/2 h-[38rem] w-[38rem] -translate-x-1/2 rounded-full opacity-[0.12] blur-3xl"
+      style="background: radial-gradient(closest-side, #3E7BFA, transparent 70%);"
+    >
+    </div>
+    <div class="container-page relative py-14 lg:py-20">
+      <div class="max-w-3xl">
+        <p class="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted">
+          <Icon name="play" size={13} class="text-accent" />
+          Video walkthrough · {fmt(video.durationSec)} · {video.chapters.length} chapters
+        </p>
+        <h1 class="mt-5 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl">
+          How to securely wipe a drive, <span class="whitespace-nowrap text-accent">and prove it</span>
+        </h1>
+        <p class="mt-5 max-w-2xl text-lg text-muted">
+          Every step, start to finish: from the desktop app to a bootable USB stick, through the
+          BIOS boot menu, to a verified wipe of the laptop’s own drive and a certificate anyone can check.
+        </p>
+      </div>
+
+      <VideoWalkthrough variant="full" class="mt-10" />
+    </div>
+  </section>
+
+  <!-- ===================== WHAT YOU'LL LEARN ===================== -->
+  <section class="container-page py-16 lg:py-20">
+    <p class="text-sm font-semibold text-accent">In this video</p>
+    <h2 class="mt-2 text-3xl font-bold tracking-tight">What you’ll learn</h2>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {learn.map((l) => (
+        <li class="card flex gap-4 p-5">
+          <span class="grid h-10 w-10 flex-none place-items-center rounded-lg bg-accent/10 text-accent">
+            <Icon name={l.icon} size={20} />
+          </span>
+          <div>
+            <p class="font-semibold">{l.title}</p>
+            <p class="mt-1 text-sm leading-relaxed text-muted">{l.body}</p>
+            <p class="mt-2 text-xs font-semibold text-accent">Chapter at {fmt(video.chapters[l.ch].t)}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- ===================== TRANSCRIPT ===================== -->
+  <section class="border-y border-border bg-panel/40">
+    <div class="container-page py-16 lg:py-20">
+      <div class="mx-auto max-w-3xl">
+        <p class="text-sm font-semibold text-accent">Transcript</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight">Prefer to read it?</h2>
+        <p class="mt-3 text-muted">The complete narration, chapter by chapter. Captions are also available on the video.</p>
+
+        <details class="card group mt-8 overflow-hidden">
+          <summary class="flex cursor-pointer list-none items-center gap-3 px-6 py-5 font-semibold [&::-webkit-details-marker]:hidden">
+            <Icon name="captions" size={20} class="text-accent" />
+            Read the full transcript
+            <Icon name="chevron-down" size={18} class="ml-auto text-muted transition-transform group-open:rotate-180" />
+          </summary>
+          <div class="space-y-7 border-t border-border px-6 py-7">
+            {video.chapters.map((c) => (
+              <div>
+                <h3 class="flex items-baseline gap-3 font-semibold">
+                  <span class="min-w-[2.75rem] text-sm tabular-nums text-accent">{fmt(c.t)}</span>
+                  {c.title}
+                </h3>
+                <p class="mt-2 pl-[3.5rem] leading-relaxed text-muted">{c.text}</p>
+              </div>
+            ))}
+          </div>
+        </details>
+
+        <p class="mt-6 text-sm text-muted">
+          The boot menu, UEFI and boot-console scenes are illustrations recreated from real runs on
+          ThinkPad hardware; drive, license and operator details shown are fictional. The desktop
+          app scenes and the certificate check are real recordings.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="container-page py-16 lg:py-20">
+    <div class="card surface-dark relative overflow-hidden p-8 sm:p-10">
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-30 blur-3xl"
+        style="background: radial-gradient(closest-side, #3E7BFA, transparent 70%);"
+      >
+      </div>
+      <div class="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">Ready to try it on your own drives?</h2>
+          <p class="mt-2 text-muted">ProofWipe is free to download. The written guide covers the same steps with screenshots.</p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href="/download" class="btn btn-primary">Download free <Icon name="arrow-right" size={18} /></a>
+          <a href="/guides/wipe-and-resell-workstations" class="btn btn-secondary">Read the written guide</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-auto max-w-3xl">
+      <RelatedLinks links={['/guides/wipe-and-resell-workstations', '/how-it-works', '/bootable-usb', '/verify']} />
+    </div>
+  </section>
+</BaseLayout>

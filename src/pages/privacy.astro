@@ -8,7 +8,9 @@ import { contact } from '../data/contact.ts';
   marked DRAFT for counsel review. noindex stays until a lawyer signs off.
   Operator: Ryan Werk (sole proprietor), British Columbia, Canada.
   Third parties that touch data (complete list): Formspree (contact
-  submissions) and Cloudflare (hosting + cookieless Web Analytics).
+  submissions), Cloudflare (hosting + cookieless Web Analytics), and YouTube
+  (only when a visitor presses play on the how-to video; click-to-load,
+  privacy-enhanced mode).
 */
 ---
 
@@ -31,7 +33,8 @@ import { contact } from '../data/contact.ts';
         <h2 class="text-xl font-semibold text-text">The short version</h2>
         <p class="mt-3">
           This website sets no cookies, runs no third-party trackers, and
-          collects no personal information unless you choose to contact us. The
+          collects no personal information unless you choose to contact us or
+          to play our how-to video (see YouTube below). The
           ProofWipe application itself is offline by design and transmits
           nothing. This policy covers only the website.
         </p>
@@ -85,7 +88,10 @@ import { contact } from '../data/contact.ts';
 
       <section>
         <h2 class="text-xl font-semibold text-text">Third parties that touch data</h2>
-        <p class="mt-3">Exactly two third-party services are involved in operating this site:</p>
+        <p class="mt-3">
+          Two third-party services are involved in operating this site, and a
+          third only if you choose to play a video:
+        </p>
         <ul class="mt-4 space-y-4">
           <li class="card p-5">
             <p class="font-semibold text-text">Formspree: contact form delivery</p>
@@ -106,11 +112,26 @@ import { contact } from '../data/contact.ts';
               described above.
             </p>
           </li>
+          <li class="card p-5">
+            <p class="font-semibold text-text">YouTube: the how-to video, only if you press play</p>
+            <p class="mt-1.5">
+              Our how-to video is hosted on YouTube. Pages show a still image
+              stored on this site, and nothing is requested from YouTube until you
+              press play. When you do, the video loads from YouTube's
+              privacy-enhanced mode (youtube-nocookie.com), operated by Google LLC,
+              which then receives the information any video request involves (such
+              as your IP address and browser details) under Google's own privacy
+              policy, and may process it outside Canada. If you prefer, the full
+              transcript is available on the video page without loading anything
+              from YouTube.
+            </p>
+          </li>
         </ul>
         <p class="mt-4">
           No other party receives visitor data. We do not sell, rent, or trade
           personal information. There is no advertising, no social-media
-          embeds, and no cross-site tracking of any kind. Because these providers
+          embeds, no video or other third-party content that loads without
+          your action, and no cross-site tracking of any kind. Because these providers
           may process data outside Canada, that information may be subject to the
           laws of the jurisdictions where it is stored.
         </p>

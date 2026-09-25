@@ -51,6 +51,7 @@ export const footerNav = [
   {
     heading: 'Resources',
     links: [
+      { label: 'Video walkthrough (6 min)', href: '/video/how-to-wipe-a-drive' },
       { label: 'How ProofWipe works', href: '/how-it-works' },
       { label: 'How to wipe & resell workstations', href: '/guides/wipe-and-resell-workstations' },
       { label: 'Drive health & resale grading', href: '/drive-health-resale-grade' },

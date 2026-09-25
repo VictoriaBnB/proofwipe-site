@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
+import VideoWalkthrough from '../components/VideoWalkthrough.astro';
 import { claims } from '../data/claims.ts';
 
 /*
@@ -87,6 +88,27 @@ const sameEngine = [
         </a>
         <a href="/features" class="btn btn-secondary">All features</a>
       </div>
+    </div>
+  </section>
+
+  <!-- ===================== VIDEO ===================== -->
+  <section class="container-page py-16 lg:py-20" aria-labelledby="boot-video">
+    <div class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+      <div>
+        <p class="text-sm font-semibold text-accent">Watch it</p>
+        <h2 id="boot-video" class="mt-2 text-3xl font-bold tracking-tight">
+          From building the stick to wiping the system disk
+        </h2>
+        <p class="mt-4 text-muted">
+          The walkthrough builds a boot stick in the desktop app, starts a laptop from it using the
+          one-time boot menu, turns Secure Boot off where needed, and runs a firmware Purge of the
+          internal NVMe SSD with read-back verification.
+        </p>
+        <a href="/video/how-to-wipe-a-drive" class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent hover:underline">
+          Full video, chapters &amp; transcript <Icon name="arrow-right" size={16} />
+        </a>
+      </div>
+      <VideoWalkthrough variant="compact" startChapter={3} />
     </div>
   </section>
 

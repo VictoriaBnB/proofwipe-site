@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import CertificateSample from '../components/CertificateSample.astro';
+import VideoWalkthrough from '../components/VideoWalkthrough.astro';
+import { video, fmt } from '../data/video.ts';
 import { site } from '../data/site.ts';
 import { claims, comparisons, taxonomy, standards } from '../data/claims.ts';
 
@@ -165,6 +167,9 @@ const jsonLd = {
             Download free <Icon name="arrow-right" size={18} />
           </a>
           <a href="/about#contact" class="btn btn-secondary">Talk to sales</a>
+          <a href="#walkthrough" class="btn px-2 text-accent hover:underline">
+            <Icon name="play" size={16} /> Watch the walkthrough · {fmt(video.durationSec)}
+          </a>
         </div>
         <p class="mt-6 text-sm text-muted">
           Windows 10 / 11 · Runs from USB · Requires Administrator ·{' '}
@@ -249,6 +254,23 @@ const jsonLd = {
           ))
         }
       </div>
+    </div>
+  </section>
+
+  <!-- ===================== VIDEO WALKTHROUGH ===================== -->
+  <section id="walkthrough" class="scroll-mt-20 border-b border-border bg-panel/40">
+    <div class="container-page py-20 lg:py-24">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-accent">See it in action</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+          Wipe a drive and prove it, in {Math.round(video.durationSec / 60)} minutes
+        </h2>
+        <p class="mt-4 text-muted">
+          The whole workflow on real hardware: the desktop app, a verified wipe, building the boot
+          stick, the BIOS boot menu, a firmware Purge of the laptop’s own SSD, and checking the certificate.
+        </p>
+      </div>
+      <VideoWalkthrough variant="feature" class="mt-10" />
     </div>
   </section>
 

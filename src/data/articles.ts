@@ -12,6 +12,12 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    href: '/video/how-to-wipe-a-drive',
+    title: 'Video: wipe a drive, and prove it',
+    summary:
+      'The full 6-minute walkthrough with chapters and transcript: desktop app, bootable USB, BIOS boot menu, NVMe Purge, and checking the certificate.',
+  },
+  {
     href: '/how-it-works',
     title: 'How ProofWipe wipes a drive, and proves it',
     summary:

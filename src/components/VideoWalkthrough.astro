@@ -1,0 +1,328 @@
+---
+/**
+ * The ProofWipe how-to video, privacy-first.
+ *
+ * Renders a self-hosted poster with a play button (a real <button>). NOTHING is
+ * requested from YouTube until the visitor presses play or picks a chapter;
+ * only then is a youtube-nocookie.com (privacy-enhanced mode) iframe created.
+ * The CSP allows exactly that one frame origin (public/_headers, frame-src).
+ *
+ * The click handler is public/js/video-player.js, a static self-hosted file,
+ * so it runs under the strict CSP (no inline scripts).
+ *
+ * variants:
+ *   full     dedicated page: player + chapter sidebar on a dark surface
+ *   feature  homepage section: player + chapter list side by side
+ *   compact  inside other pages: player + chapter chips underneath
+ */
+import Icon from './Icon.astro';
+import { video, fmt } from '../data/video.ts';
+
+interface Props {
+  variant?: 'full' | 'feature' | 'compact';
+  /** Chapter to start from (index into video.chapters). */
+  startChapter?: number;
+  /** Visible label above a compact player. */
+  label?: string;
+  class?: string;
+}
+
+const { variant = 'compact', startChapter, label, class: cls = '' } = Astro.props;
+const start = startChapter != null ? video.chapters[startChapter]?.t ?? 0 : 0;
+const startTitle = startChapter != null ? video.chapters[startChapter]?.title : null;
+const dur = fmt(video.durationSec);
+const uid = `yt-${variant}-${startChapter ?? 0}`;
+---
+
+<div class:list={['pw-video', `pw-video--${variant}`, cls]} data-yt={video.id} data-yt-title={video.title} data-yt-start={start}>
+  {label && variant === 'compact' && (
+    <p class="mb-3 flex items-center gap-2 text-sm font-semibold text-accent">
+      <Icon name="play" size={16} /> {label}
+    </p>
+  )}
+
+  <div class:list={[variant === 'compact' ? '' : 'grid gap-6 lg:grid-cols-[1fr_20rem] lg:items-start']}>
+    <!-- ================= player ================= -->
+    <div class="pw-frame" id={uid}>
+      <button type="button" class="pw-facade" data-yt-play aria-label={`Play video: ${video.title} (${dur})${startTitle ? `, from ${startTitle}` : ''}`}>
+        <picture>
+          <source srcset={`${video.posterSmall} 640w, ${video.posterWebp} 1280w`} sizes="(min-width: 1024px) 760px, 100vw" type="image/webp" />
+          <img src={video.poster} width="1280" height="720" alt="" loading="lazy" decoding="async" />
+        </picture>
+        <span class="pw-shade" aria-hidden="true"></span>
+        <span class="pw-play" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="34" height="34"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" /></svg>
+        </span>
+        <span class="pw-meta" aria-hidden="true">
+          <span class="pw-pill"><svg viewBox="0 0 24 24" width="14" height="14"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" /></svg>
+            {startTitle ? `Watch from ${fmt(start)}` : 'Watch the walkthrough'}</span>
+          <span class="pw-pill pw-pill--dim">{dur}</span>
+        </span>
+      </button>
+    </div>
+
+    <!-- ================= chapters ================= -->
+    {variant !== 'compact' && (
+      <nav class:list={['pw-chapters card', variant === 'full' && 'surface-dark']} aria-label="Video chapters">
+        <p class="pw-chapters__head">
+          <Icon name="list" size={16} /> Chapters <span class="ml-auto font-normal text-muted">{dur}</span>
+        </p>
+        <ol>
+          {video.chapters.map((c, i) => (
+            <li>
+              <button type="button" data-yt-seek={c.t} aria-controls={uid}>
+                <span class="pw-ts">{fmt(c.t)}</span>
+                <span class="pw-ct">{c.title}</span>
+                <Icon name="play" size={14} class="pw-ci" />
+              </button>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+  </div>
+
+  {variant === 'compact' && (
+    <div class="pw-chips" aria-label="Jump to a chapter">
+      {video.chapters.map((c) => (
+        <button type="button" data-yt-seek={c.t} aria-controls={uid}><span>{fmt(c.t)}</span>{c.title}</button>
+      ))}
+    </div>
+  )}
+
+  <p class="pw-note">
+    <Icon name="shield-check" size={14} /> Plays from YouTube in privacy-enhanced mode. Nothing loads from YouTube until you press play.
+    {variant !== 'full' && <a href={video.pagePath}>Chapters &amp; transcript</a>}
+  </p>
+</div>
+
+<!-- Handler is a static self-hosted file (strict CSP: no inline scripts). -->
+<script src="/js/video-player.js" is:inline defer></script>
+
+<style>
+  /* Grid/flex children default to min-width:auto; the chip row's intrinsic width
+     would otherwise stretch the column. Let the player shrink; chips scroll. */
+  .pw-video {
+    min-width: 0;
+  }
+  .pw-video > div {
+    min-width: 0;
+  }
+  .pw-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #0b0e14;
+    box-shadow:
+      0 0 0 1px rgba(20, 25, 34, 0.08),
+      0 24px 60px -18px rgba(15, 23, 42, 0.45),
+      0 8px 20px -8px rgba(15, 23, 42, 0.25);
+  }
+  .pw-frame :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .pw-facade {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background: none;
+  }
+  .pw-facade img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.3s ease;
+  }
+  .pw-shade {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(60% 60% at 50% 50%, rgba(8, 12, 22, 0) 0%, rgba(8, 12, 22, 0.28) 100%),
+      linear-gradient(to top, rgba(8, 12, 22, 0.55), rgba(8, 12, 22, 0) 38%);
+    transition: opacity 0.3s ease;
+  }
+  .pw-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 5.25rem;
+    height: 5.25rem;
+    margin: -2.625rem 0 0 -2.625rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    color: #fff;
+    background: #3e7bfa;
+    box-shadow:
+      0 0 0 10px rgba(62, 123, 250, 0.25),
+      0 18px 40px rgba(2, 6, 23, 0.55);
+    transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.25s ease, background-color 0.2s ease;
+  }
+  .pw-play svg {
+    margin-left: 4px;
+  }
+  .pw-facade:hover img,
+  .pw-facade:focus-visible img {
+    transform: scale(1.025);
+  }
+  .pw-facade:hover .pw-play,
+  .pw-facade:focus-visible .pw-play {
+    transform: scale(1.08);
+    background: #2e68e6;
+    box-shadow:
+      0 0 0 14px rgba(62, 123, 250, 0.28),
+      0 22px 46px rgba(2, 6, 23, 0.6);
+  }
+  .pw-facade:focus-visible {
+    outline: 3px solid #3e7bfa;
+    outline-offset: -3px;
+  }
+  .pw-meta {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .pw-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(12, 16, 26, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(6px);
+  }
+  .pw-pill--dim {
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* chapter sidebar / list */
+  .pw-chapters {
+    border-radius: 1rem;
+    padding: 0.75rem;
+  }
+  .pw-chapters__head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.5rem 0.6rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .pw-chapters ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .pw-chapters button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 0.5rem;
+    border-radius: 0.6rem;
+    text-align: left;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    transition: background-color 0.15s ease;
+  }
+  .pw-chapters button:hover,
+  .pw-chapters button[aria-current] {
+    background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+  }
+  .pw-ts {
+    min-width: 2.6rem;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+  .pw-ct {
+    flex: 1;
+  }
+  .pw-chapters :global(.pw-ci) {
+    opacity: 0;
+    color: var(--color-accent);
+    transition: opacity 0.15s ease;
+  }
+  .pw-chapters button:hover :global(.pw-ci),
+  .pw-chapters button[aria-current] :global(.pw-ci) {
+    opacity: 1;
+  }
+
+  /* chips (compact) */
+  .pw-chips {
+    margin-top: 0.9rem;
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+    scrollbar-width: thin;
+  }
+  .pw-chips button {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+    font-size: 0.8rem;
+    color: var(--color-text);
+    white-space: nowrap;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+  }
+  .pw-chips button span {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: #2e68e6;
+  }
+  .pw-chips button:hover,
+  .pw-chips button[aria-current] {
+    border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+    background: color-mix(in srgb, var(--color-accent) 7%, transparent);
+  }
+
+  .pw-note {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--color-muted);
+  }
+  .pw-note a {
+    margin-left: auto;
+    font-weight: 600;
+    color: #2e68e6;
+  }
+  .pw-note a:hover {
+    text-decoration: underline;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pw-facade img,
+    .pw-play {
+      transition: none;
+    }
+  }
+</style>

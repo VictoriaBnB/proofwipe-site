@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import RelatedLinks from '../components/RelatedLinks.astro';
+import VideoWalkthrough from '../components/VideoWalkthrough.astro';
 
 /*
   METHODOLOGY / TRUST page. COPY verbatim from
@@ -72,6 +73,8 @@ const jsonLd = {
       <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
         How ProofWipe wipes a drive, and how it proves it
       </h1>
+
+      <VideoWalkthrough variant="compact" label="Prefer to watch? See the whole process in 6 minutes" class="mt-8" />
 
       <div class="prose-pw mt-8 space-y-5 text-[1.0625rem] leading-relaxed text-muted">
         <p>
